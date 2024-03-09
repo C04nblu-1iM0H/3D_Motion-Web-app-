@@ -1,0 +1,39 @@
+@import '../../../styles/mixins/mixins.scss';
+
+header{
+    margin: 20px 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .lenta{
+        @include flexbox_header_elements(20%, space-around);
+        li{
+            list-style-type: none;
+            .link{
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }   
+    }
+
+    .Auth{
+        @include flexbox_header_elements(20%, space-around, center);
+        li{
+            display: flex;
+            align-items: center;
+            list-style-type: none;
+            .icon{
+                width: 1.5em;
+                height: 1.5em;
+                margin-right: 5px;
+            }
+            .link{
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+
+    }
+}
