@@ -1,3 +1,6 @@
+'use client'
+import { Provider } from "react-redux";
+import store from '../../store';
 import Image from "next/image";
 import Link from 'next/link'
 import { PiSignInLight } from "react-icons/pi";
@@ -10,7 +13,7 @@ export default function Header(){
 
     return (
         <header>
-            <Link href='/Home'>
+            <Link href='/'>
                 <Image
                     className='logo'
                     src="/logo.png"
@@ -34,7 +37,9 @@ export default function Header(){
                     <PiSignInLight className="icon" />
                     <Link href="/pages/Login" className="link">Вход</Link>
                 </li>
-                <DarkMode/>
+                <Provider store={store}>
+                    <DarkMode/>
+                </Provider>
             </ul>
         </header>
     );

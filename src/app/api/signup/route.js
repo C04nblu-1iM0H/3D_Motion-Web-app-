@@ -1,21 +1,8 @@
 import { query } from "../../lib/db";
 import bcrypt from 'bcrypt';
 
-// export async function GET(request) {
-//     const users = await query({
-//         query: "SELECT * FROM user",
-//         values: [],
-//     });
-
-//     let data = JSON.stringify(users);
-//     return new Response(data, {
-//         status: 200,
-//     });
-// }
-
 export async function POST(request) {
     try {
-        let message = "";
         const { email, password } = await request.json();
 
         // Проверка существования email в базе данных
@@ -23,13 +10,13 @@ export async function POST(request) {
             query: "SELECT * FROM user WHERE email = ?",
             values: [email],
         });
-        
+
         if (isExistsEmail.length > 0) {
             return new Response(JSON.stringify({
-              message: "error",
-              error: "Пользователь с таким email уже существует"
+                message: "Возможно вы желаете войти",
+                status: 400,
             }), {
-              status: 400
+                status: 400,
             });
         }
 
@@ -41,15 +28,12 @@ export async function POST(request) {
         });
 
         const result = insUser.affectedRows;
-        message = ""
+        let message = "";
         result ? message = "success" :  message = "error";
-        const users = {
-            email: email,
-        };
+
         return new Response(JSON.stringify({
             message: message,
             status: 200,
-            users: users
         }), {
             status: 200
           });
@@ -58,7 +42,6 @@ export async function POST(request) {
         return new Response(JSON.stringify({
             message: "error",
             status: 500,
-            users: {}
         }));
     }
 }
