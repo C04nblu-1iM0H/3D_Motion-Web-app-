@@ -1,23 +1,27 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import React, {useEffect } from 'react';
+
+import {setToggleMode} from '../../store/themeSlice'
 import Image from "next/image";
 import "./DarkMode.scss";
 
 const DarkMode = () => {
-    
-    const [darkMode, setDarkMode] = useState(false);
+    const mode = useSelector(state => state.theme.theme);
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
         // Check if window is defined to ensure code runs in the browser
         if (typeof window !== 'undefined') {
             const storedTheme = localStorage.getItem("selectedTheme");
-            setDarkMode(storedTheme === "dark");
+            dispatch(setToggleMode(storedTheme === "dark"))
         }
     }, []);
 
     const toggleDarkMode = () => {
-        const newDarkMode = !darkMode;
-        setDarkMode(newDarkMode);
+        const newDarkMode = !mode;
+        dispatch(setToggleMode(newDarkMode))
         if (typeof window !== 'undefined') {
             localStorage.setItem("selectedTheme", newDarkMode ? "dark" : "light");
         }
@@ -25,12 +29,12 @@ const DarkMode = () => {
 
     useEffect(() => {
         // Apply theme to body
-        if (darkMode) {
+        if (mode) {
             document.body.setAttribute('data-theme', 'dark');
         } else {
             document.body.setAttribute('data-theme', 'light');
         }
-    }, [darkMode]);
+    }, [mode]);
 
 
     return (
@@ -39,7 +43,7 @@ const DarkMode = () => {
                 className='dark_mode_input'
                 type='checkbox'
                 id='darkmode-toggle'
-                checked={darkMode}
+                checked={mode}
                 onChange={toggleDarkMode}
             />
             <label className='dark_mode_label' htmlFor='darkmode-toggle'>
