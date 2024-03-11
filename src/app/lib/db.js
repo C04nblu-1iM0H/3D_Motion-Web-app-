@@ -4,7 +4,7 @@ export async function query({ query, values = [] }) {
 
   const connection  = await mysql.createConnection({
     host: process.env.MYSQL_HOST,
-    post: process.env.MYSQL_PORT,
+    port: process.env.MYSQL_PORT,
     database: process.env.MYSQL_DATABASE,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
@@ -18,21 +18,3 @@ export async function query({ query, values = [] }) {
     throw Error(error.message);
   }
 }
-
-// const pool = mysql.createPool({
-//     host: process.env.MYSQL_HOST,
-//     post: process.env.MYSQL_PORT,
-//     database: process.env.MYSQL_DATABASE,
-//     user: process.env.MYSQL_USER,
-//     password: process.env.MYSQL_PASSWORD,
-// });
-
-// export const execute = async (query, params = []) => {
-//   const connection = await pool.getConnection();
-//   try {
-//     const [rows] = await connection.execute(query, params);
-//     return rows;
-//   } finally {
-//     connection.release();
-//   }
-// };

@@ -8,9 +8,11 @@ import { RiUserAddLine } from "react-icons/ri";
 
 import DarkMode from "../DarkMode/DarkMode";
 import './header.scss';
+import { useSession } from "next-auth/react";
 
 export default function Header(){
-
+    const session = useSession();
+    console.log(session);
     return (
         <header>
             <Link href='/'>
@@ -31,11 +33,11 @@ export default function Header(){
             <ul className="Auth">
                 <li>
                     <RiUserAddLine className="icon" />
-                    <Link href='/pages/Signup' className="link">Регистрация</Link>
+                    <Link href='/Signup' className="link">Регистрация</Link>
                 </li>
                 <li>
                     <PiSignInLight className="icon" />
-                    <Link href="/pages/Login" className="link">Вход</Link>
+                    <Link href="/SignIn" className="link">Вход</Link>
                 </li>
                 <Provider store={store}>
                     <DarkMode/>
