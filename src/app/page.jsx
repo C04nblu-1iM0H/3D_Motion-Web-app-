@@ -1,8 +1,9 @@
-import Home from "./pages/Home/page";
+
+import Home from '@/components/Home/page';
 import './page.scss';
 
 export default function App() {
   return ( 
-    <Home />
+    <Home/>
   );
 }

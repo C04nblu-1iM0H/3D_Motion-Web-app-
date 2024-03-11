@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import {validateForm} from '../../utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '@/app/components/Header/Header';
 import './button.scss';
 
 export default function SignupPage() {
@@ -31,7 +30,7 @@ export default function SignupPage() {
       const response = await axios.post('/api/signup', {email, password});
       if (response.status === 200) {
         toast.success("Вы успешно зарегистрировались", { icon: "👍" });
-        setTimeout(() => router.push('/pages/Login'),5000);
+        setTimeout(() => router.push('/SignIn'),5000);
         toast.info("Вы будете перенаправлены на страницу входа");
       }else{
         toast.error("Failed to sign up");
@@ -59,7 +58,6 @@ export default function SignupPage() {
 
   return ( 
     <>
-      <Header />
       <ToastContainer/>
       <form onSubmit={handleSubmit} >
         <div>

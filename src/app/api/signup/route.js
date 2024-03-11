@@ -19,15 +19,15 @@ export async function POST(request) {
                 status: 400,
             });
         }
+        const salt = bcrypt.genSaltSync(10);
+        const hashedPassword =  bcrypt.hashSync(password, salt);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const insUser = await query({
+        const createUser = await query({
             query: "INSERT INTO user (email, password) VALUES (?, ?)",
             values: [email, hashedPassword],
         });
 
-        const result = insUser.affectedRows;
+        const result = createUser.affectedRows;
         let message = "";
         result ? message = "success" :  message = "error";
 
