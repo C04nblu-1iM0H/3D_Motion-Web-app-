@@ -4,7 +4,7 @@ import React, {useEffect } from 'react';
 
 import {setToggleMode} from '../../store/themeSlice'
 import Image from "next/image";
-import "./DarkMode.scss";
+import "./DarkMode.css";
 
 const DarkMode = () => {
     const mode = useSelector(state => state.theme.theme);
@@ -12,7 +12,6 @@ const DarkMode = () => {
 
 
     useEffect(() => {
-        // Check if window is defined to ensure code runs in the browser
         if (typeof window !== 'undefined') {
             const storedTheme = localStorage.getItem("selectedTheme");
             dispatch(setToggleMode(storedTheme === "dark"))
@@ -28,7 +27,6 @@ const DarkMode = () => {
     };
 
     useEffect(() => {
-        // Apply theme to body
         if (mode) {
             document.body.setAttribute('data-theme', 'dark');
         } else {

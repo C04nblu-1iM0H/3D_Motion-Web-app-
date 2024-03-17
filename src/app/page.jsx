@@ -1,6 +1,6 @@
 
 import Home from '@/components/Home/page';
-import './page.scss';
+import './page.css';
 
 export default function App() {
   return ( 

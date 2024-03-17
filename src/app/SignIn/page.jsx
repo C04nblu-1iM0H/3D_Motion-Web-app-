@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import {signIn} from "next-auth/react";
 import { useRouter } from 'next/navigation'
-import axios from 'axios'; 
 import { ToastContainer, toast } from 'react-toastify';
 
 import {validateForm} from '../../utils/validationForm';
@@ -36,7 +35,7 @@ export default function Login() {
     return (
         <>
             <ToastContainer/>
-            <form onSubmit={handleSubmit} >
+            <form className='relative z-10' onSubmit={handleSubmit} >
                 <div>
                     <label htmlFor="email">Email:</label>
                     <input
