@@ -14,7 +14,7 @@ import './header.scss';
 export default function Header(){
     const session = useSession();
     console.log(session);
-    const status = session.status;
+    const isAuthenticated = session.status === 'authenticated'
     return (
         <header className="bg-white">
             <Link href='/'>
@@ -33,12 +33,7 @@ export default function Header(){
                 <li><Link href="#" className="link">О нас</Link></li>
             </ul>
             <ul className="Auth">
-                {status === 'authenticated' &&(
-                    <MenuAccount data={session}/>
-                )}
-                {status === "unauthenticated" && (
-                    <EntryMenu />
-                )}
+                {!isAuthenticated? <EntryMenu /> : <MenuAccount data={session}/>}
                 <Provider store={store}>
                     <DarkMode/>
                 </Provider>
