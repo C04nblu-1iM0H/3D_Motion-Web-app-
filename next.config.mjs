@@ -6,7 +6,15 @@ const nextConfig = {
         'MYSQL_DATABASE': '3D-Motion',
         'MYSQL_USER': 'root',
         'MYSQL_PASSWORD': '',
-    }
+    },
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'lh3.googleusercontent.com'
+          },
+        ],
+    },
 };
 
 export default nextConfig;

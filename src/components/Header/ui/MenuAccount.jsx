@@ -1,24 +1,34 @@
 import React from "react";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, Button, User, Avatar} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, User} from "@nextui-org/react";
 import { ImExit } from "react-icons/im";
 import { VscAccount } from "react-icons/vsc";
 import { signOut } from "next-auth/react";
 
-export default function MenuAccaunt({data}) {
-  const userName = data.data.user.email
+export default function MenuAccaunt({username}) {
+  
+  const handleClickSignOut  = async () =>{
+    await signOut();
+    window.location.href = 'http://localhost:3000/Signin'; 
+  }
+
   return (
     <Dropdown>
       <DropdownTrigger>
-          <Avatar
-            isBordered
+          <User
+            as="button"
+            avatarProps={{
+              isBordered: true,
+              name: username
+            }}
             className="transition-transform"
-            name={userName}
           />
       </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
             <DropdownSection showDivider>  
                 <DropdownItem 
-                  description={userName}
+                  key="profile" 
+                  href="/Profile"
+                  description={username}
                   startContent={<VscAccount />}
                 > 
                 My Account 
@@ -26,7 +36,7 @@ export default function MenuAccaunt({data}) {
             </DropdownSection>
             <DropdownSection>
                 <DropdownItem
-                  onClick={()=>signOut()} 
+                  onClick={handleClickSignOut} 
                   startContent={<ImExit />}
                 >
                   Exit
@@ -36,4 +46,5 @@ export default function MenuAccaunt({data}) {
     </Dropdown>
   );
 }
+
 

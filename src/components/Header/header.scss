@@ -1,7 +1,7 @@
 @import "../../styles/mixins/mixins.scss";
 
 header{
-    height: 80px;
+    height: 60px;
     margin: 0 0 20px 0;
     padding: auto;
     display: flex;
@@ -31,9 +31,10 @@ header{
             height: 100%;
             list-style-type: none;
             margin-right: 0.75rem;
+            align-items: center;
             .icon{
-                width: 1.5em;
-                height: 1.5em;
+                width: 1.2em;
+                height: 1.2em;
                 margin-right: 5px;
             }
             .link{

@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import Image from "next/image";
 
 import Form from '@/components/Form/Form';
-import FooterSingUp from '@/components/Footer/FooterSignUp';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import '../page.scss';
@@ -15,7 +14,7 @@ export default function SinginPageForm() {
   const dispatch = useDispatch();
   const email = useSelector(state => state.regUser.email);
   const password = useSelector(state => state.regUser.password);
-  const signInH1 = 'Вход', signInButtonText = 'Войти'
+  const signInH1 = 'Вход', signInButtonText = 'Войти';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +27,7 @@ export default function SinginPageForm() {
         dispatch(setIsLoading(true));
         dispatch(resetForm());
         
-        await signIn('credentials', {email, password});
+        await signIn('credentials', {email, password, callbackUrl: process.env.NEXTAUTH_URL });
 
         dispatch(setIsLoading(false));
       };
@@ -38,41 +37,19 @@ export default function SinginPageForm() {
         <>
         <ToastContainer/>
         <section className='content relative z-10 w-screen'>
-          <Image
-            className=' svg share1_svg'
-            src="/share1.svg"
-            alt='icon'
-            width={220}
-            height={220}
-            priority
-          />
-          <Image
-              className=' svg share2_svg'
-              src="/share2.svg"
+          {[220, 260, 150, 180].map((size, index) => (
+            <Image
+              key={index}
+              className={`svg share${index + 1}_svg`}
+              src={`/share/share${index + 1}.svg`}
               alt='icon'
-              width={260}
-              height={260}
+              width={size}
+              height={size}
               priority
-          />
-          <Image
-            className=' svg share3_svg'
-            src="/share3.svg"
-            alt='icon'
-            width={150}
-            height={150}
-            priority
-          />
-          <Image
-              className=' svg share4_svg'
-              src="/share4.svg"
-              alt='icon'
-              width={180}
-              height={180}
-              priority
-          />
+            />
+          ))}
           <Form handleSubmit={handleSubmit} text={signInButtonText} head={signInH1}/>
         </section>
-        <FooterSingUp />
       </>
     );
 }

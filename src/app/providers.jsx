@@ -1,11 +1,22 @@
 'use client'
+import {NextUIProvider} from '@nextui-org/react';
+import {ThemeProvider as NextThemesProvider} from "next-themes";
+import { useEffect, useState } from 'react';
 
-import {NextUIProvider} from '@nextui-org/react'
 
 export function Providers({children}) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
     <NextUIProvider>
-      {children}
+      {isClient && (
+        <NextThemesProvider attribute="class" defaultTheme="light">
+          {children}
+        </NextThemesProvider>
+      )}
     </NextUIProvider>
   )
 }
