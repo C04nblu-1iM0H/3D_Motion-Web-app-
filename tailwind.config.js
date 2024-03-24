@@ -9,28 +9,53 @@ const config = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors:{
+        backgroundlight:'#9353D3',
+        backgroundDark:'#301050',
+      }
+    },
   },
+  darkMode: "class",
   plugins: [
     nextui({
-      prefix: "nextui", // prefix for themes variables
-      addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
-      defaultTheme: "light", // default theme from the themes object
-      defaultExtendTheme: "light", // default theme to extend on custom themes
-      layout: {}, // common layout tokens (applied to all themes)
+      prefix: "nextui", 
+      addCommonColors: false, 
+      defaultTheme: "light", 
+      defaultExtendTheme: "light", 
+      layout: {}, 
       themes: {
         light: {
           layout: {}, 
           colors: {
-            background: "#e6e6fa",
-            text: "#000218", 
+            background: "#F6F4F2",
+            foreground: "#0F0C24", 
+            Layout: {
+              DEFAULT: "#FFFFFF",
+              50:"#FFFFFF",
+              100:"#F4F4F5",
+              150:"#3B3B3B",
+            }, 
+            Default:{
+              DEFAULT: "#f4f4f5"
+            } 
           },
         },
         dark: {
           layout: {}, 
           colors: {
-            background: "#000218", 
-            text: "#FFF", 
+            background: "#051622", 
+            foreground: "#DEB992",
+            Layout: {
+              DEFAULT: "#051622",
+              50:"#18181b",
+              100:"#27272A",
+              150:"#3B3B3B",
+
+            },
+            Default:{
+              DEFAULT: "#27272A"
+            } 
           },
         },
       },

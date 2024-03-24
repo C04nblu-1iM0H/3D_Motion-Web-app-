@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
 import Form from '@/components/Form/Form';
-import FooterSingUp from '@/components/Footer/FooterSignUp';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import '../page.scss';
@@ -48,7 +47,7 @@ export default function SingupPageForm() {
             <span>{error.response.data.message}</span>
             <button 
               className='btn-warning' 
-              onClick={() => router.push('/pages/Login')}
+              onClick={() => router.push('/Login')}
             >Перейти к входу</button>
           </div>,
           {icon: "🤔",}
@@ -70,7 +69,7 @@ export default function SingupPageForm() {
           <Image
             key={index}
             className={`svg circle${index + 1}`}
-            src={`/circle${index % 2 === 0 ? '' : '2'}.svg`}
+            src={`/circle/circle${index + 1}.svg`}
             alt='icon'
             width={size}
             height={size}
@@ -79,7 +78,6 @@ export default function SingupPageForm() {
         ))}
         <Form handleSubmit={handleSubmit} text={signUpButtonText} head={signInH1}/>
       </section>
-      <FooterSingUp />
     </>
   );
 } 
