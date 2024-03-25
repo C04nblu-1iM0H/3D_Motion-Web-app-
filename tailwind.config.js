@@ -29,7 +29,15 @@ const config = {
           layout: {}, 
           colors: {
             background: "#F6F4F2",
-            foreground: "#0F0C24", 
+            foreground: "#0F0C24",
+            success: {
+              foreground: "#0F0C24",
+              DEFAULT: "hsla(132, 76%, 47%, 0.6)",
+            },
+            danger:{
+              foreground: "#ECEDEE",
+              DEFAULT: "hsla(0, 100%, 59%, 0.8)",
+            },
             Layout: {
               DEFAULT: "#FFFFFF",
               50:"#FFFFFF",
@@ -46,6 +54,14 @@ const config = {
           colors: {
             background: "#051622", 
             foreground: "#DEB992",
+            success: {
+              foreground: "#ECEDEE",
+              DEFAULT: "hsla(231, 48%, 48%, 0.5)",
+            },
+            danger:{
+              foreground: "#ECEDEE",
+              DEFAULT: "hsla(0, 100%, 68%, 0.6)",
+            },
             Layout: {
               DEFAULT: "#051622",
               50:"#18181b",
