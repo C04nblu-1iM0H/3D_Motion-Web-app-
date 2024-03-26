@@ -38,7 +38,7 @@ const handler = NextAuth({
         const isSigningOut = req && req.query && req.query.signout === 'true';
         return isSigningOut ? 'http://localhost:3000/Signin' : baseUrl;
       },
-    }
+    },
 });
 
 export { handler as GET, handler as POST }
