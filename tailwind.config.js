@@ -39,10 +39,12 @@ const config = {
               DEFAULT: "hsla(0, 100%, 59%, 0.8)",
             },
             Layout: {
+              foreground:"#D2D5DA",
               DEFAULT: "#FFFFFF",
               50:"#FFFFFF",
               100:"#F4F4F5",
               150:"#3B3B3B",
+              200:"#F9F9FA"
             }, 
             Default:{
               DEFAULT: "#f4f4f5"
@@ -63,10 +65,12 @@ const config = {
               DEFAULT: "hsla(0, 100%, 68%, 0.6)",
             },
             Layout: {
+              foreground:"#716151",
               DEFAULT: "#051622",
               50:"#18181b",
               100:"#27272A",
               150:"#3B3B3B",
+              200:"#202023"
 
             },
             Default:{
