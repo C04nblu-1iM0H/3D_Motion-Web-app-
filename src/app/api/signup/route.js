@@ -22,9 +22,15 @@ export async function POST(request) {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword =  bcrypt.hashSync(password, salt);
 
+        const createUserdata = await query({
+            query: "INSERT INTO user_data () VALUES ()",
+        });
+
+        const idUserData = createUserdata.insertId;
+
         const createUser = await query({
-            query: "INSERT INTO user (email, password) VALUES (?, ?)",
-            values: [email, hashedPassword],
+            query: "INSERT INTO user (email, password, id_user_data) VALUES (?, ?, ?)",
+            values: [email, hashedPassword, idUserData],
         });
 
         const result = createUser.affectedRows;

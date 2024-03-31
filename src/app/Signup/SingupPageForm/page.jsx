@@ -4,15 +4,17 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
+import { useTheme } from 'next-themes';
 
 import Form from '@/components/Form/Form';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import '../page.scss';
-import { resetForm, setIsLoading } from "@/store/User";
+import { resetForm, setIsLoading } from "@/store/userSlice";
 
 
 export default function SingupPageForm() {
+  const {theme} = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   const email = useSelector(state => state.regUser.email);
@@ -22,7 +24,6 @@ export default function SingupPageForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('email - ',email);
     const validationError = validateForm(email, password);
     if (validationError) {
       toast.error(validationError);
@@ -65,17 +66,31 @@ export default function SingupPageForm() {
     <>
       <ToastContainer/>
       <section className='content relative z-10 w-screen'>
-        {[220, 260, 150, 180].map((size, index) => (
-          <Image
-            key={index}
-            className={`svg circle${index + 1}`}
-            src={`/circle/circle${index + 1}.svg`}
-            alt='icon'
-            width={size}
-            height={size}
-            priority
-          />
-        ))}
+
+        {theme === 'dark'
+          ?[220, 260, 150, 180].map((size, index) => (
+            <Image
+              key={index}
+              className={`svg circle${index + 1}`}
+              src={`/circle2/circle${index + 1}.svg`}
+              alt='icon'
+              width={size}
+              height={size}
+              priority
+            />
+          ))
+          :[220, 260, 150, 180].map((size, index) => (
+            <Image
+              key={index}
+              className={`svg circle${index + 1}`}
+              src={`/circle/circle${index + 1}.svg`}
+              alt='icon'
+              width={size}
+              height={size}
+              priority
+            />
+          ))
+        }
         <Form handleSubmit={handleSubmit} text={signUpButtonText} head={signInH1}/>
       </section>
     </>

@@ -1,23 +1,14 @@
-import Image from "next/image";
-import './Matte.scss';
+import { useTheme } from 'next-themes';
+
+import CircleComponent from "./CircleComponent";
+import FigureComponent from "./FigureComponent";
+import './Matte.css';
 
 export default function MatteFon(){
-
+    const {theme} = useTheme();
     return(
-        <div className="blurry-background">
-            <div className="shapes">
-                 {[300, 300, 300, 300].map((size, index) => (
-                <Image
-                    key={index}
-                    className={`shape${index + 1}`}
-                    src={`/fonfigure/circlefon${index + 1}.svg`}
-                    alt='icon'
-                    width={size}
-                    height={size}
-                    priority
-                />
-                ))}
-            </div>
-        </div>
+        <>
+            { theme === 'dark'?<CircleComponent />: <FigureComponent />}
+        </>
     )
 }

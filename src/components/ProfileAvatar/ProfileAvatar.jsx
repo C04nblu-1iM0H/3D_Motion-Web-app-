@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function ProfileAvatar({image, name, email}) {
     return(
-        <figure className="bg-Layout-50 w-1/4 h-[21rem] flex flex-col items-center mr-6">
+        <figure className="bg-layout-50 w-1/4 h-[21rem] flex flex-col items-center mr-6 rounded-lg">
             <Card 
                 isFooterBlurred
                 radius="lg"

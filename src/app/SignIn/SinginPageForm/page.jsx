@@ -8,7 +8,7 @@ import Form from '@/components/Form/Form';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import '../page.scss';
-import { resetForm, setIsLoading } from "@/store/User";
+import { resetForm, setIsLoading } from "@/store/userSlice";
 
 export default function SinginPageForm() {
   const dispatch = useDispatch();
