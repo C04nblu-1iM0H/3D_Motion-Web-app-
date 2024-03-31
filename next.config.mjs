@@ -6,6 +6,7 @@ const nextConfig = {
         'MYSQL_DATABASE': '3D-Motion',
         'MYSQL_USER': 'root',
         'MYSQL_PASSWORD': '',
+
     },
     images: {
         remotePatterns: [

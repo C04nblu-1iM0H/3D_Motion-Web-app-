@@ -1,30 +1,25 @@
+// import { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {Input, Button, Select, SelectItem} from "@nextui-org/react";
-import { CiMail } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaSquarePhone } from "react-icons/fa6";
 
 import GroupButtonProfile from "@/components/Button/GroupButtonProfile";
+import { setIsVisibleEdit } from '@/store/userProfileSlice';
 
-export default function ProfileFormDisabled({handleClick, isEdit, setStateIsEdit, email}) {
+export default function ProfileFormDisabled() {
+    const dispatch = useDispatch();
+    const isEdit = useSelector(state => state.userProfile.isEdit);
 
-
+    const handleClick = () => dispatch(setIsVisibleEdit(!isEdit));
     return (
-        <form className="w-3/4 h-3/4 mt-4 flex flex-col justify-evenly">
-            <Input
-                isDisabled
-                type="text"
-                label="Email"
-                placeholder={email}
-                labelPlacement="outside"
-                startContent={
-                    <CiMail />
-                }
-            />
+        <form className="w-3/4 h-[37rem] mt-4 flex flex-col justify-evenly">
             <Input
                 isDisabled
                 type="text"
                 label="Name"
-                placeholder={email}
+                placeholder={'Ваше Имя'}
                 labelPlacement="outside"
                 startContent={
                     <FaRegUser />
@@ -34,7 +29,7 @@ export default function ProfileFormDisabled({handleClick, isEdit, setStateIsEdit
                 isDisabled
                 type="text"
                 label="Surname"
-                placeholder={email}
+                placeholder={ 'Ваша Фамилия'}
                 labelPlacement="outside"
                 startContent={
                     <FaRegUser />
@@ -51,24 +46,37 @@ export default function ProfileFormDisabled({handleClick, isEdit, setStateIsEdit
                     <SelectItem key={1} value="Мужской">Мужской</SelectItem>
             </Select>
             <div className="relative flex flex-col justify-between h-[4.4rem]">
-                <label className="text-sm text-Layout-foreground">Введите дату вашего рождения</label>
+                <label className="text-sm text-layout-foreground">Введите дату вашего рождения</label>
                 <input
                     type="date"
                     disabled
-                    className="block text-Layout-foreground bg-Layout-200 w-full py-2 pl-3 pr-10 mt-1 box-border border-none rounded-xl select-none"
+                    className="block text-layout-foreground bg-layout-200 w-full py-2 pl-3 pr-10 mt-1 box-border border-none rounded-xl select-none"
                 />
                 <IoIosArrowDown className="absolute w-3.5 h-3.5 inset-y-2/3 right-3 -translate-y-1/2 pointer-events-none"/>
             </div>
+            <Input
+                isDisabled
+                type="text"
+                label="Phone number"
+                placeholder={'+7(000)000-00-00'}
+                labelPlacement="outside"
+                startContent={
+                    <FaSquarePhone />
+                }
+            />
             {isEdit
                 ?(
                     <Button 
-                    color="primary"
-                    onClick={handleClick}
-                    >Редактировать</Button> 
+                        color="primary"
+                        onClick={handleClick}
+                    >
+                        Редактировать
+                    </Button> 
                 ):(
-                    <GroupButtonProfile setState={setStateIsEdit}/> 
+                    <GroupButtonProfile/> 
                 )
             }
+            
     </form>
     )
 }

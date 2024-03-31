@@ -12,10 +12,10 @@ import './header.scss';
 
 export default function Header(){
     const session = useSession();
-    console.log(session);
+    // console.log(session);
     const isAuthenticated = session.status === 'authenticated'
     return (
-        <header className="bg-Layout">
+        <header className="bg-layout">
             <Link href='/' className="text-3xl font-mono">
                 3D-Motion
             </Link>
