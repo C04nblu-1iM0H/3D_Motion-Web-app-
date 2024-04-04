@@ -1,8 +1,10 @@
 import {Button, Card, CardFooter} from "@nextui-org/react";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
-export default function ProfileAvatar({image, name, email}) {
+export default function ProfileAvatar({image, sassionName, email}) {
+    const {name} = useSelector(state => state.userProfile.userData);
     return(
         <figure className="bg-layout-50 w-1/4 h-[21rem] flex flex-col items-center mr-6 rounded-lg">
             <Card 
@@ -31,7 +33,7 @@ export default function ProfileAvatar({image, name, email}) {
                     </Button>
                 </CardFooter>
             </Card>
-            <figcaption className="mt-3" >{name || email}</figcaption>
+            <figcaption className="mt-3" >{sassionName || name || email}</figcaption>
         </figure>   
     )
 }

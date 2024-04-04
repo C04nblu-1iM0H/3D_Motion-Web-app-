@@ -19,21 +19,21 @@ export async function POST(request) {
             values: [changeName, changeSurname, changeGender, changeDate, changePhone, idUserData],
         });
 
-        const result = updateUser.affectedRows;
-        let message = "";
-        result ? message = "success" :  message = "error";
+        if(updateUser.affectedRows > 0){
+            const userData = await query({
+                query: `SELECT user_data.*
+                        FROM user_data
+                        JOIN user ON user.id_user_data = user_data.id
+                        WHERE user.email = ?`,
+                values: [email],
+            });
 
-        return new Response(JSON.stringify({
-            message: message,
-            name: changeName,
-            surname: changeSurname,
-            gender: changeGender,
-            date: changeDate,
-            phone: changePhone,
-            status: 200,
-        }), {
-            status: 200
-          });
+            return new Response(JSON.stringify({
+                message:'sucsess',
+                userData: userData[0],
+                status:200,
+            }))
+        }
     } catch (error) {
         console.error('Error inserting user:', error);
         return new Response(JSON.stringify({
