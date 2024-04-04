@@ -10,6 +10,7 @@ const userProfileSlice  = createSlice({
         date: '',
         phone: '',
         isLoading:false,
+        userData: {},
     },
     reducers:{
         setName(state, actions){
@@ -40,9 +41,12 @@ const userProfileSlice  = createSlice({
         setIsLoading(state, actions){
             state.isLoading = actions.payload;
         },
+        setUserData(state, actions){
+            state.userData = actions.payload;
+        }
     }
 });
 
-export const {setEmail, setName, setSurname, setGender, setDate, setPhone, setIsVisibleEdit, setIsLoading, resetForm, setUserProfileData} = userProfileSlice.actions;
+export const {setName, setSurname, setGender, setDate, setPhone, setIsVisibleEdit, setIsLoading, resetForm, setUserData} = userProfileSlice.actions;
 
 export default userProfileSlice.reducer;

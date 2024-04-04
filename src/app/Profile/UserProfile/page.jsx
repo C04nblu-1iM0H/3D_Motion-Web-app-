@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -13,13 +13,11 @@ import ProfileFormDisabled from "@/components/ProfileForm/ProfileFormDisabled";
 import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 import validationProfileForm from '@/utils/validationProfileForm';
 import 'react-toastify/dist/ReactToastify.css';
-import { resetForm, setIsLoading } from '@/store/userProfileSlice';
-
+import { resetForm, setIsLoading, setUserData } from '@/store/userProfileSlice';
 
 export default function UserProfile(){
     const dispatch = useDispatch();
-    const session = useSession();
-    const {status} = session;
+    const { data: session, status } = useSession();
     const isEdit = useSelector(state => state.userProfile.isEdit);
     const changeName = useSelector(state => state.userProfile.name);
     const changeSurname = useSelector(state => state.userProfile.surname);
@@ -27,15 +25,30 @@ export default function UserProfile(){
     const changeDate = useSelector(state => state.userProfile.date);
     const changePhone = useSelector(state => state.userProfile.phone);
 
-    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
-    if(status === 'unauthenticated'){return redirect('/Signin');}
-    const {name, email, image} = session?.data?.user;
+    useEffect(() => {
+        const fetchUserData = async (email) => {
+            try {
+                const response = await axios.post('/api/getUserData', { email });
+                if (response.status === 200) {
+                    dispatch(setUserData(response.data.userData))
+                } else {
+                    toast.error("Failed to fetch user data");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
+        if (status === 'authenticated') {
+            const { email } = session.user;
+            fetchUserData(email); 
+        }
+    }, [status, session]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const validationError = validationProfileForm(changeName, changeSurname, changeGender, changePhone);
+        const validationError = validationProfileForm(changeName, changeSurname, changePhone);
 
         if (validationError) {
             toast.error(validationError);
@@ -46,6 +59,7 @@ export default function UserProfile(){
         try {
             const response = await axios.post('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone});
             if (response.status === 200) {
+                dispatch(setUserData(response.data.userData))
                 toast.success("Вы успешно внесли свои данные", { icon: "👍" });
                 dispatch(resetForm());
             }else{
@@ -58,12 +72,16 @@ export default function UserProfile(){
         }
     }
 
+    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
+    if(status === 'unauthenticated'){return redirect('/Signin');}
+    const {name, email, image} = session.user;
+    
     return(
         <>
             <ToastContainer/>
             <section className="w-screen">
                 <section className="w-3/4 h-3/4 flex justify-center mx-auto mt-11 flex-wrap">
-                    <ProfileAvatar image={image} name={name} email={email}/>
+                    <ProfileAvatar image={image} sassionName={name} email={email}/>
                     <section className="bg-layout-50 w-1/3 h-[40rem] flex flex-col items-center rounded-lg">
                         <div className="mt-8 mb-1 flex items-center">
                             <IoSettingsOutline />
