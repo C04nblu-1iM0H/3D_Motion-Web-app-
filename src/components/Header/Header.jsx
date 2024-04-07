@@ -12,7 +12,6 @@ import './header.scss';
 
 export default function Header(){
     const session = useSession();
-    // console.log(session);
     const isAuthenticated = session.status === 'authenticated'
     return (
         <header className="bg-layout">
