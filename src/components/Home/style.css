@@ -1,75 +1,19 @@
 
-.glass2{
-    position: absolute;
-    left: 65vw;
-    top: 43vh;
-    animation: bounce 2.5s ease-in infinite;
-}
-.glass3{
-    position: absolute;
-    left: 85vw;
-    top: 40vh;
-    transform: rotateZ(73deg)
-}
-.glass4{
-    position: absolute;
-    left: 75vw;
-    top: 58vh;
-    animation: glass4SideIn 3s infinite alternate;
-}
-.glass5{
-    position: absolute;
-    left: 58vw;
-    top: 65vh;
-    animation-name: glass5SideIn;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-    animation-timing-function: ease-in-out;
-
+.device{
+    animation: smoothness 4s infinite;
 }
 
-@keyframes bounce {
-    0% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-    }
-   25% {
-        transform: translate3d(0, -100px, 0) rotate(20deg);
-    }
-   50% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-    }
-   75% {
-        transform: translate3d(0, -85px, 0) rotate(-30deg);
-    }
-   100% {
-        transform: translate3d(0, 0, 0) rotate(0deg);
-    }
- }
-
-@keyframes glass4SideIn {
-    0% { 
-        transform: rotate(0deg);
-    }
-    25% { 
-        transform: rotate(-40deg);
-    }
-    50% {  
-        transform: rotate(-20deg);
-    }
-    75% {  
-        transform: rotate(-40deg);
-    }
-    100% { 
-        transform: rotate(0deg); 
-    }
-}
-
-@keyframes glass5SideIn {
+@keyframes smoothness {
     from {
-      transform: translateY(0%) translateX(0%);
+      animation-timing-function: ease-in;
+      transform: translateY(0%);
+    }
+    50%{
+        animation-timing-function: ease-in;
+        transform: translateY(-5%)
     }
     to {
-      transform: translateY(-5%) translateX(-50%);
+      animation-timing-function: ease-in;
+      transform: translateY(0%);
     }
 }

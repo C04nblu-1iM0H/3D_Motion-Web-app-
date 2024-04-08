@@ -10,7 +10,7 @@ export default function HeadingText() {
                 ]}
                 wrapper="h1"
                 cursor={false}
-                className='text-5xl leading-normal'
+                className='text-3xl leading-normal lg:text-5xl'
             />
             <TypeAnimation
                 preRenderFirstString={true}
@@ -30,7 +30,7 @@ export default function HeadingText() {
                 speed={75}
                 wrapper="p"
                 repeat={Infinity}
-                className='text-xl pl-32'
+                className='text-lg pl-32 lg:text-xl'
             />
         </div>
     );
