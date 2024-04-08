@@ -10,10 +10,6 @@ const config = {
   ],
   theme: {
     extend: {
-      colors:{
-        backgroundlight:'#9353D3',
-        backgroundDark:'#301050',
-      }
     },
   },
   darkMode: "class",
@@ -45,7 +41,8 @@ const config = {
               100:"#F4F4F5",
               150:"#3B3B3B",
               200:"#F9F9FA",
-              300:"hsla(0, 0%, 84%, 0.83)" //background-color SignUp and SignIn
+              300:"hsla(0, 0%, 84%, 0.83)", //background-color SignUp and SignIn
+              350:"#333230", //background whitout home header  
             }, 
             Default:{
               DEFAULT: "#f4f4f5"
@@ -55,8 +52,8 @@ const config = {
         dark: {
           layout: {}, 
           colors: {
-            background: "#051622", 
-            foreground: "hsla(31, 0%, 100%, 1)",
+            background: "hsla(225, 10%, 8%, 1)", //background fon theme web-app
+            foreground: "hsla(31, 0%, 100%, 1)", //text color theme web-app
             success: {
               foreground: "#ECEDEE",
               DEFAULT: "hsla(231, 48%, 48%, 0.5)",
@@ -66,13 +63,14 @@ const config = {
               DEFAULT: "hsla(0, 100%, 68%, 0.6)",
             },
             layout: {
-              foreground:"#B6B7BF", //text color 
-              DEFAULT: "hsla(205, 74%, 13%, 1)", ////background fon color header and form
+              foreground:"#B6B7BF", //text color layout
+              DEFAULT: "hsla(233, 12%, 13%, 1)", //background fon color header and form
               50:"#18181b",
               100:"#27272A",
               150:"#3B3B3B",
               200:"#202023",
-              300:"hsla(203, 83%, 4%, 0.8)" //background fon color SignUp and SignIn 
+              300:"hsla(203, 83%, 4%, 0.8)", //background fon color SignUp and SignIn 
+              350:"#333230", //background whitout home header  
 
 
             },
