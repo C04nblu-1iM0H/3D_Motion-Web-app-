@@ -3,7 +3,6 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import {Providers} from "./providers";
 import { AppProvider } from '@/components/AppContext';
-// import MatteFon from '@/components/MatteFon/MatteFon';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +19,6 @@ export default function RootLayout({ children }) {
           <AppProvider>
             <Header />
             {children}
-            {/* <MatteFon /> */}
           </AppProvider>
         </Providers>
       </body>

@@ -4,16 +4,24 @@ export async function POST(request) {
     try {
         const { email } = await request.json();
 
-        const userData = await query({
+        let userData;
+        const [userDataResult] = await query({
             query: `SELECT user_data.*
                     FROM user_data
-                    JOIN user ON user.id_user_data = user_data.id
-                    WHERE user.email = ?`,
-            values: [email],
+                    LEFT JOIN user ON user.id_user_data = user_data.id
+                    LEFT JOIN userGoogle ON userGoogle.id_user_data = user_data.id
+                    WHERE user.email = ? OR userGoogle.emailGoogle = ?`,
+            values: [email, email],
         });
 
+        if (userDataResult) {
+            userData = userDataResult;
+        } else {
+            throw new Error("User data not found");
+        }
+
         return new Response(JSON.stringify({
-            userData: userData[0],
+            userData,
             status: 200,
         }), {
             status: 200
