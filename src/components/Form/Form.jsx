@@ -22,7 +22,7 @@ export default function Form({handleSubmit, text, head}){
 
     const handleGoogleSignIn = () => {
         dispatch(setIsLoadingGoogle(true));
-        signIn('google', { callbackUrl: process.env.NEXTAUTH_URL });
+        signIn('google');
     };
 
     return(

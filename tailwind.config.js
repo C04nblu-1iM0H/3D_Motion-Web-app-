@@ -43,6 +43,8 @@ const config = {
               200:"#F9F9FA",
               300:"hsla(0, 0%, 84%, 0.83)", //background-color SignUp and SignIn
               350:"#333230", //background whitout home header  
+              400:"hsla(233, 12%, 13%, 1)", // background fon color header for home page
+              450:"hsla(31, 0%, 100%, 1)",
             }, 
             Default:{
               DEFAULT: "#f4f4f5"
@@ -71,8 +73,8 @@ const config = {
               200:"#202023",
               300:"hsla(203, 83%, 4%, 0.8)", //background fon color SignUp and SignIn 
               350:"#333230", //background whitout home header  
-
-
+              400:"hsla(233, 12%, 13%, 1)", // background fon color header for home page
+              450:"hsla(31, 0%, 100%, 1)",// text color for main block and header for home page
             },
             Default:{
               DEFAULT: "#27272A"

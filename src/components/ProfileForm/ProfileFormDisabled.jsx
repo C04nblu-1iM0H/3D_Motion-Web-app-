@@ -12,7 +12,7 @@ export default function ProfileFormDisabled() {
     const dispatch = useDispatch();
     const isEdit = useSelector(state => state.userProfile.isEdit);
     const userData  = useSelector(state => state.userProfile.userData);
-    const {name, surname, id_gender, data_birthday, telephone} = userData;
+    const { name, surname, id_gender, data_birthday, telephone} = userData || {};
 
     const handleClick = () => dispatch(setIsVisibleEdit(!isEdit));
 

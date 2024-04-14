@@ -1,12 +1,13 @@
 import Image from "next/image";
 
-import HeadingText from "./HeadingText";
+import HeadingText from "./ui/HeadingText";
 import './style.css';
+import ComponentAccordion from "./ui/ComponentAccordion";
 
 export default function Home(){
     return(
         <>
-            <section className="w-screen h-[60.4rem] mt-[-2rem] bg-layout flex flex-col">
+            <section className="w-screen h-[60.4rem] mt-[-2rem] bg-layout-400 flex flex-col">
                 <section className="w-full">
                     <HeadingText />
                 </section>
@@ -52,10 +53,10 @@ export default function Home(){
                             </div>
                             <Image
                                 alt="img"
-                                className="hidden xl:block xl:absolute max-w-none w-1/2 xl:top-[73rem] xl:left-[20%]  2xl:top-[103rem] 2xl:left-[20%] lg:w-[30rem]"
-                                src={'/home/Sphere1.png'}
-                                width={500}
-                                height={500}
+                                className="hidden xl:block xl:absolute max-w-none w-1/2 xl:top-[73rem] xl:left-[20%]  2xl:top-[105rem] 2xl:left-[20%] lg:w-[25rem]"
+                                src={'/home/Cube3.png'}
+                                width={400}
+                                height={400}
                             />
                             <div className="mt-4 lg:w-1/2 lg:mt-0">
                                 <Image
@@ -69,6 +70,13 @@ export default function Home(){
                         </section>
 
                         <section className="lg:flex lg:items-center lg:flex-row flex flex-col-reverse">
+                            <Image
+                                alt="img"
+                                className="hidden xl:block xl:absolute max-w-none w-1/2 xl:top-[113rem] xl:left-[60%]  2xl:top-[126rem] 2xl:left-[60%] lg:w-[25rem]"
+                                src={'/home/Star3.png'}
+                                width={400}
+                                height={400}
+                            />
                             <div className="mt-4 lg:w-1/2 lg:mt-0">
                                 <Image
                                     alt="img"
@@ -99,7 +107,13 @@ export default function Home(){
                                     освоите ключевые программы — Maya, Houdini, Marmoset — и сможете развиваться в новом направлении.
                                 </p>
                             </div>
-
+                            <Image
+                                alt="img"
+                                className="hidden xl:block xl:absolute max-w-none w-1/2 xl:top-[153rem] xl:left-[10%]  2xl:top-[175rem] 2xl:left-[10%] lg:w-[25rem]"
+                                src={'/home/Sphere1.png'}
+                                width={400}
+                                height={400}
+                            />
                             <div className="mt-4 lg:w-1/2 lg:mt-0">
                                 <Image
                                     alt="img"
@@ -110,6 +124,13 @@ export default function Home(){
                             </div>
                         </section>
                         <section className="lg:flex lg:items-center lg:flex-row flex flex-col-reverse">
+                            <Image
+                                alt="img"
+                                className="hidden xl:block xl:absolute max-w-none w-1/2 xl:top-[195rem] xl:left-[60%]  2xl:top-[223rem] 2xl:left-[65%] lg:w-[25rem]"
+                                src={'/home/Swirl2.png'}
+                                width={400}
+                                height={400}
+                            />
                             <div className="mt-4 lg:w-1/2 lg:mt-0">
                                 <Image
                                     alt="img"
@@ -133,13 +154,13 @@ export default function Home(){
                 </div>
             </section>
 
-            <section className="mt-20">
+            <section className="mt-20 bg-layout-400">
                 <div className="container px-6 py-10 mx-auto relative">
-                    <h1 className="text-2xl font-semibold text-center capitalize lg:text-4xl lg:mt-10">
+                    <h1 className="text-2xl font-semibold text-center capitalize lg:text-4xl lg:mt-10 text-layout-450">
                         Наши Преимущества
                     </h1>
 
-                    <p className="mt-4 text-center text-gray-300 mb-32">
+                    <p className="mt-4 text-center mb-32 text-layout-450">
                         Почему мы - лучший выбор для вашего обучения в 3D дизайне
                     </p>
 
@@ -153,7 +174,7 @@ export default function Home(){
                     />
                     <Image
                         alt="img"
-                        className="absolute left-10 top-[30rem]"
+                        className="absolute left-24 top-[15rem]"
                         src={'/home/object1.png'}
                         width={400}
                         height={400}
@@ -162,10 +183,10 @@ export default function Home(){
 
                     <Image
                         alt="img"
-                        className="absolute left-[45rem] top-[50rem]"
+                        className="absolute left-[55rem] top-[50rem] rotate-90"
                         src={'/home/object2.png'}
-                        width={400}
-                        height={400}
+                        width={300}
+                        height={300}
                         quality={100}
                     />
                     <Image
@@ -188,10 +209,10 @@ export default function Home(){
                                 height={400}
                                 quality={100}
                             />
-                            <h2 className="mt-4 text-xl font-semibold capitalize ">
+                            <h2 className="mt-4 text-xl font-semibold capitalize text-layout-450">
                                 Гибкие цены
                             </h2>
-                            <p className="mt-2 text-lg tracking-wider">Website</p>
+                            <p className="mt-2 text-lg tracking-wider text-layout-450">Website</p>
                         </div>
 
                         <div className="flex flex-col items-center w-[30rem] relative rounded-3xl bg-opacity-20 bg-white backdrop-filter backdrop-blur-sm border border-white shadow-lg">
@@ -204,10 +225,10 @@ export default function Home(){
                                 height={400}
                                 quality={100}
                             />
-                            <h2 className="mt-4 text-xl font-semibold">
+                            <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Быстрая скорость обучения
                             </h2>
-                            <p className="mt-2 text-lg tracking-wider">Mockups</p>
+                            <p className="mt-2 text-lg tracking-wider text-layout-450">Mockups</p>
                         </div>
 
                         <div className="flex flex-col items-center w-[30rem] relative rounded-3xl bg-opacity-20 bg-white backdrop-filter backdrop-blur-sm border border-white shadow-lg">
@@ -220,10 +241,10 @@ export default function Home(){
                                 height={400}
                                 quality={100}
                             />
-                            <h2 className="mt-4 text-xl font-semibold">
+                            <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Получения профессиональных новыков
                             </h2>
-                            <p className="mt-2 text-lg tracking-wider">Mockups</p>
+                            <p className="mt-2 text-lg tracking-wider text-layout-450">Mockups</p>
                         </div>
                         <div className="flex flex-col items-center w-[30rem] relative rounded-3xl bg-opacity-20 bg-white backdrop-filter backdrop-blur-sm border border-white shadow-lg">
                             <div className="z-[-1] absolute inset-0 bg-gray-200 opacity-30 rounded-3xl"></div>
@@ -235,14 +256,15 @@ export default function Home(){
                                 height={400}
                                 quality={100}
                             />
-                            <h2 className="mt-4 text-xl font-semibold">
+                            <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Мгновенная скорость откликов специалистов
                             </h2>
-                            <p className="mt-2 text-lg tracking-wider">Mockups</p>
+                            <p className="mt-2 text-lg tracking-wider text-layout-450">Mockups</p>
                         </div>
                     </div>
                 </div>
             </section>
+            <ComponentAccordion />
         </>
     );
 }

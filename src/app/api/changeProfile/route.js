@@ -1,36 +1,42 @@
 import { query } from "../../lib/db";
 
-export async function POST(request) {
+export async function PUT(request) {
     try {
         const {email, changeName, changeSurname, changeGender, changeDate, changePhone } = await request.json();
 
-        const existingUserdata = await query({
-            query: `SELECT * 
-                    FROM user_data 
-                    WHERE id = (SELECT id_user_data FROM user WHERE email = ?)`,
-            values: [email],
+        //запрос для получение id_user_data  по email
+        const [existingUserData] = await query({
+            query: `SELECT user_data.*
+                    FROM user_data
+                    LEFT JOIN user ON user.id_user_data = user_data.id
+                    LEFT JOIN userGoogle ON userGoogle.id_user_data = user_data.id
+                    WHERE user.email = ? OR userGoogle.emailGoogle = ?`,
+            values: [email, email],
         });
-        let idUserData = existingUserdata[0].id;
+        //получаем id_user_data у пользователя по email
+        const idUserData = existingUserData.id;
 
+        //обновляем данные о пользователе
         const updateUser = await query({
             query: `UPDATE user_data 
-                    SET name = ?, surname = ?, id_gender = ?, data_birthday = ?, telephone = ? 
+                    SET name = ?, surname = ?, id_gender = ?, data_birthday = STR_TO_DATE(?, '%Y-%m-%d'), telephone = ? 
                     WHERE id = ?`,
             values: [changeName, changeSurname, changeGender, changeDate, changePhone, idUserData],
         });
 
-        if(updateUser.affectedRows > 0){
-            const userData = await query({
-                query: `SELECT user_data.*
+        console.log('updateUser - ' ,updateUser);
+        if (updateUser.affectedRows > 0) {
+            // Получаем обновленные данные пользователя
+            const [userData] = await query({
+                query: `SELECT *
                         FROM user_data
-                        JOIN user ON user.id_user_data = user_data.id
-                        WHERE user.email = ?`,
-                values: [email],
+                        WHERE id = ?`,
+                values: [idUserData],
             });
 
             return new Response(JSON.stringify({
                 message:'sucsess',
-                userData: userData[0],
+                userData: userData,
                 status:200,
             }))
         }

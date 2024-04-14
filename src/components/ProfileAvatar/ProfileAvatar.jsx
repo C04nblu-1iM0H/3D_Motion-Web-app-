@@ -4,8 +4,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 export default function ProfileAvatar({image, sassionName, email}) {
-    const {name} = useSelector(state => state.userProfile.userData);
-    // const name = userData ? userData.name : "";
+    const {userData} = useSelector(state => state.userProfile);
+    const {name} = userData || {};
     return(
         <figure className="bg-layout-50 w-1/4 h-[21rem] flex flex-col items-center mr-6 rounded-lg">
             <Card 

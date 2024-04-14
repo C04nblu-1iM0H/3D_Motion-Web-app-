@@ -1,3 +1,10 @@
+html {
+  scrollbar-width: none; /* Для Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Для Chrome, Safari и Opera */
+}
 
 .device{
     animation: smoothness 4s infinite;

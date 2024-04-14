@@ -40,10 +40,14 @@ export default function UserProfile(){
         };
 
         if (status === 'authenticated') {
-            const { email } = session.user;
+            const {email} = session.user;
             fetchUserData(email); 
         }
     }, [status, session]);
+
+    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
+    if(status === 'unauthenticated'){return redirect('/Signin');}
+    const {name, email, image} = session.user;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,7 +61,7 @@ export default function UserProfile(){
 
         dispatch(setIsLoading(true));
         try {
-            const response = await axios.post('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone});
+            const response = await axios.put('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone });
             if (response.status === 200) {
                 dispatch(setUserData(response.data.userData))
                 toast.success("Вы успешно внесли свои данные", { icon: "👍" });
@@ -72,10 +76,6 @@ export default function UserProfile(){
         }
     }
 
-    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
-    if(status === 'unauthenticated'){return redirect('/Signin');}
-    const {name, email, image} = session.user;
-    
     return(
         <>
             <ToastContainer/>
