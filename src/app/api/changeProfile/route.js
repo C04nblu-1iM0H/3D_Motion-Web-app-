@@ -24,7 +24,6 @@ export async function PUT(request) {
             values: [changeName, changeSurname, changeGender, changeDate, changePhone, idUserData],
         });
 
-        console.log('updateUser - ' ,updateUser);
         if (updateUser.affectedRows > 0) {
             // Получаем обновленные данные пользователя
             const [userData] = await query({

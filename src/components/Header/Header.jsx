@@ -6,30 +6,32 @@ import store from '../../store';
 import Link from 'next/link'
 
 import DarkMode from "../DarkMode/DarkMode";
-import MenuAccount from "./ui/MenuAccount";
+import MenuAccount from "../../app/MenuAccount";
 import EntryMenu from "./ui/EntryMenu";
-import './header.scss';
 
 
 export default function Header(){
-    const session = useSession();
+    const { data: session, status } = useSession();
     const pathname = usePathname()
-    const isAuthenticated = session.status === 'authenticated'
+    const isAuthenticated = status === 'authenticated'
     const isHome = pathname === '/';
 
     return (
-        <header className={`bg-${isHome ? 'layout-400' : 'layout'}`}>
+        <header className={`h-16 mb-5 flex justify-around items-center relative z-10  bg-${isHome ? 'layout-400 ' : 'layout shadow-lg'}`}>
             <Link href='/' className={`text-3xl font-mono text-${isHome ? 'layout-450' : ''}`}>
                 3D-Motion
             </Link>
-            <ul className="lenta">
-                <li><Link href="/" className={`link text-${isHome ? 'layout-450' : ''}`}>Главная</Link></li>
-                <li><Link href="#" className={`link text-${isHome ? 'layout-450' : ''}`}>Список курсов</Link></li>
-                <li><Link href="#" className={`link text-${isHome ? 'layout-450' : ''}`}>О нас</Link></li>
+            <ul className="flex basis-1/5 justify-around">
+                <li className="list-none cursor-pointer"><Link href="/" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Главная</Link></li>
+                <li className="list-none cursor-pointer"><Link href="#" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Список курсов</Link></li>
+                <li className="list-none cursor-pointer"><Link href="#" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>О нас</Link></li>
             </ul>
-            <ul className="Auth">
-                {!isAuthenticated? <EntryMenu /> : <MenuAccount username={session.data.user.name || session.data.user.email}/>}
+            <ul className="flex justify-around items-center">
                 <Provider store={store}>
+                    {
+                        !isAuthenticated
+                            ? <EntryMenu isHome={isHome}/> 
+                            : <MenuAccount username={session.user.name} email={session.user.email} />}
                     <DarkMode/>
                 </Provider>
             </ul>

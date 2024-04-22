@@ -5,6 +5,9 @@ const regUserSlice  = createSlice({
     initialState:{
         email: '',
         password: '',
+        role:0,
+        isOnlineCount:0,
+        countUsers:0,
         isLoading:false,
         isVisible:false,
         isLoadingGoogle:false,
@@ -15,6 +18,15 @@ const regUserSlice  = createSlice({
         },
         setPassword(state, actions){
             state.password = actions.payload;
+        },
+        setUserRole(state, actions){
+            state.role = actions.payload;
+        },
+        setCountUsersOnline(state, actions){
+            state.isOnlineCount = actions.payload;
+        },
+        setCountUsers(state, actions){
+            state.countUsers = actions.payload;
         },
         resetForm: (state) => {
             state.email = '';
@@ -32,6 +44,14 @@ const regUserSlice  = createSlice({
     }
 });
 
-export const {setEmail, setPassword, resetForm, setIsLoading, setIsVisible, setIsLoadingGoogle} = regUserSlice.actions;
+export const {setEmail, 
+              setPassword,
+              resetForm,
+              setIsLoading,
+              setIsVisible,
+              setIsLoadingGoogle,
+              setUserRole,
+              setCountUsersOnline,
+              setCountUsers} = regUserSlice.actions;
 
 export default regUserSlice.reducer;

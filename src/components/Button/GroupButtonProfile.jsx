@@ -11,7 +11,13 @@ export default function GroupButtonProfile(){
     return(
         <div className="flex">
             <Button color="success" className="w-full mr-1" type="submit" isLoading={isLoading} > Сохранить </Button>
-            <Button color="danger" className="w-full ml-1" onClick={handleClick}>Выйти</Button>  
+            {
+                isLoading?
+                    <Button color="danger" className="w-full ml-1" isDisabled>Выйти</Button>
+                    :
+                    <Button color="danger" className="w-full ml-1" onClick={handleClick}>Выйти</Button>
+            }   
+
         </div>
     )
 }

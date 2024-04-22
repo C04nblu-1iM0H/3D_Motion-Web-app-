@@ -1,4 +1,4 @@
-import {Button, Card, CardFooter} from "@nextui-org/react";
+import {Card, CardFooter} from "@nextui-org/react";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -27,11 +27,14 @@ export default function ProfileAvatar({image, sassionName, email}) {
                         priority={true}
                     />
                 }
-                <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                <CardFooter className="flex justify-between items-center  before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
                     <p className="text-tiny text-white/80">загрузить фото</p>
-                    <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
-                        Click me
-                    </Button>
+                    <label className="mb-[0.15rem]">
+                        <input type="file" className="hidden"/>
+                        <span className="text-tiny text-white bg-black/20 p-2 rounded-lg">
+                            Click me
+                        </span>
+                    </label>
                 </CardFooter>
             </Card>
             <figcaption className="mt-3" >{sassionName || name || email}</figcaption>

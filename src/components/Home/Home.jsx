@@ -1,8 +1,10 @@
+'use client'
 import Image from "next/image";
 
 import HeadingText from "./ui/HeadingText";
+import TimeLineComponent from "./ui/TimeLineComponent";
+import {timelineItems} from '@/const'
 import './style.css';
-import ComponentAccordion from "./ui/ComponentAccordion";
 
 export default function Home(){
     return(
@@ -164,14 +166,7 @@ export default function Home(){
                         Почему мы - лучший выбор для вашего обучения в 3D дизайне
                     </p>
 
-                    <Image
-                        alt="img"
-                        className="absolute left-[60rem] top-48"
-                        src={'/home/object4.png'}
-                        width={400}
-                        height={400}
-                        quality={100}
-                    />
+                    
                     <Image
                         alt="img"
                         className="absolute left-24 top-[15rem]"
@@ -179,6 +174,7 @@ export default function Home(){
                         width={400}
                         height={400}
                         quality={100}
+                        style={{ width: "auto" }}
                     />
 
                     <Image
@@ -188,6 +184,7 @@ export default function Home(){
                         width={300}
                         height={300}
                         quality={100}
+                        style={{ width: "auto" }}
                     />
                     <Image
                         alt="img"
@@ -196,9 +193,20 @@ export default function Home(){
                         width={250}
                         height={250}
                         quality={100}
+                        style={{ width: "auto" }}
+                        priority={false}
                     />
 
                     <div className="flex flex-col mt-8 xl:mt-12 xl:justify-center lg:gap-32 items-center xl:flex-row md:flex-wrap ">
+                        <Image
+                            alt="img"
+                            className="absolute  2xl:left-[60rem] 2xl:top-48 xl:left-[50rem] xl:top-52"
+                            src={'/home/object4.png'}
+                            width={400}
+                            height={400}
+                            quality={100}
+                            style={{ width: "auto" }}
+                        />
                         <div className="flex flex-col items-center w-[30rem] relative rounded-3xl bg-opacity-20 bg-white backdrop-filter backdrop-blur-sm border border-white shadow-lg">
                             <div className="-z-10 absolute inset-0 bg-gray-200 opacity-30 rounded-3xl"></div>
                             <Image
@@ -208,6 +216,7 @@ export default function Home(){
                                 width={400}
                                 height={400}
                                 quality={100}
+                                style={{ width: "auto" }}
                             />
                             <h2 className="mt-4 text-xl font-semibold capitalize text-layout-450">
                                 Гибкие цены
@@ -224,6 +233,7 @@ export default function Home(){
                                 width={400}
                                 height={400}
                                 quality={100}
+                                style={{ width: "auto" }}
                             />
                             <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Быстрая скорость обучения
@@ -240,6 +250,7 @@ export default function Home(){
                                 width={400}
                                 height={400}
                                 quality={100}
+                                style={{ width: "auto" }}
                             />
                             <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Получения профессиональных новыков
@@ -255,6 +266,7 @@ export default function Home(){
                                 width={400}
                                 height={400}
                                 quality={100}
+                                style={{ width: "auto" }}
                             />
                             <h2 className="mt-4 text-xl font-semibold text-layout-450">
                                 Мгновенная скорость откликов специалистов
@@ -264,7 +276,7 @@ export default function Home(){
                     </div>
                 </div>
             </section>
-            <ComponentAccordion />
+            <TimeLineComponent timelineItems={timelineItems}/>
         </>
     );
 }
