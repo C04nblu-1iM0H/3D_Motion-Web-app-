@@ -1,6 +1,0 @@
-@mixin flexbox_header_elements($basis, $justify, $align-items: initial) {
-    display: flex;
-    flex-basis: $basis;
-    justify-content: $justify;
-    align-items: $align-items;
-}

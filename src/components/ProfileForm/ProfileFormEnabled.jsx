@@ -22,7 +22,6 @@ export default function ProfileFormEnabled({handleSubmit}) {
     const handleDate = (e) => dispatch(setDate(e.target.value));
     const handlePhone = (value) => dispatch(setPhone(value));
     const handleGender = (e) => dispatch(setGender(e.target.value));
-
     const handleClick = () => dispatch(setIsVisibleEdit(!isEdit));
 
     return (

@@ -11,8 +11,8 @@ export default function Accordion({ title, items }) {
 
   return (
     <div className="flex justify-center">
-      <div className="w-1/2">
-        <div className="flex justify-between items-center" onClick={toggleHandler}>
+      <div className="w-1/2 border-b-2">
+        <div className="flex justify-between items-center cursor-pointer" onClick={toggleHandler}>
           <h3 className="text-2xl lg:text-3xl my-5">{title}</h3>
           <i className={`transition-transform duration-700 delay-100 transform ${open ? 'rotate-180' : ''}`}>
             <IoIosArrowDown />

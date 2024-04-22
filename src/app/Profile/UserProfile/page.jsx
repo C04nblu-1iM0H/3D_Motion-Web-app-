@@ -1,4 +1,3 @@
-'use client';
 import { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { useSession } from "next-auth/react";
@@ -61,10 +60,25 @@ export default function UserProfile(){
 
         dispatch(setIsLoading(true));
         try {
-            const response = await axios.put('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone });
+
+            const savePromise = toast.promise(
+                axios.put('/api/changeProfile', {
+                    email,
+                    changeName,
+                    changeSurname,
+                    changeGender,
+                    changeDate,
+                    changePhone
+                }),
+                {
+                    pending: "Подождите пожалуйста...",
+                    success: "Вы успешно внесли свои данные 👍",
+                    error: "Произошла ошибка, перезапустите страницу и начните заново"
+                }
+            );
+            const response = await savePromise;
             if (response.status === 200) {
                 dispatch(setUserData(response.data.userData))
-                toast.success("Вы успешно внесли свои данные", { icon: "👍" });
                 dispatch(resetForm());
             }else{
               toast.error("Failed to data in form");

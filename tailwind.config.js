@@ -49,6 +49,12 @@ const config = {
             Default:{
               DEFAULT: "#f4f4f5"
             },
+            neutral:{
+              700: "#d4d4d4", //bg button admin panel active
+            },
+            zinc:{
+              150:"#e4e4e7", //bg button admin panel hover
+            },
           },
         },
         dark: {
@@ -78,6 +84,12 @@ const config = {
             },
             Default:{
               DEFAULT: "#27272A"
+            },
+            neutral:{
+              700: "#404040", //bg button admin panel active
+            },
+            zinc:{
+              150:"#52525b", //bg button admin panel hover
             },
           },
         },

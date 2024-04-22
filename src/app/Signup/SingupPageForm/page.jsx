@@ -32,10 +32,17 @@ export default function SingupPageForm() {
 
     dispatch(setIsLoading(true));
     try {
-      const response = await axios.post('/api/signup', {email, password});
+        const insertUserPromise = toast.promise(
+          axios.post('/api/signup', {email, password}),
+          {
+              pending: "Подождите пожалуйста...",
+              success: "Вы успешно зарегистрировались 👍",
+              error: "Произошла ошибка, перезапустите страницу и начните заново"
+          }
+      );
+      const response = await insertUserPromise;
       if (response.status === 200) {
         dispatch(resetForm());
-        toast.success("Вы успешно зарегистрировались", { icon: "👍" });
         setTimeout(() => router.push('/Signin'),5000);
         toast.info("Вы будете перенаправлены на страницу входа");
       }else{
