@@ -19,7 +19,7 @@ export async function PUT(request) {
         //обновляем данные о пользователе
         const updateUser = await query({
             query: `UPDATE user_data 
-                    SET name = ?, surname = ?, id_gender = ?, data_birthday = STR_TO_DATE(?, '%Y-%m-%d'), telephone = ? 
+                    SET username = ?, surname = ?, id_gender = ?, data_birthday = STR_TO_DATE(?, '%Y-%m-%d'), telephone = ? 
                     WHERE id = ?`,
             values: [changeName, changeSurname, changeGender, changeDate, changePhone, idUserData],
         });

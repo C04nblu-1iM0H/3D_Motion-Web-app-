@@ -144,7 +144,12 @@ export const timelineItems = [
             "Различные анимационные сцены."
         ],
     },
-    
+];
 
-    // Add more timeline items as needed
-  ];
+export const columns = [
+    {name: "EMAIL", uid: "email"},
+    {name: "PASSWORD", uid: "password"},
+    {name: "ROLE", uid: "role"},
+    {name: "STATUS", uid: "status"},
+    {name: "ACTIONS", uid: "actions"},
+];

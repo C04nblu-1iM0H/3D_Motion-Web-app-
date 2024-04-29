@@ -55,6 +55,9 @@ const config = {
             zinc:{
               150:"#e4e4e7", //bg button admin panel hover
             },
+            success:{
+              DEFAULT: "#17c964"
+            },
           },
         },
         dark: {
@@ -90,6 +93,9 @@ const config = {
             },
             zinc:{
               150:"#52525b", //bg button admin panel hover
+            },
+            success:{
+              DEFAULT: "#17c964"
             },
           },
         },
