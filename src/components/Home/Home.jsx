@@ -1,10 +1,8 @@
 'use client'
 import Image from "next/image";
-
 import HeadingText from "./ui/HeadingText";
-import TimeLineComponent from "./ui/TimeLineComponent";
-import {timelineItems} from '@/const'
 import './style.css';
+import ComponentAccordion from "./ui/ComponentAccordion";
 
 export default function Home(){
     return(
@@ -276,7 +274,7 @@ export default function Home(){
                     </div>
                 </div>
             </section>
-            <TimeLineComponent timelineItems={timelineItems}/>
+            <ComponentAccordion />
         </>
     );
 }

@@ -3,12 +3,12 @@ import { query } from "../../lib/db";
 export async function GET() {
     try {
         const userCountResult = await query({
-            query: "SELECT COUNT(*) AS userCount FROM user WHERE is_online = 1",
+            query: "SELECT COUNT(*) AS userCount FROM user WHERE id_online = 1",
         });
         const userCount = userCountResult ? userCountResult[0].userCount : 0;
 
         const userGoogleCountResult = await query({
-            query: "SELECT COUNT(*) AS userGoogleCount FROM userGoogle WHERE is_online = 1",
+            query: "SELECT COUNT(*) AS userGoogleCount FROM userGoogle WHERE id_online = 1",
         });
         const userGoogleCount = userGoogleCountResult ? userGoogleCountResult[0].userGoogleCount : 0;
 

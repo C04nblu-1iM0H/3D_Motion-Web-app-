@@ -5,14 +5,14 @@ export async function POST(request) {
         const { email, logout } = await request.json();
 
         if (logout) {
-            // Обновляем статус пользователя на оффлайн (is_online = 0) при выходе из системы в обеих таблицах
+            // Обновляем статус пользователя на оффлайн (id_online = 0) при выходе из системы в обеих таблицах
             await query({
-                query: `UPDATE user SET is_online = 0 WHERE email = ?`,
+                query: `UPDATE user SET id_online = 0 WHERE email = ?`,
                 values: [email],
             });
 
             await query({
-                query: `UPDATE userGoogle SET is_online = 0 WHERE emailGoogle = ?`,
+                query: `UPDATE userGoogle SET id_online = 0 WHERE emailGoogle = ?`,
                 values: [email],
             });
 
@@ -21,14 +21,14 @@ export async function POST(request) {
                 status: 200,
             }));
         } else {
-            // Обновляем статус пользователя на онлайн (is_online = 1) при входе в обеих таблицах
+            // Обновляем статус пользователя на онлайн (id_online = 1) при входе в обеих таблицах
             await query({
-                query: `UPDATE user SET is_online = 1 WHERE email = ?`,
+                query: `UPDATE user SET id_online = 1 WHERE email = ?`,
                 values: [email],
             });
 
             await query({
-                query: `UPDATE userGoogle SET is_online = 1 WHERE emailGoogle = ?`,
+                query: `UPDATE userGoogle SET id_online = 1 WHERE emailGoogle = ?`,
                 values: [email],
             });
 
