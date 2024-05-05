@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import ProfilImage from "./ui/ProfilImage";
 import ProfilMenu from "./ui/ProfilMenu";
 

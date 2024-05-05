@@ -4,8 +4,7 @@ export async function POST(request) {
     try {
         const { email } = await request.json();
 
-        let userData;
-        const [userDataResult] = await query({
+        const userData = await query({
             query: `SELECT user_data.*
                     FROM user_data
                     LEFT JOIN user ON user.id_user_data = user_data.id
@@ -14,13 +13,21 @@ export async function POST(request) {
             values: [email, email],
         });
 
-        if (userDataResult) {
-            userData = userDataResult;
-        } else {
-            throw new Error("User data not found");
-        }
+        
+        const user = await query({
+            query: `SELECT id, email, id_role FROM user WHERE email = ? ` ,
+            values: [email],
+        });
+
+        const userGoogle = await query({
+            query: `SELECT id, emailGoogle, id_role FROM userGoogle WHERE emailGoogle = ? ` ,
+            values: [email],
+        });
+
+        const resultUser = user || userGoogle;
 
         return new Response(JSON.stringify({
+            resultUser,
             userData,
             status: 200,
         }), {

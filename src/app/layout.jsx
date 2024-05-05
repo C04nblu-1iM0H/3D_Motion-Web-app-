@@ -4,7 +4,7 @@ import Header from '@/components/Header/Header';
 import {Providers} from "./providers";
 import { AppProvider } from '@/components/AppContext';
 import ReduxProvider from '@/app/ReduxProvider';
-
+import NextTopLoader from 'nextjs-toploader';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -16,14 +16,15 @@ export default function RootLayout({ children }) {
   return (
       <html>
         <body className={inter.className}>
-          <ReduxProvider>
-            <Providers>
-              <AppProvider>
-                  <Header />
-                  {children}
-              </AppProvider>
-            </Providers>
-          </ReduxProvider>
+            <ReduxProvider>
+              <Providers>
+                <AppProvider>
+                    <NextTopLoader />
+                    <Header />
+                    {children}
+                </AppProvider>
+              </Providers>
+            </ReduxProvider>
         </body>
       </html>
   );

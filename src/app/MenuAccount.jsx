@@ -12,7 +12,7 @@ import { setUserRole } from "@/store/userSlice";
 export default function MenuAccaunt({username, email}) {
   const dispatch = useDispatch();
 
-  const role = useSelector(state => state.regUser.role);
+  const role = useSelector(state => state.user.role);
 
   useEffect(() => {
     const fetchUserData = async (email) => {

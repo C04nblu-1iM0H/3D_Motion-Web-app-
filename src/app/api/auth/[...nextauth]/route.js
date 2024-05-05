@@ -27,9 +27,9 @@ export const authOptions = {
               values: [email],
           });
           const passwordOk = user && bcrypt.compareSync(password, user[0].password);
-          
-          if(passwordOk) return user[0];
-        
+          if (passwordOk) {
+            return user[0];
+          }
         return null;
       }
     })
@@ -47,7 +47,7 @@ export const authOptions = {
 
         if (existingUser.length === 0) {
           const createUserdata = await query({
-            query: "INSERT INTO user_data (name, surname) VALUES (?,?)",
+            query: "INSERT INTO user_data (username, surname) VALUES (?,?)",
             values: [usname, surname],
           });
           //запоминаем id из таблицы user_data

@@ -26,9 +26,14 @@ export async function GET() {
 
         const countUsers = userTotalCount + userGoogleTotalCount;
 
+        const totalCourse = await query({
+            query:"SELECT COUNT(id) as id_course FROM course",
+        })
+
         return new Response(JSON.stringify({
             onlineUsersCount,
             countUsers,
+            totalCourse,
             status: 200,
         }));
     } catch (error) {

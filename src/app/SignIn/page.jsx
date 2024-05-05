@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {signIn} from "next-auth/react";
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,13 +9,14 @@ import Form from '@/components/Form/Form';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import './page.scss';
-import { resetForm, setIsLoading } from "@/store/userSlice";
+import { resetForm } from "@/store/userSlice";
 import MatteFon from '@/components/MatteFon/MatteFon';
 
 export default function SinginPageForm() {
   const dispatch = useDispatch();
-  const email = useSelector(state => state.regUser.email);
-  const password = useSelector(state => state.regUser.password);
+  const [isLoading, setIsLoading] = useState(false);
+  const email = useSelector(state => state.user.email);
+  const password = useSelector(state => state.user.password);
   const signInH1 = 'Вход', signInButtonText = 'Войти';
 
     const handleSubmit = async (e) => {
@@ -25,12 +27,15 @@ export default function SinginPageForm() {
           toast.error(validationError);
           return;
         }
-        dispatch(setIsLoading(true));
-        dispatch(resetForm());
-        
-        await signIn('credentials', {email, password, callbackUrl: process.env.NEXTAUTH_URL });
-
-        dispatch(setIsLoading(false));
+        try {
+          setIsLoading(true);
+          await signIn('credentials', {email, password, callbackUrl: process.env.NEXTAUTH_URL });
+        } catch (error) {
+          
+        }finally{
+          dispatch(resetForm());
+          setIsLoading(false);
+        }
       };
 
 
@@ -49,7 +54,7 @@ export default function SinginPageForm() {
               priority
             />
           ))}
-          <Form handleSubmit={handleSubmit} text={signInButtonText} head={signInH1}/>
+          <Form handleSubmit={handleSubmit} text={signInButtonText} head={signInH1} isLoading={isLoading}/>
         </section>
         <MatteFon />
       </>

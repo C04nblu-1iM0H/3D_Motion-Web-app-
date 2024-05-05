@@ -30,7 +30,7 @@ export default function Profile(){
             try {
                 const response = await axios.post('/api/getUserData', { email });
                 if (response.status === 200) {
-                    dispatch(setUserData(response.data.userData))
+                    dispatch(setUserData(response.data.userData[0]))
                 } else {
                     toast.error("Failed to fetch user data");
                 }
@@ -98,7 +98,7 @@ export default function Profile(){
             <section className="w-screen">
                 <section className="flex gap-x-5 flex-wrap">
                     <ProfileAvatar image={image} sassionName={name} email={email}/>
-                    <section className="mt-4 bg-layout-50 w-1/3 h-[40rem] flex flex-col items-center rounded-lg">
+                    <section className="mt-4 bg-layout w-1/3 h-[40rem] flex flex-col items-center rounded-lg">
                         <div className="mt-8 mb-1 flex items-center">
                             <IoSettingsOutline />
                             <h1 className="ml-2">Настройки данных профиля</h1>

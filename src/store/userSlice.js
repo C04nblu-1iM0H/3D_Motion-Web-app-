@@ -1,18 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const regUserSlice  = createSlice({
-    name: 'regUser',
+const userSlice  = createSlice({
+    name: 'user',
     initialState:{
+        id:0,
         email: '',
         password: '',
         role:0,
-        isOnlineCount:0,
-        countUsers:0,
         isLoading:false,
         isVisible:false,
         isLoadingGoogle:false,
     },
     reducers:{
+        setId(state, actions){
+            state.id = actions.payload;
+        },
         setEmail(state, actions){
             state.email = actions.payload;
         },
@@ -21,12 +23,6 @@ const regUserSlice  = createSlice({
         },
         setUserRole(state, actions){
             state.role = actions.payload;
-        },
-        setCountUsersOnline(state, actions){
-            state.isOnlineCount = actions.payload;
-        },
-        setCountUsers(state, actions){
-            state.countUsers = actions.payload;
         },
         resetForm: (state) => {
             state.email = '';
@@ -44,14 +40,14 @@ const regUserSlice  = createSlice({
     }
 });
 
-export const {setEmail, 
+export const {
+              setId,
+              setEmail, 
               setPassword,
               resetForm,
               setIsLoading,
               setIsVisible,
               setIsLoadingGoogle,
-              setUserRole,
-              setCountUsersOnline,
-              setCountUsers} = regUserSlice.actions;
+              setUserRole} = userSlice.actions;
 
-export default regUserSlice.reducer;
+export default userSlice.reducer;
