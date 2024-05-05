@@ -3,7 +3,7 @@ import {Progress} from "@nextui-org/react";
 import {useSelector} from 'react-redux';
 
 export default function TotalUsers(){
-    const countUsers = useSelector(state => state.regUser.countUsers);
+    const countUsers = useSelector(state => state.user.countUsers);
 
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">

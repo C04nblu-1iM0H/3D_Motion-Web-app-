@@ -13,8 +13,10 @@ import {
     TableCell, 
     User, 
     Chip, 
-    Tooltip, 
+    Tooltip,
+    Progress 
 } from "@nextui-org/react";
+import { FaUsers } from "react-icons/fa";
 
 import { columns } from "@/const";
 import EditComponent from "./edit";
@@ -24,22 +26,26 @@ import ViewComponent from "./view";
 
 export default function UserTable() {
   const [users, setUsers] = useState([]);
-  const userrole = useSelector(state => state.regUser.role);
+  const [isLoading, setIsLoading] = useState(true);
+  const userrole = useSelector(state => state.user.role);
   const [isSuccess, setIsSuccess] = useState(false);
   useEffect(() => {
       const fetchData = async () => {
           try {
+              setIsLoading(true)
               const response = await axios.get('/api/crud');
               setUsers(response.data.allUsers);
           } catch (error) {
               console.error('Error fetching data:', error);
+
+          }finally{
+            setIsLoading(false)
           }
       };
       fetchData();
       if(isSuccess){
         fetchData();
         setIsSuccess(false);
-        console.log(12);
       }
   }, [isSuccess]);
 
@@ -107,27 +113,51 @@ export default function UserTable() {
   if(userrole !== 1){return redirect('/');}
     return(
         <section className="container h-screen ml-8">
-           <ToastContainer/>
-            <h1>Список всех пользователей</h1>
-            <Table aria-label="Example table with custom cells">
-                <TableHeader columns={columns}>
-                    {(column) => (
-                    <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-                        {column.name}
-                    </TableColumn>
-                    )}
-                </TableHeader>
-                <TableBody items={users}>
-                    {(item) => (
-                    <TableRow key={item.id}>
-                        {
-                          (columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>
-                        }
-                    </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </section>
+          <ToastContainer/>
+          <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">
+            <div className="flex items-center justify-center">
+              <FaUsers />
+              <h1 className="p-3">Список всех пользователей</h1>
+            </div>  
+          </div>
 
+          {isLoading && users.length === 0 ? (  // Показываем Loader, если данные еще загружаются или не загружены
+            <section className="w-full flex flex-col items-center justify-center mt-20">
+              <Progress
+                size="md"
+                isIndeterminate
+                aria-label="Loading..."
+                className="max-w-md"
+              />
+            </section>
+          ) :  users.length === 0 ?(
+            <Image
+              alt="no data"
+              src={'/adminpanel/no_user_data.svg'}
+              width={500}
+              height={500}
+              quality={100}
+              priority={true}
+              className="mx-auto"
+            />
+          ):(
+            <Table aria-label="Example table with custom cells">
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
+                    {column.name}
+                  </TableColumn>
+                )}
+              </TableHeader>
+              <TableBody items={users}>
+                {(item) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          )}
+        </section>
     );
 }

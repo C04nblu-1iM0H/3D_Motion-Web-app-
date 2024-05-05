@@ -6,8 +6,8 @@ import {useSelector} from 'react-redux';
 export default function OnlineUsers(){
     const [value, setValue] = useState(0);
     
-    const onlineUsersCount =  useSelector(state => state.regUser.isOnlineCount);
-    const countUsers = useSelector(state => state.regUser.countUsers);
+    const onlineUsersCount =  useSelector(state => state.user.isOnlineCount);
+    const countUsers = useSelector(state => state.user.countUsers);
 
     useEffect(() => {
         if (countUsers > 0) {

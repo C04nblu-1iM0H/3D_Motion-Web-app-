@@ -1,10 +1,13 @@
-'use client'
 import Image from "next/image";
-import HeadingText from "./ui/HeadingText";
+
 import './style.css';
 import ComponentAccordion from "./ui/ComponentAccordion";
+import HeadingText from "./ui/HeadingText";
+
 
 export default function Home(){
+
+
     return(
         <>
             <section className="w-screen h-[60.4rem] mt-[-2rem] bg-layout-400 flex flex-col">

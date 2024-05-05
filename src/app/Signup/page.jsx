@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios'; 
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,16 +11,16 @@ import Form from '@/components/Form/Form';
 import { validateForm } from '@/utils/validationForm';
 import 'react-toastify/dist/ReactToastify.css';
 import './page.scss';
-import { resetForm, setIsLoading } from "@/store/userSlice";
+import { resetForm } from "@/store/userSlice";
 import MatteFon from '@/components/MatteFon/MatteFon';
 
-
 export default function SingupPageForm() {
+  const [isLoading, setIsLoading] = useState(false)
   const {theme} = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
-  const email = useSelector(state => state.regUser.email);
-  const password = useSelector(state => state.regUser.password);
+  const email = useSelector(state => state.user.email);
+  const password = useSelector(state => state.user.password);
   const signInH1 = 'Регистрация', signUpButtonText = 'Зарегистрироваться';
 
   const handleSubmit = async (e) => {
@@ -31,7 +32,7 @@ export default function SingupPageForm() {
       return;
     }
 
-    dispatch(setIsLoading(true));
+    setIsLoading(true);
     try {
         const insertUserPromise = toast.promise(
           axios.post('/api/signup', {email, password}),
@@ -65,7 +66,7 @@ export default function SingupPageForm() {
         return;
       }
     } finally {
-      dispatch(setIsLoading(false)); 
+      setIsLoading(false); 
     }
   };
 
@@ -99,7 +100,7 @@ export default function SingupPageForm() {
             />
           ))
         }
-        <Form handleSubmit={handleSubmit} text={signUpButtonText} head={signInH1}/>
+        <Form isLoading={isLoading} handleSubmit={handleSubmit} text={signUpButtonText} head={signInH1}/>
       </section>
       <MatteFon />
     </>

@@ -1,27 +1,28 @@
+import { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Input, Divider, Button} from "@nextui-org/react";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { CiMail } from "react-icons/ci";
-import { FcGoogle } from "react-icons/fc";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { setEmail, setIsVisible, setPassword, setIsLoadingGoogle } from '@/store/userSlice';
+import { setEmail, setIsVisible, setPassword } from '@/store/userSlice';
 import { signIn } from 'next-auth/react';
+import FormButton from '../Button/FormButton';
 
-export default function Form({handleSubmit, text, head}){
+
+export default function Form({handleSubmit, text, head, isLoading}){
     const dispatch = useDispatch();
-    const email = useSelector(state => state.regUser.email);
-    const password = useSelector(state => state.regUser.password);
-    const isLoading = useSelector(state => state.regUser.isLoading);
-    const isVisible = useSelector(state => state.regUser.isVisible);
-    const isLoadingGoogle = useSelector(state => state.regUser.isLoadingGoogle);
+    const [isLoadingGoogle, setIsLoadingGoogle] = useState(false)
+    const email = useSelector(state => state.user.email);
+    const password = useSelector(state => state.user.password);
+    const isVisible = useSelector(state => state.user.isVisible);
  
     const toggleVisibility = () => dispatch(setIsVisible(!isVisible));
     const handleEmail = (value) => dispatch(setEmail(value));
     const handlePassword = (value) => dispatch(setPassword(value));
 
     const handleGoogleSignIn = () => {
-        dispatch(setIsLoadingGoogle(true));
+        setIsLoadingGoogle(true);
         signIn('google');
     };
 
@@ -52,31 +53,14 @@ export default function Form({handleSubmit, text, head}){
                 autoComplete="current-password"
                 placeholder="Enter your password"
                 startContent={<RiLockPasswordLine />}
-                endContent={
+                endContent={(
                     <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                    {isVisible ? <LuEyeOff/> : <LuEye />}
+                        {isVisible ? <LuEyeOff/> : <LuEye />}
                     </button>
-                }
+                )}
                 />
             </div>
-            <Button 
-                className='w-9/12 mt-3 mx-auto' 
-                color="primary" 
-                variant="shadow" 
-                isLoading={isLoading} 
-                type="submit"
-            > 
-                {text} 
-            </Button >
-            <Button 
-                className='w-9/12 mt-3 mx-auto bg-Default' 
-                type="button"
-                startContent={<FcGoogle />}
-                isLoading={isLoadingGoogle} 
-                onClick={handleGoogleSignIn}
-            >
-                Войти с помощью google
-            </Button >
+            <FormButton text={text} isLoading={isLoading} isLoadingGoogle={isLoadingGoogle} handle={handleGoogleSignIn}/>
         </form>
     )
 }

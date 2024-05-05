@@ -9,24 +9,29 @@ import {
         PURGE,
         REGISTER,
      } from 'redux-persist'
-import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-
+import st from './storage';
 import themeReducer from './themeSlice';
-import regUserReducer from './userSlice'
+import userReducer from './userSlice'
 import userProfileReducer from './userProfileSlice';
 import panelReducer from './panelSlice';
+import adminPanelReducer from './adminPanelSlice';
+import courseReducer from './courseSlice';
+import lessonReducer from './lessonSlice';
 
 const rootReducer = combineReducers({
     panel: panelReducer,
     theme: themeReducer,
-    regUser: regUserReducer,
+    user: userReducer,
     userProfile: userProfileReducer,
+    adminPanelInfo:adminPanelReducer,
+    course:courseReducer,
+    lesson:lessonReducer,
 })
 
 const persistConfig = {
     key: 'root',
-    storage,
-    lacklist: ["panel"],
+    storage: st,
+    blacklist: ['panel', 'course'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
