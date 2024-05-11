@@ -6,15 +6,15 @@ import {useSelector} from 'react-redux';
 export default function OnlineUsers(){
     const [value, setValue] = useState(0);
     
-    const onlineUsersCount =  useSelector(state => state.user.isOnlineCount);
-    const countUsers = useSelector(state => state.user.countUsers);
+    const onlineUsersCount =  useSelector(state => state.adminPanelInfo.isOnlineCount);
+    const totalUser = useSelector(state => state.adminPanelInfo.totalUser);
 
     useEffect(() => {
-        if (countUsers > 0) {
-            const percentage = (onlineUsersCount / countUsers) * 100;
+        if (totalUser > 0) {
+            const percentage = (onlineUsersCount / totalUser) * 100;
             setValue(percentage);
         }
-    }, [onlineUsersCount, countUsers]);
+    }, [onlineUsersCount, totalUser]);
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Сейчас онлайн пользователей</h3>

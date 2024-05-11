@@ -1,11 +1,11 @@
 'use client'
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { redirect } from "next/navigation";
+
+import { useDispatch, useSelector } from "react-redux";
 import Home from '@/components/Home/Home';
-import './page.css';
 import SpinnerWithBackdrop from "@/components/Button/Spinner";
 import { setEmail, setId, setUserRole } from "@/store/userSlice";
 import { setUserData } from "@/store/userProfileSlice";
@@ -13,28 +13,44 @@ import { setUserData } from "@/store/userProfileSlice";
 export default function App() {
   const dispatch = useDispatch()
   const { data: session, status } = useSession();
-  useEffect(() => {
-      const fetchData = async () => {
-          try {
-              if(status === 'authenticated') {
-                  const {email} = session.user
-                  const response = await axios.post('/api/getUserData', {email});
-                  if(response.status === 200){
-                      dispatch(setId(response.data.resultUser[0].id));
-                      dispatch(setEmail(response.data.resultUser[0].email));
-                      dispatch(setUserRole(response.data.resultUser[0].id_role));
-                      dispatch(setUserData(response.data.userData[0]));
-                  }
-              }
-          } catch (error) {
-              console.error('Error fetching data:', error);
-          }
-      };
-      fetchData();
-  }, [status, session]);
+  const email = useSelector(state => state.user.email);
 
-  if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
-  if(status === 'unauthenticated'){return redirect('/Signin');}
+  const {isSuccess, data, isLoading} = useQuery({
+    queryKey:['initialUser'],
+    queryFn: async  ({signal}) => {
+      const response = await axios.get('/api/getUserData', {
+        headers:{email: session?.user?.email}, 
+        signal
+      });
+      return response.data;
+    },
+    enabled: status === 'authenticated',
+  })
+
+  useEffect(() => {
+    if (status === 'authenticated' &&  isSuccess && data && data.resultUser && data.resultUser.length > 0) {
+      dispatch(setId(data.resultUser[0].id));
+      dispatch(setEmail(data.resultUser[0].email));
+      dispatch(setUserRole(data.resultUser[0].id_role));
+      dispatch(setUserData(data.userData[0]));
+    }else{
+      return;
+    }
+  }, [status, isSuccess, data]);
+
+  useEffect(()=>{
+    if(email){
+      mutation.mutate({email});
+    }
+  }, [email])
+
+  const mutation = useMutation({
+    mutationFn: async ({email, signal}) => await axios.put('/api/installOnline', {email, logout:false, signal}),
+  });
+
+  if (status === 'loading' || isLoading || mutation.isPending) {
+    return <SpinnerWithBackdrop isLoading={true} />;
+  }
   return ( 
     <>
       <Home/>

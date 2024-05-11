@@ -4,16 +4,18 @@ import { useEffect, useState } from 'react';
 import {Button} from "@nextui-org/react";
 import axios from 'axios';
 import dynamic from 'next/dynamic';
+import { useQuery } from "@tanstack/react-query";
 
 import SideBarComponent from "@/components/AdminComponent/components/SideBarComponent";
 import BreadCrumbsComponent from "@/components/BreadCrumbsComponent/BreadCrumbsComponent";
 import LoadingSkeletonKurs from "@/components/LoadingSkeleton/LoadingSkeletonKurs";
 import LessonComponent from "@/components/LessonComponent/LessonComponent";
-import CourseComponent from "@/components/CoursesComponent.jsx/CourseComponent";
+import CourseComponent from "@/components/CoursesComponent/CourseComponent";
 import { GrUpdate } from "react-icons/gr";
-import { setCourseDescription, setCourseName, setIsClose, setIsSuccessCourse } from "@/store/courseSlice";
+import { setCourseDescription, setCourseName, setIsClose} from "@/store/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsSuccess } from "@/store/lessonSlice";
+import LoadingTableSkeleton from "@/components/LoadingSkeleton/LoadingTableSkeleton";
+
 
 const UpdateCourse = dynamic(() => import('./UpdateCourse'), {
   loading: () => <LoadingSkeletonKurs />,
@@ -26,59 +28,53 @@ const UpdateLesson = dynamic(() => import('./UpdateLesson'), {
 export default function Course() {
   const {id} = useParams();
   const dispatch = useDispatch()
-  const [course, setCourse] = useState(null);
-  const [lessons, setLesson] = useState(null);
-  const isCourseSuccess = useSelector(state => state.course.isSuccess);
-  const isSuccess =useSelector(state => state.lesson.success);
+  const [course, setCourse] = useState([]);
+  const [lessons, setLesson] = useState([]);
+  const currentIdLesson = useSelector(state => state.lesson.currentIdSelectedLesson);
   const showUpdateCourse = useSelector(state => state.course.isClose);
   const showUpdateLesson = useSelector(state => state.lesson.isCloseLesson);
 
+  const {data: dataCourse, isSuccess, isError, isPending} = useQuery({
+    queryKey:['getCourseIdUser', id],
+    queryFn: async ({signal}) => {
+      const response = await axios.get('/api/course?_id='+id, {signal});
+      return response.data;
+    },
+  })
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const response = await axios.get('/api/course?_id='+id);
-        if(response.status === 200){
-          setCourse(response.data.getCourse);
-          dispatch(setCourseName(response.data.getCourse[0].course_name));
-          dispatch(setCourseDescription(response.data.getCourse[0].course_description));
-        }
-      } catch (error) {
-        console.error('Failed to fetch course:', error);
-      }
-    };
-    if (id || isCourseSuccess) {
-      fetchCourse();
-      dispatch(setIsSuccessCourse(false));
-    } 
-  }, [id, isCourseSuccess]);
-
-  useEffect(() => {
-    const getAllLessonOfTheCourse = async () => {
-      try {
-        const response = await axios.get('/api/getAllLessonOfTheCourse?_id='+id);
-        if(response.status === 200){
-          setLesson(response.data.getAllLessonOfTheCourse);
-        }
-      } catch (error) {
-        console.error('Failed to fetch course:', error);
-      }
-    };
-    if (isSuccess || id) {
-      getAllLessonOfTheCourse();
-      dispatch(setIsSuccess(false))
+    if(isSuccess && dataCourse !== undefined ){
+      setCourse(dataCourse.getCourse);
+      dispatch(setCourseName(dataCourse.getCourse[0].course_name));
+      dispatch(setCourseDescription(dataCourse.getCourse[0].course_description));
     }
-  }, [id, isSuccess]);
+  }, [isSuccess, dataCourse]);
+
+  const {data: getLessons, status, error } = useQuery({
+    queryKey:['getLessnonsIdUser', currentIdLesson],
+    queryFn: async ({signal}) => {
+      const response = await axios.get('/api/getAllLessonOfTheCourse?_id='+id, {signal})
+      return response.data.getAllLessonOfTheCourse;
+    }
+  })
+
+  useEffect(() => {
+    if (status === 'success' && getLessons !== undefined) {
+      setLesson(getLessons);
+    }
+  }, [status, getLessons]);
+  
+  if(isPending) return <LoadingSkeletonKurs />
+  if(isError) console.error('Данные о кусре не загружены');
+
+  if(status === 'pending') return <LoadingTableSkeleton />
+  if(status === 'error') console.error('Данные о уроке не загружены', error);
 
   return (
     <section className="flex">
       <SideBarComponent/>
-      {!course
-        ?(
-          <LoadingSkeletonKurs />
-        ):(
-          <section className="flex flex-col container mx-auto mt-10">
-         {!showUpdateCourse && !showUpdateLesson && (
+        <section className="flex flex-col container mx-auto mt-10">
+          {!showUpdateCourse && !showUpdateLesson && (
             <>
               <BreadCrumbsComponent id={id} />
               <CourseComponent course={course} />
@@ -94,11 +90,9 @@ export default function Course() {
             </>
           )}
           {showUpdateCourse && <UpdateCourse id={id} />}
-          {showUpdateLesson && <UpdateLesson id_course={id} />}
+          {showUpdateLesson && <UpdateLesson />}
           {!showUpdateCourse  && !showUpdateLesson && <LessonComponent id={id} lessons={lessons} />}
-          </section>
-        ) 
-      }
+        </section>
     </section>
   );
 }

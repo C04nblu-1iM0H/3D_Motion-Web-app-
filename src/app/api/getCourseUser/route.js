@@ -1,9 +1,8 @@
 import { query } from "../../lib/db";
 
-
-export async function POST(request) {
+export async function GET(request) {
     try {
-        const {user_course_id} = await request.json();
+        const user_course_id = request.headers.get('user_course_id');
 
         const getCoutsesUser = await query({
             query:`SELECT course.id, course.course_name 

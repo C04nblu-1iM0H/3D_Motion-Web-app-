@@ -7,7 +7,6 @@ const courseSlice  = createSlice({
         courseDescription:"",
         loading:false,
         isClose:false,
-        isSuccess:false,
     },
     reducers:{
         setCourseName(state, actions){

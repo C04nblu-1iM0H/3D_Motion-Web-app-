@@ -1,16 +1,39 @@
 'use state'
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from 'react-toastify';
-import UpdateFormComponent from "@/components/CoursesComponent.jsx/UpdateFormComponent";
+import UpdateFormComponent from "@/components/CoursesComponent/UpdateFormComponent";
 import { validateCreateCourseForm } from "@/utils/validationForm";
-import { setCourseDescription, setCourseName, setIsClose, setIsSuccessCourse, setLoading } from "@/store/courseSlice";
+import { setCourseDescription, setCourseName, setIsClose, setLoading } from "@/store/courseSlice";
 
 export default function UpdateCourse({id}){
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const courseName = useSelector(state => state.course.courseName);
     const courseDescription = useSelector(state => state.course.courseDescription);
+
+    const mutation = useMutation({
+        mutationFn: async ({courseName, courseDescription, id}) => {
+            await axios.put('/api/course', {courseName, courseDescription, id});
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['getCourseIdUser', id]})
+            toast.success('Данные успешно загружены 👍');
+            setTimeout(() => {
+                dispatch(setIsClose(false));
+            }, 3000);
+        },
+        onError: (error) => {
+            if(error) toast.error("К сожалению курс не обновлён, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
+        },
+        onSettled: () =>{
+            dispatch(setLoading(false));
+            dispatch(setCourseName(" "));
+            dispatch(setCourseDescription(" "));
+        }
+    })
 
     const handleCreateCourse = async (e) =>{
         e.preventDefault();
@@ -22,30 +45,12 @@ export default function UpdateCourse({id}){
         }
         try {
             dispatch(setLoading(true));
-            const updateCourse = toast.promise(
-                axios.put('/api/course', {courseName, courseDescription, id}),
-                {
-                  pending: "Подождите пожалуйста...",
-                  success: "Данные успешно загружены 👍",
-                  error: "Произошла ошибка, попробуйте ещё раз"
-                }
-            );
-            const response = await updateCourse;
-            if(response.status === 200){
-                dispatch(setIsSuccessCourse(true));
-                setTimeout(() => {
-                    dispatch(setIsClose(false));
-                }, 5000);
-            }
+            mutation.mutateAsync({courseName, courseDescription, id})
         } catch (error) {
-            toast.error('Error add course')
-        }finally{
-            dispatch(setLoading(false));
-            dispatch(setCourseName(''));
-            dispatch(setCourseDescription(''));
+            if(error) toast.error('Error add course')
+        } finally{
+    
         }
     }   
-    return(
-        <UpdateFormComponent handleCreateCourse={handleCreateCourse} />
-    )
+    return <UpdateFormComponent handleCreateCourse={handleCreateCourse} />
 }

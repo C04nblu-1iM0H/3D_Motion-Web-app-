@@ -5,6 +5,7 @@ import {Providers} from "./providers";
 import { AppProvider } from '@/components/AppContext';
 import ReduxProvider from '@/app/ReduxProvider';
 import NextTopLoader from 'nextjs-toploader';
+import ReactQueryProvider from './ReactQueryProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -14,18 +15,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <html>
-        <body className={inter.className}>
-            <ReduxProvider>
-              <Providers>
-                <AppProvider>
-                    <NextTopLoader />
-                    <Header />
-                    {children}
-                </AppProvider>
-              </Providers>
-            </ReduxProvider>
-        </body>
-      </html>
+    <html>
+      <body className={inter.className}>
+        <ReactQueryProvider>
+          <ReduxProvider>
+            <Providers>
+              <AppProvider>
+                <NextTopLoader />
+                <Header />
+                {children}
+              </AppProvider>
+            </Providers>
+          </ReduxProvider>
+        </ReactQueryProvider>
+      </body>
+    </html>
   );
 }

@@ -13,13 +13,8 @@ export async function GET() {
                     ORDER BY user.id ASC`,
         });
 
-        const role = await query({
-            query:`SELECT * FROM role`
-        })
-
         return new Response(JSON.stringify({
             allUsers,
-            role,
             status: 200,
         }));
     } catch (error) {

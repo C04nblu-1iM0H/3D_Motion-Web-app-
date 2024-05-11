@@ -63,7 +63,7 @@ export default function Course(){
                     </Link>
                 </li>
                 <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-600 rounded-xl'>
-                    <Link href="#" >
+                    <Link href="/adminpanel/course/delete_courses" >
                         <figure>
                             <Image
                                 alt="no data"

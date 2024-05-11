@@ -21,11 +21,27 @@ export default function BreadCrumbsComponent({id}) {
             </BreadcrumbItem>
             )}
             { pathname === `/adminpanel/course/update_courses/${id}` && (<BreadcrumbItem  startContent={<PiBooks />}>
-                <Link href="/adminpanel/course/update_courses">Просмотр курсов</Link>
+                <Link href="/adminpanel/course/update_courses">Просмотр курсов для обновления</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/adminpanel/course/update_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
                 <Link href={`/adminpanel/course/update_courses/${id}`}>Обновление курса</Link>
+            </BreadcrumbItem>
+            )}
+            { pathname === `/adminpanel/course/delete_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
+                <Link href={`/adminpanel/course/delete_courses`}>Просмотр курсов для удаления</Link>
+            </BreadcrumbItem>
+            )}
+            { pathname === `/adminpanel/course/delete_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
+                <Link href={`/adminpanel/course/delete_courses/${id}`}>Удаление курса</Link>
+            </BreadcrumbItem>
+            )}
+            { pathname === `/courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
+                <Link href={`/courses`}>Список курсов</Link>
+            </BreadcrumbItem>
+            )}
+            { pathname === `/courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
+                <Link href={`/courses/${id}`}>Курс</Link>
             </BreadcrumbItem>
             )}
         </Breadcrumbs>

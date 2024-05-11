@@ -78,4 +78,29 @@ export async function PUT(request){
     }   
 }
 
+export async function DELETE(request) {
+    try {
+        const body = await request.json();
+        const { id_course } = body;
+        await query({
+            query:`DELETE Teacher, lesson, course
+                   FROM Teacher
+                   LEFT JOIN lesson ON Teacher.id_course = lesson.id_course
+                   LEFT JOIN course ON Teacher.id_course = course.id
+                   WHERE Teacher.id_course = ? `,
+            values:[id_course]
+        })
+        
+        return new Response(JSON.stringify({
+            message:'sucsess',
+            status: 200,
+        }));
 
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return new Response(JSON.stringify({
+            message:'error',
+            status: 500,
+        }));
+    }   
+}

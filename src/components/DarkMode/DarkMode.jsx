@@ -20,6 +20,7 @@ const DarkMode = () => {
                 setTheme(storedTheme);
             }
         }
+        
     }, []);
 
     const toggleDarkMode = () => {
