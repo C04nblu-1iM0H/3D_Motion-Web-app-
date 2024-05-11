@@ -1,30 +1,28 @@
 import { Button } from "@nextui-org/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function DeleteComponent({userid, onSuccess}){
+export default function DeleteComponent({userid}){
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: () => axios.delete('/api/googlecrud', { data: { userid } }),
+        onSuccess: () => {
+            toast.success('Данные успешно удалены');
+            queryClient.invalidateQueries('userData');
+        },
+        onError: (error) => {
+            if(error) toast.error("Failed to delete user");
+        } 
+    })
 
     const handleDeleteClick = async (e) =>{
         e.preventDefault();
-        try {
-            console.log(userid);
-            const deleteUserPromise = toast.promise(
-                axios.delete('/api/googlecrud', { data: { userid } }),
-                {
-                    pending: "Подождите пожалуйста...",
-                    success: "Данные успешно удалены",
-                    error: "Произошла ошибка, попробуйте ещё раз"
-                }
-            );
-        const response = await deleteUserPromise;
-            if(response.status === 200){
-                onSuccess();
-            }
-        } catch (error) {
-            toast.error("Failed to sign up");
-        }
+        mutation.mutate();
     }
     return(
         <>  

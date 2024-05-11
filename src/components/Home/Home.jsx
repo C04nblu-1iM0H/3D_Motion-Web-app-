@@ -1,42 +1,11 @@
 import Image from "next/image";
-
 import './style.css';
 import ComponentAccordion from "./ui/ComponentAccordion";
-import HeadingText from "./ui/HeadingText";
-
-
+import HeaderComponent from "./ui/HeaderComponent";
 export default function Home(){
-
-
     return(
         <>
-            <section className="w-screen h-[60.4rem] mt-[-2rem] bg-layout-400 flex flex-col">
-                <section className="w-full">
-                    <HeadingText />
-                </section>
-                <section className="w-full flex justify-around">
-                    <div className="mt-[-6rem] lg:w-1/2">
-                        <Image
-                            alt="device"
-                            src={'/home/device2.png'}
-                            width={800}
-                            height={800}
-                            quality={100}
-                            priority={true}
-                        />
-                    </div>
-                    <div className="lg:w-1/2">
-                        <Image
-                            alt="device"
-                            className="mr-44 device"
-                            src={'/home/device.png'}
-                            width={800}
-                            height={800}
-                            quality={100}
-                        />
-                    </div>
-                </section>
-            </section>
+            <HeaderComponent />
             <section className="mt-36">
                 <div className="container px-6 py-10 mx-auto">
                     <h1 className="text-2xl mb-20 font-semibold text-center capitalize lg:text-3xl">

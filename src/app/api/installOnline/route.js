@@ -1,9 +1,8 @@
 import { query } from "../../lib/db";
 
-export async function POST(request) {
+export async function PUT(request) {
     try {
         const { email, logout } = await request.json();
-
         if (logout) {
             // Обновляем статус пользователя на оффлайн (id_online = 0) при выходе из системы в обеих таблицах
             await query({
@@ -32,22 +31,8 @@ export async function POST(request) {
                 values: [email],
             });
 
-            // Получаем роль пользователя
-            const [userRoleResult] = await query({
-                query: `SELECT id_role FROM user WHERE email = ? 
-                        UNION 
-                        SELECT id_role FROM userGoogle WHERE emailGoogle = ?`,
-                values: [email, email],
-            });
-            
-            if (!userRoleResult) {
-                throw new Error("User data role not found");
-            }
-
-            const userRole = userRoleResult.id_role;
-
             return new Response(JSON.stringify({
-                userRole,
+                message: "User authorize successfully",
                 status: 200,
             }));
         }

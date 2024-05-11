@@ -12,13 +12,8 @@ export async function GET() {
                     ORDER BY userGoogle.id ASC`,
         });
 
-        const role = await query({
-            query:`SELECT * FROM role`
-        })
-
         return new Response(JSON.stringify({
             allUsersGoogle,
-            role,
             status: 200,
         }));
     } catch (error) {
@@ -30,7 +25,7 @@ export async function GET() {
     }
 }
 
-export async function POST(request) {
+export async function PUT(request) {
     try {
         const {user_id, editEmailGoogle, id} = await request.json();
         await query({

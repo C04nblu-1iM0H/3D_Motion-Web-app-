@@ -32,8 +32,9 @@ export default function UpdateFormComponent({handleCreateCourse}) {
                         label="Название курса" 
                         placeholder="Введите в это поле название курса"
                         labelPlacement="outside"
-                        onValueChange={handleChangeName}
                         value = {currentCourseName}
+                        onValueChange={handleChangeName}
+
                     />
                     <Textarea
                         minRows={2}
@@ -43,8 +44,8 @@ export default function UpdateFormComponent({handleCreateCourse}) {
                         label="Описание курса"
                         labelPlacement="outside"
                         placeholder="Введите описание курса"
-                        onValueChange={handleChangeDescription}
                         value={currentCourseDescription}
+                        onValueChange={handleChangeDescription}
                     />
                     <div className="flex justify-end mt-5">
                     {isLoading ?(
@@ -55,7 +56,7 @@ export default function UpdateFormComponent({handleCreateCourse}) {
 
                     ):(
                         <div className="space-x-3">
-                            <Button color="primary" type="submit">Создать</Button>
+                            <Button color="primary" type="submit">Обновить</Button>
                             <Button color="danger" onClick={()=> dispatch(setIsClose(false))}>Закрыть</Button>
                         </div>
                     )}

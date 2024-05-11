@@ -9,7 +9,6 @@ const lessonSlice  = createSlice({
         lessonMaterials:"",
         loading:false,
         isCloseLesson:false,
-        success:false,
     },
     reducers:{
         setCurrentIdSelectedLesson(state, actions){

@@ -2,47 +2,40 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 
-import ReadComponent from "@/components/CoursesComponent.jsx/ReadComponent";
+import ReadComponent from "@/components/CoursesComponent/ReadComponent";
 import SideBarComponent from "@/components/AdminComponent/components/SideBarComponent";
 import LoadingSkeleton from "@/components/LoadingSkeleton/LoadingSkeleton";
 
-
 export default function Update(){
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(false);
+const [courses, setCourses] = useState([]);
     const user_course_id = useSelector(state => state.user.id);
 
+    const {data, isSuccess, isError, isPending} = useQuery({
+      queryKey:['getCourseUser', user_course_id],
+      queryFn: async ({signal}) => {
+        const response = await axios.get('/api/getCourseUser',{
+          headers:{user_course_id}, 
+          signal
+        });
+        return response.data.getCoutsesUser;
+      },
+    })
+
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          setLoading(true)
-          const response = await axios.post('/api/getCourseUser', {user_course_id});
-            if(response.status === 200){
-              setCourses(response.data.getCoutsesUser);
-            }
-          } catch (error) {
-              console.error('Failed to fetch courses:', error);
-          }finally{
-            setLoading(false);
-          }
-      };
-      fetchData();
-      }, []);
-      
+      if(isSuccess){
+        setCourses(data);
+      }
+    }, [isSuccess, data]);
+    
+    if(isPending) return <LoadingSkeleton />
+    if(isError) console.error('Ошибка в получении курсов пользователя');
+
     return(
       <section className="flex">
         <SideBarComponent/>
-        {loading 
-          ?(
-            <LoadingSkeleton />
-          ):(
-            <>
-                <ReadComponent courses={courses}/>
-            </>
-
-        )}
-
+        <ReadComponent courses={courses}/>
       </section>
         
     )

@@ -12,7 +12,7 @@ const adminPanelSlice  = createSlice({
             state.isOnlineCount = actions.payload;
         },
         setTotalUsers(state, actions){
-            state.countUsers = actions.payload;
+            state.totalUser = actions.payload;
         },
         setTotalCourse(state, actions){
             state.totalCourse = actions.payload;

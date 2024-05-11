@@ -9,8 +9,10 @@ import { toast } from 'react-toastify';
 import { validateForm } from "@/utils/validationForm";
 import GroupButtonModel from "@/components/Button/GroupButtonModel";
 import 'react-toastify/dist/ReactToastify.css';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export default function EditComponent({userid, email, password, user_role, onSuccess}) {
+export default function EditComponent({userid, email, password, user_role}) {
+  const queryClient = useQueryClient();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const [roles, setRole] = useState("");
@@ -20,19 +22,35 @@ export default function EditComponent({userid, email, password, user_role, onSuc
   const [isLoading, setIsLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
+
+  const {data, isSuccess} = useQuery({
+    queryKey:['getAllRoles'],
+    queryFn: ({signal}) => axios.get('/api/getAllRole', {signal})
+  })
+
   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('/api/crud');
-          setRole(response.data.role);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-      fetchData();
-  },[]);
+    if(isSuccess){
+      setRole(data.data.role);
+    }
+  },[isSuccess, data]);
 
   const {name} = roles && roles.find(role => role.id === user_role);
+
+  const mutation  = useMutation({
+    mutationFn: async ({editEmail, editPassword, id, userid}) => {
+      await axios.put('/api/crud', { editEmail, editPassword, id, userid});
+    },
+    onSuccess: () => {
+      toast.success('Данные успешно загружены 👍');
+      queryClient.invalidateQueries('userData');
+    },
+    onError: (error) => {
+      if(error) toast.error('Произошла ошибка, попробуйте ещё раз');
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  })
 
   const handleEmail = (value) => setEditEmail(value);
   const handlePassword = (value) => setEditeditPassword(value);
@@ -51,23 +69,10 @@ export default function EditComponent({userid, email, password, user_role, onSuc
     }
     setIsLoading(true);
     try {
-      const updateUserPromise = toast.promise(
-        axios.put('/api/crud', {userid, editEmail, editPassword, id}),
-        {
-          pending: "Подождите пожалуйста...",
-          success: "Данные успешно загружены 👍",
-          error: "Произошла ошибка, попробуйте ещё раз"
-        }
-      );
-      const response = await updateUserPromise;
-      if(response.status === 200){
-        onSuccess();
-      }
+      await mutation.mutateAsync({editEmail, editPassword, id, userid});
     } catch (error) {
-      toast.error("Failed to sign up");
-    } finally{
-      setIsLoading(false);
-    }
+      toast.error('Failed to update user');
+    } 
   }
 
   return ( 

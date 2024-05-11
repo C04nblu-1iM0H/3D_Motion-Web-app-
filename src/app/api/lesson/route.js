@@ -26,8 +26,6 @@ export async function GET(req){
     }   
 }
 
-
-
 export async function POST(request) {
     try {
         const {lessonName, lessonDescription, lessonMaterials, id} = await request.json();
@@ -59,6 +57,29 @@ export async function PUT(request){
             values: [lessonName, lessonDescription, lessonMaterial,  currentIdLesson],
         });
 
+        return new Response(JSON.stringify({
+            message:'sucsess',
+            status: 200,
+        }));
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return new Response(JSON.stringify({
+            message:'error',
+            status: 500,
+        }));
+    }   
+}
+
+export async function DELETE(request) {
+    try {
+        const body = await request.json();
+        const { lessonId } = body;
+        await query({
+            query:`DELETE FROM lesson WHERE id = ?`,
+            values:[lessonId]
+        })
+        
         return new Response(JSON.stringify({
             message:'sucsess',
             status: 200,
