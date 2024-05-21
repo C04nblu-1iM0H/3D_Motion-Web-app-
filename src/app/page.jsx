@@ -35,7 +35,7 @@ export default function App() {
     }else{
       return;
     }
-  }, [status, isSuccess, data]);
+  }, [status, isSuccess, data, dispatch]);
 
   if (status === 'loading' || isLoading) {
     return <SpinnerWithBackdrop isLoading={true} />;

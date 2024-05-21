@@ -1,5 +1,5 @@
 import { query } from "../../lib/db";
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import { NextResponse } from "next/server";
 
@@ -8,6 +8,7 @@ export const config = {
       bodyParser: false,
     },
 };
+
 
 export async function GET(req) {
     try {
@@ -45,7 +46,7 @@ export async function POST(req) {
         const image = formData.get('file');
 
         const pathSaveImage = path.join(process.cwd(), 'public', 'course_image', image.name);
-        await fs.promises.writeFile(pathSaveImage, Buffer.from(await image.arrayBuffer()));
+        await fs.writeFile(pathSaveImage, Buffer.from(await image.arrayBuffer()));
         const pathSaveBDImage = path.join('course_image', image.name).replace(/\\/g, "/").replace(/^/, '/');
 
         const createCourse = await query({

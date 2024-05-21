@@ -27,7 +27,7 @@ export default function Admin() {
         dispatch(setTotalUsers(data.data.countUsers));
         dispatch(setTotalCourse(data.data.totalCourse[0].id_course));
       }
-    }, [isSuccess, data]);
+    }, [isSuccess, data, dispatch]);
 
     if (isLoading) return <SpinnerWithBackdrop isLoading={true} />;
     if (isError) {
