@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'; 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 
 import SpinnerWithBackdrop from "@/components/Button/Spinner";
 import ProfileFormEnabled from "@/components/Profile/ProfileFormEnabled";
@@ -18,6 +20,9 @@ import { resetForm, setIsLoading, setUserData } from '@/store/userProfileSlice';
 export default function settingProfile(){
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
+
+    const queryClient = useQueryClient();
+    const id_user = useSelector(state => state.user.id);
     const isEdit = useSelector(state => state.userProfile.isEdit);
     const changeName = useSelector(state => state.userProfile.name);
     const changeSurname = useSelector(state => state.userProfile.surname);
@@ -25,29 +30,37 @@ export default function settingProfile(){
     const changeDate = useSelector(state => state.userProfile.date);
     const changePhone = useSelector(state => state.userProfile.phone);
 
-    useEffect(() => {
-        const fetchUserData = async (email) => {
-            try {
-                const response = await axios.post('/api/getUserData', { email });
-                if (response.status === 200) {
-                    dispatch(setUserData(response.data.userData[0]))
-                } else {
-                    toast.error("Failed to fetch user data");
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
 
-        if (status === 'authenticated') {
-            const {email} = session.user;
-            fetchUserData(email); 
+    const {data, isSuccess, isError, isPending} = useQuery({
+        queryKey:['getUserData', id_user],
+        queryFn: async ({signal}) =>{
+            const response = await axios.get('/api/getUserData',{
+                headers:{email},
+                signal,
+            });
+            return response.data.userData[0];
         }
-    }, [status, session]);
+    })
 
-    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
-    if(status === 'unauthenticated'){return redirect('/Signin');}
-    const {name, email, image} = session.user;
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(setUserData(data))
+        }
+    }, [isSuccess, data, dispatch]);
+
+    const mutation = useMutation({
+        mutationFn: async({email, changeName, changeSurname, changeGender, changeDate, changePhone}) => {
+            await axios.put('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone})
+        },
+        onSuccess: ()=>{
+            // dispatch(setUserData(response.data.userData))
+            dispatch(resetForm());
+            queryClient.invalidateQueries({queryKey:['getUserData', id_user]})
+        },
+        onSettled: ()=>{
+            dispatch(setIsLoading(false));
+        }
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -61,37 +74,17 @@ export default function settingProfile(){
 
         dispatch(setIsLoading(true));
         try {
-
-            const savePromise = toast.promise(
-                axios.put('/api/changeProfile', {
-                    email,
-                    changeName,
-                    changeSurname,
-                    changeGender,
-                    changeDate,
-                    changePhone
-                }),
-                {
-                    pending: "Подождите пожалуйста...",
-                    success: "Вы успешно внесли свои данные 👍",
-                    error: "Произошла ошибка, перезапустите страницу и начните заново"
-                }
-            );
-            const response = await savePromise;
-            console.log(response);
-            if (response.status === 200) {
-                dispatch(setUserData(response.data.userData))
-                dispatch(resetForm());
-            }else{
-              toast.error("Failed to data in form");
-            }
+            mutation.mutateAsync({email, changeName, changeSurname, changeGender, changeDate, changePhone});
         } catch (error) {
             console.error(error)
-        }finally {
-            dispatch(setIsLoading(false));
         }
     }
 
+    
+    if(status === 'loading' || isPending){return <SpinnerWithBackdrop isLoading={true}/>;}
+    if(status === 'unauthenticated'){return redirect('/Signin');}
+    const {name, email, image} = session.user;
+    if(isError) console.error('Ошибка в получение данных пользователя');
     return(
         <>
             <ToastContainer/>

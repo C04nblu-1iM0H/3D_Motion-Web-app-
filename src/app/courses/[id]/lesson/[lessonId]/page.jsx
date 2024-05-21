@@ -71,7 +71,7 @@ export default function Lesson() {
             dispatch(setLessonDescription(data.lesson_description));
             dispatch(setLessonMaterials(data.lesson_materials));
         }
-    }, [data, isSuccess])
+    }, [data, isSuccess, dispatch])
 
 
     const handleSuccessLesson = async () =>{
