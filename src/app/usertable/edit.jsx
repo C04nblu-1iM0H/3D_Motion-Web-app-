@@ -6,7 +6,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { toast } from 'react-toastify';
-import { validateForm } from "@/utils/validationForm";
+import { validateEmail, validateForm } from "@/utils/validationForm";
 import GroupButtonModel from "@/components/Button/GroupButtonModel";
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -60,13 +60,22 @@ export default function EditComponent({userid, email, password, user_role}) {
     e.preventDefault();
 
     const {id} = roles && roles.find(role => role.name === editRole) || roles.find(role => role.id === editRole);
-    if(editEmail === email && editPassword === password && id === user_role) return;
 
-    const validationError = validateForm(editEmail, editPassword);
-    if (validationError) {
-      toast.error(validationError);
-      return;
+    if(editEmail === email && editPassword === password && id === user_role) return;
+    if(editPassword === null){
+      const validationError = validateEmail(editEmail);
+      if (validationError) {
+        toast.error(validationError);
+        return;
+      };
+    }else{
+      const validationError = validateForm(editEmail, editPassword);
+      if (validationError) {
+        toast.error(validationError);
+        return;
+      }
     }
+
     setIsLoading(true);
     try {
       await mutation.mutateAsync({editEmail, editPassword, id, userid});
@@ -98,20 +107,23 @@ export default function EditComponent({userid, email, password, user_role}) {
                   variant="bordered"
                   autoComplete="email"
                 />
-                <Input
+                {password && (
+                  <Input
 
-                  label="password"
-                  endContent={
-                    <button className="focus:outline-none pb-2" type="button" onClick={toggleVisibility}>
-                    {isVisible ? <LuEyeOff/> : <LuEye />}
-                    </button>
-                }
-                  type={isVisible ? "text" : "password"}
-                  defaultValue={password.slice(1,20)}
-                  onValueChange={handlePassword}
-                  variant="bordered"
-                  autoComplete="current-password"
-                />
+                    label="password"
+                    endContent={
+                      <button className="focus:outline-none pb-2" type="button" onClick={toggleVisibility}>
+                      {isVisible ? <LuEyeOff/> : <LuEye />}
+                      </button>
+                  }
+                    type={isVisible ? "text" : "password"}
+                    defaultValue={password.slice(1,20)}
+                    onValueChange={handlePassword}
+                    variant="bordered"
+                    autoComplete="current-password"
+                  />
+                )}
+                
                 <Select
                   label="role"
                   defaultSelectedKeys={[name]}

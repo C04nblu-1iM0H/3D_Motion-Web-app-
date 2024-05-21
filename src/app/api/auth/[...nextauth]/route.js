@@ -19,17 +19,22 @@ export const authOptions = {
         username: { label: "Email", type: "email", placeholder: "test@example.com" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials, req) {
-          const {email, password} = credentials;
+      async authorize(credentials) {
+        const {email, password} = credentials;
 
-          const user = await query({
-              query: "SELECT * FROM user WHERE email = ?",
-              values: [email],
-          });
-          const passwordOk = user && bcrypt.compareSync(password, user[0].password);
-          if (passwordOk) {
-            return user[0];
-          }
+        await query({
+          query: `UPDATE user SET id_online = 1 WHERE email = ?`,
+          values: [email],
+        });
+
+        const user = await query({
+          query: "SELECT * FROM user WHERE email = ?",
+          values: [email],
+        });
+        const passwordOk = user && bcrypt.compareSync(password, user[0].password);
+        if (passwordOk) {
+          return user[0];
+        }
         return null;
       }
     })
@@ -41,7 +46,12 @@ export const authOptions = {
         const {usname, surname} = splittingTheName(name);
 
         const existingUser = await query({
-          query: "SELECT * FROM userGoogle WHERE emailGoogle = ?",
+          query: "SELECT * FROM user WHERE email = ?",
+          values: [email],
+        });
+
+        await query({
+          query: `UPDATE user SET id_online = 1 WHERE email = ?`,
           values: [email],
         });
 
@@ -50,11 +60,10 @@ export const authOptions = {
             query: "INSERT INTO user_data (username, surname) VALUES (?,?)",
             values: [usname, surname],
           });
-          //запоминаем id из таблицы user_data
           const idUserData = createUserdata.insertId;
 
           await query({
-            query: "INSERT INTO userGoogle (emailGoogle, id_user_data) VALUES (?, ?)",
+            query: "INSERT INTO user (email, id_user_data) VALUES (?, ?)",
             values: [email, idUserData],
           });
         }
@@ -63,7 +72,11 @@ export const authOptions = {
     },
     async redirect({ baseUrl, req }) {
       const isSigningOut = req && req.query && req.query.signout === 'true';
-      return isSigningOut ? 'http://localhost:3000/Signin' : baseUrl;
+      if(isSigningOut){
+        return 'http://localhost:3000/Signin';
+      }else{
+        return baseUrl;
+      }
     },
   },
 }

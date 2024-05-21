@@ -30,18 +30,31 @@ export async function PUT(request) {
     try {
         const {editEmail, editPassword, id, userid } = await request.json();
 
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword =  bcrypt.hashSync(editPassword, salt);
-        
-        await query({
-            query: "UPDATE user SET email = ?, password = ?, id_role = ?  WHERE id = ?",
-            values: [editEmail, hashedPassword, id, userid],
-        });
+        if(editPassword === null){
+            await query({
+                query: "UPDATE user SET email = ?, id_role = ?  WHERE id = ?",
+                values: [editEmail, id, userid],
+            });
 
-        return new Response(JSON.stringify({
-            message:'sucsess',
-            status: 200,
-        }));
+            return new Response(JSON.stringify({
+                message:'sucsess',
+                status: 200,
+            }));
+        }else{
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword =  bcrypt.hashSync(editPassword, salt);
+            
+            await query({
+                query: "UPDATE user SET email = ?, password = ?, id_role = ?  WHERE id = ?",
+                values: [editEmail, hashedPassword, id, userid],
+            });
+    
+            return new Response(JSON.stringify({
+                message:'sucsess',
+                status: 200,
+            }));
+        }
+
 
     } catch (error) {
         console.error('Error fetching user data:', error);

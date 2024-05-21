@@ -5,31 +5,16 @@ export async function GET() {
         const userCountResult = await query({
             query: "SELECT COUNT(*) AS userCount FROM user WHERE id_online = 1",
         });
-        const userCount = userCountResult ? userCountResult[0].userCount : 0;
-
-        const userGoogleCountResult = await query({
-            query: "SELECT COUNT(*) AS userGoogleCount FROM userGoogle WHERE id_online = 1",
-        });
-        const userGoogleCount = userGoogleCountResult ? userGoogleCountResult[0].userGoogleCount : 0;
-
-        const onlineUsersCount = userCount + userGoogleCount;
+        const onlineUsersCount = userCountResult ? userCountResult[0].userCount : 0;
 
         const userTotalCountResult = await query({
             query: "SELECT COUNT(*) AS userTotalCount FROM user",
         });
-        const userTotalCount = userTotalCountResult ? userTotalCountResult[0].userTotalCount : 0;
-
-        const userGoogleTotalCountResult = await query({
-            query: "SELECT COUNT(*) AS userGoogleTotalCount FROM userGoogle",
-        });
-        const userGoogleTotalCount = userGoogleTotalCountResult ? userGoogleTotalCountResult[0].userGoogleTotalCount : 0;
-
-        const countUsers = userTotalCount + userGoogleTotalCount;
+        const countUsers = userTotalCountResult ? userTotalCountResult[0].userTotalCount : 0;
 
         const totalCourse = await query({
             query:"SELECT COUNT(id) as id_course FROM course",
         })
-
         return new Response(JSON.stringify({
             onlineUsersCount,
             countUsers,

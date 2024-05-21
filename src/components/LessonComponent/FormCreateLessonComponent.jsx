@@ -50,6 +50,7 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
                         id="materialTextarea"
                         minRows={2}
                         maxRows={22}
+                        className="mt-5"
                         variant="bordered"
                         label="Материал урока"
                         labelPlacement="outside"

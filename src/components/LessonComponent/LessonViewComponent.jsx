@@ -35,18 +35,16 @@ export default function LessonViewComponent({id, lessons}) {
                     />
                 </div>
             ) : (
-                <Table aria-label="Example table with custom cells">
+                <Table aria-label="Example table with custom cells" className="w-4/6 mx-auto">
                     <TableHeader>
-                        <TableColumn><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
+                        <TableColumn className="w-3"><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
                         <TableColumn>Название урока</TableColumn>
-                        <TableColumn>Описание урока</TableColumn>
                     </TableHeader>
                     <TableBody isLoading={isLoading}  loadingContent={<Spinner label="Loading..." />}>
                         {lessons.map((lesson, index) => (
                             <TableRow key={lesson.id}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{lesson.lesson_name}</TableCell>
-                                <TableCell>{lesson.lesson_description}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

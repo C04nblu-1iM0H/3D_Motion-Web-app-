@@ -29,9 +29,6 @@ const lessonSlice  = createSlice({
         setIsClose(state, actions){
             state.isCloseLesson = actions.payload;
         },
-        setIsSuccess(state, actions){
-            state.success = actions.payload;
-        },
     }
 });
 
@@ -41,7 +38,6 @@ export const {
     setLessonMaterials, 
     setLoading, 
     setIsClose, 
-    setIsSuccess, 
     setCurrentIdSelectedLesson} = lessonSlice.actions;
 
 export default lessonSlice.reducer;
