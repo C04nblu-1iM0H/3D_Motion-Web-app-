@@ -41,11 +41,10 @@ export default function LessonComponent({id, lessons, handleDelete}) {
                     />
                 </div>
             ) : (
-                <Table aria-label="Example table with custom cells">
+                <Table aria-label="Example table with custom cells" className="w-4/6 mx-auto">
                     <TableHeader>
-                        <TableColumn><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
+                        <TableColumn className="w-3"><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
                         <TableColumn>Название урока</TableColumn>
-                        <TableColumn>Описание урока</TableColumn>
                         <TableColumn>Дейсвтия</TableColumn>
                     </TableHeader>
                     <TableBody isLoading={isLoading}  loadingContent={<Spinner label="Loading..." />}>
@@ -53,10 +52,9 @@ export default function LessonComponent({id, lessons, handleDelete}) {
                             <TableRow key={lesson.id}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{lesson.lesson_name}</TableCell>
-                                <TableCell>{lesson.lesson_description}</TableCell>
                                 <TableCell>
                                     <div className="relative flex items-center justify-center">
-                                        {pathname === `/adminpanel/course/update_courses/${id}` && (
+                                        {pathname === `/setting_course/update_courses/${id}` && (
                                             <Tooltip content="Обновить урок">
                                                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                                     <Button 
@@ -72,7 +70,7 @@ export default function LessonComponent({id, lessons, handleDelete}) {
                                                 </span>
                                             </Tooltip>
                                         )}
-                                        {pathname === `/adminpanel/course/delete_courses/${id}` && (
+                                        {pathname === `/setting_course/delete_courses/${id}` && (
                                             <Tooltip content="Удалить урок">
                                                 <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                                     <Button 

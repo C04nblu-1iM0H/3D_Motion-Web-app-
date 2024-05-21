@@ -15,13 +15,13 @@ export default function Header(){
     const isHome = pathname === '/';
 
     return (
-        <header className={`h-16 flex relative z-10 justify-around items-center bg-${isHome ? 'layout-400 ' : 'layout shadow-lg'}`}>
+        <header className={`h-16 flex relative z-10 justify-around items-center bg-${isHome ? 'black ' : 'layout'}`}>
             <Link href='/' className={`text-3xl font-mono text-${isHome ? 'layout-450' : ''}`}>
                 3D-Motion
             </Link>
             <ul className="flex basis-1/5 justify-around">
                 <li className="list-none cursor-pointer"><Link href="/" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Главная</Link></li>
-                <li className="list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Список курсов</Link></li>
+                <li className="list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Информационные ресурсы</Link></li>
                 <li className="list-none cursor-pointer"><Link href="/testcomponent" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>О нас</Link></li>
             </ul>
             <ul className="flex justify-around items-center">

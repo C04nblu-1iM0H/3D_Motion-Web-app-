@@ -5,10 +5,10 @@ export async function GET(request) {
         const user_course_id = request.headers.get('user_course_id');
 
         const getCoutsesUser = await query({
-            query:`SELECT course.id, course.course_name 
+            query:`SELECT course.id, course.course_name, course_picture
                    FROM course
-                   INNER JOIN Teacher ON course.id = Teacher.id_course
-                   WHERE Teacher.id_user = ?`,
+                   INNER JOIN authore ON course.id = authore.id_course
+                   WHERE authore.id_user = ?`,
             values:[user_course_id]
         })
 

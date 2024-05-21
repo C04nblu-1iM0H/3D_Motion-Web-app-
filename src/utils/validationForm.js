@@ -7,6 +7,12 @@ export const validateForm = (email, password) => {
   return null;
 }
 
+export const validateEmail = (email) =>{
+  if (email.length < 3) return 'Поле Email должно содержать не менее 3 символов ❗';
+  if (!/\S+@\S+\.\S+/.test(email)) return 'Введите корректный email адрес ❗';
+  return null;
+} 
+
 export const validateGoogleForm = (email) => {
   if (email.length < 3) return 'Поле Email должно содержать не менее 3 символов ❗';
   if (!/\S+@\S+\.\S+/.test(email)) return 'Введите корректный email адрес ❗';
@@ -26,4 +32,10 @@ export const validateCreateLessonForm = (lessonName, lessonDescription, lessonMa
   if(lessonName.length >= 60 ) return 'Слишком большее название урока, попробуйте уложиться в 60 символов  ❗';
   if(lessonDescription.length < 20 || lessonDescription === '') return 'Рекомендуем увеличить размер описания урока для более полного и информативного описания ❗';
   if(lessonMaterial.length < 30 || lessonMaterial === '') return 'Рекомендуем увеличить размер материала для расскрытия тему этого урока ❗';
+}
+
+
+export const validateSendMessage = (message) =>{
+  if(message.length <= 10) return 'Отзыв слишком короткий, постарайтесь написать больше.'
+  if(message.length >= 100) return 'Отзыв слишком длинный, постарайтесь уложится в 100 символов.'
 }

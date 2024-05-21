@@ -1,7 +1,8 @@
 import {ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import Image from "next/image";
 
-export default function ViewNoDataUser({onClose}){
+export default function ViewNoDataUser({onClose, authore}){
+    console.log(authore);
     return(
         <>
             <ModalHeader className="flex flex-col gap-1">Пользователь решил остаться ананимом</ModalHeader>

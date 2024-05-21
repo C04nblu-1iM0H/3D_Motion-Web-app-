@@ -31,7 +31,7 @@ export default function DropDownMenuComponent({username, email, role, handleClic
                 {role === 1 ?
                     <DropdownSection showDivider>  
                         <DropdownItem 
-                        key="profile" 
+                        key="admin" 
                         href="/adminpanel"
                         startContent={<TfiPanel  className="w-4 h-4" />}
                         > 

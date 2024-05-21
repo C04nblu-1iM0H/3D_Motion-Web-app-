@@ -17,6 +17,7 @@ import panelReducer from './panelSlice';
 import adminPanelReducer from './adminPanelSlice';
 import courseReducer from './courseSlice';
 import lessonReducer from './lessonSlice';
+import authoreReducer from './authoreSlice';
 
 const rootReducer = combineReducers({
     panel: panelReducer,
@@ -26,12 +27,13 @@ const rootReducer = combineReducers({
     adminPanelInfo:adminPanelReducer,
     course:courseReducer,
     lesson:lessonReducer,
+    authore:authoreReducer
 })
 
 const persistConfig = {
     key: 'root',
     storage: st,
-    blacklist: ['panel', 'course', 'lesson'],
+    blacklist: ['panel', 'course', 'lesson', 'authore'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

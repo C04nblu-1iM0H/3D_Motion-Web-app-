@@ -4,7 +4,6 @@ import {useSelector} from 'react-redux';
 
 export default function TotalUsers(){
     const totalUser = useSelector(state => state.adminPanelInfo.totalUser);
-
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Всего пользователей</h3>
@@ -15,7 +14,7 @@ export default function TotalUsers(){
                         aria-label="Loading..."
                         size="md"
                         value={totalUser}
-                        color={totalUser <= 100 ? 'danger' : value <= 1000 ? 'warning' : 'success'}
+                        color={totalUser <= 100 ? 'danger' : totalUser <= 1000 ? 'warning' : 'success'}
                         label={totalUser}
                         showValueLabel={true}
                     />

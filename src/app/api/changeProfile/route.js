@@ -9,9 +9,8 @@ export async function PUT(request) {
             query: `SELECT user_data.*
                     FROM user_data
                     LEFT JOIN user ON user.id_user_data = user_data.id
-                    LEFT JOIN userGoogle ON userGoogle.id_user_data = user_data.id
-                    WHERE user.email = ? OR userGoogle.emailGoogle = ?`,
-            values: [email, email],
+                    WHERE user.email = ?`,
+            values: [email],
         });
         //получаем id_user_data у пользователя по email
         const idUserData = existingUserData.id;

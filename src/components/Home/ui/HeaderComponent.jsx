@@ -1,11 +1,12 @@
 import Image from "next/image";
 import HeadingText from "./HeadingText";
-import BackgroundBeams from "./BackgroundBeams";
 
 export default function HeaderComponent() {
     return(
         <>
-            <section className="w-screen h-[60.4rem] mt-[-2rem] bg-layout-400 flex flex-col">
+            <div className="h-svh w-full bg-black bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center">
+                <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+                <section className="w-screen h-[60.4rem] mt-[-2rem] flex flex-col">
                     <section className="w-full">
                         <HeadingText />
                     </section>
@@ -33,8 +34,8 @@ export default function HeaderComponent() {
                             />
                         </div>
                     </section>
-                    <BackgroundBeams /> 
-            </section>       
+                </section>       
+            </div>
         </>
     );
 }

@@ -5,8 +5,6 @@ import Link from 'next/link'
 import { usePathname } from "next/navigation";
 
 import { PiBooks } from "react-icons/pi";
-import { IoIosHeartEmpty, IoMdHeart  } from "react-icons/io";
-import { IoBookmarksOutline, IoBookmarks  } from "react-icons/io5";
 
 export default function ReadComponent({courses}) {
     const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -20,12 +18,12 @@ export default function ReadComponent({courses}) {
                 </div>
             </div>  
             <section className='grid grid-cols-4 md:grid-cols-2  lg:grid-cols-4'>
-                {courses.map( ({id, course_name}) => (
+                {courses.map( ({id, course_name, course_picture}) => (
                     <div 
                         key={id}
                         className="w-96 h-96">
-                        <Link 
-                            href={`${pathname}/${id}`}
+                        <div 
+                           
                             className='relative'
                             onMouseEnter={() => setHoveredIndex(id)}
                             onMouseLeave={() => setHoveredIndex(null)}
@@ -33,7 +31,7 @@ export default function ReadComponent({courses}) {
                             <AnimatePresence>
                                 {hoveredIndex === id && (
                                     <motion.span
-                                        className="absolute -z-10 h-96 w-96 bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                                        className="absolute -z-10 h-96 w-96 bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
                                         layoutId="hoverBackground"
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -41,23 +39,21 @@ export default function ReadComponent({courses}) {
                                     />
                                 )}
                             </AnimatePresence>
-                            <figure className='flex flex-col w-full h-full p-4 overflow-hidden relative z-20 mx-auto'>
-                                <Image 
-                                    alt="img_cours"
-                                    className="border-b-2 border-solid border-zinc-600"
-                                    src={'/course_page/Motion1.png'}
-                                    width={320}
-                                    height={300}
-                                    quality={100}
-                                    loading="lazy"
-                                />
-                                <div className='w-80 bg-layout h-auto flex flex-col justify-between rounded-b-lg'>
-                                    <div className='flex mt-2 justify-between'>
+                            <figure className='flex flex-col w-full h-full p-5 overflow-hidden relative z-20 mx-auto'>
+                                <Link href={`${pathname}/${id}`}>
+                                    <div className="relative w-full h-64">
+                                            <Image
+                                                alt="img_course"
+                                                src={course_picture}
+                                                layout="fill"
+                                                objectFit="contain"
+                                                className="rounded-lg"
+                                            />
+                                    </div>
+                                </Link>
+                                <div className='w-full bg-layout h-auto flex flex-col justify-between rounded-b-lg border-t-2 border-solid border-zinc-600'>
+                                    <div className="my-4">
                                         <h3 className='px-6'>{course_name}</h3>
-                                        <div className='flex gap-x-4 pr-4'>
-                                            <IoIosHeartEmpty className='w-5 h-5'/>
-                                            <IoBookmarksOutline className='w-5 h-5'/>
-                                        </div>
                                     </div>
                                     <figcaption className='flex flex-col justify-end pb-1'>
                                         <div className='flex justify-between px-3 border-t-2 border-solid border-zinc-600'>
@@ -67,7 +63,7 @@ export default function ReadComponent({courses}) {
                                     </figcaption>
                                 </div>
                             </figure>
-                        </Link>
+                        </div>
                     </div>
                 ))}
             </section>
