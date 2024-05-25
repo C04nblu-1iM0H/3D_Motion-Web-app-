@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { toast } from 'react-toastify';
 import { validateCreateLessonForm } from "@/utils/validationForm";
-import { setIsClose, setLessonDescription, setLessonMaterials, setLessonName, setLoading } from "@/store/lessonSlice";
+import { resetFormLesson, setIsClose, setLessonDescription, setLessonMaterials, setLessonName, setLoading } from "@/store/lessonSlice";
 import LoadingFormSkeleton from "@/components/LoadingSkeleton/LoadingFormSkeleton";
 import FormUpdateLessonComponent from "@/components/LessonComponent/FormUpdateLessonComponent";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -35,16 +35,14 @@ export default function UpdateLesson() {
             toast.success('Данные успешно загружены 👍');
             setTimeout(() => {
                 dispatch(setIsClose(false));
-            }, 5000);
+            }, 1000);
         },
         onError: (error) => {
             if(error) toast.error("К сожалению урок не обновлён, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
         },
         onSettled: () =>{
             dispatch(setLoading(false));
-            dispatch(setLessonName(" "));
-            dispatch(setLessonDescription(" "));
-            dispatch(setLessonMaterials(" "));
+            dispatch(resetFormLesson());
         }
     })
     
@@ -54,7 +52,7 @@ export default function UpdateLesson() {
             dispatch(setLessonDescription(getCurrentLesson.lesson_description));
             dispatch(setLessonMaterials(getCurrentLesson.lesson_materials));
         }
-    }, [isSuccess, getCurrentLesson]);
+    }, [isSuccess, getCurrentLesson, dispatch]);
       
     if(isPending) return <LoadingFormSkeleton />
     if(isError) console.error('Данные о уроке не загружены');

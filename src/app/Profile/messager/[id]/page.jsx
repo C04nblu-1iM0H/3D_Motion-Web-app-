@@ -21,16 +21,14 @@ export default function Message(){
     const {data, isSuccess, isError, isPending} = useQuery({
         queryKey:['getChatMessage', id],
         queryFn: async ({signal}) => {
-            const response = await axios.get('/api/message', {
-                headers:{id},
-                signal
-            });
+            const response = await axios.get(`/api/message?id=${id}`, {signal});
             return response.data.getChatMessage
         },
     });
 
     useEffect(()=>{
         if(isSuccess){
+            console.log(data);
             setMessages(data);
         }
     },[isSuccess, data])
@@ -55,7 +53,7 @@ export default function Message(){
         }
         mutation.mutateAsync({sendMessage, id_user, id});
     }
-
+    if(isError) console.error('Не могу вывести сообщение');
     if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
     if(status === 'unauthenticated'){return redirect('/Signin');}
     const {name, email, image} = session.user;

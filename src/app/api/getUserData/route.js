@@ -1,9 +1,9 @@
 import { query } from "../../lib/db";
 
-export async function GET(request){
+export async function GET(req){
+    const url = new URL(req.url);
+    const email = url.searchParams.get('email');
     try {
-        const email = request.headers.get('email');
-
         const userData = await query({
             query: `SELECT user_data.*
                     FROM user_data

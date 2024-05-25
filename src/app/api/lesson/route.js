@@ -1,11 +1,10 @@
 import { query } from "@/app/lib/db";
 
-
 export async function GET(req){
+    const url = new URL(req.url);
+    const currentIdLesson = url.searchParams.get('_id');
     try {
-        const url = new URL(req.url);
-        const currentIdLesson = url.searchParams.get('_id');
-        
+    
         const getCurrentLesson = await query({
             query:`SELECT * FROM lesson WHERE id = ?`,
             values:[currentIdLesson],

@@ -1,9 +1,9 @@
 import { query } from "@/app/lib/db";
 
-export async function GET(request){
+export async function GET(req){
+        const { searchParams } = new URL(req.url);
+        const id_course = searchParams.get('id');
     try {
-        const id_course = request.headers.get('id');
-
         const getAllFeedback = await query({
             query:`SELECT f.id, f.feedback_text, u.email, u.id AS id_user
                    FROM feedback AS f

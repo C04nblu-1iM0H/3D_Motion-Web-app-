@@ -9,6 +9,9 @@ import { IoCreateOutline } from "react-icons/io5";
 export default function FormCreateLessonComponent({handleCreateCourse}){
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.lesson.loading);
+    const name = useSelector(state => state.lesson.lessonName);
+    const description = useSelector(state => state.lesson.lessonDescription);
+    const materials = useSelector(state => state.lesson.lessonMaterials);
 
     const handleChangeName = (value) => dispatch(setLessonName(value));
     const handleChangeDescription = (value) => dispatch(setLessonDescription(value));
@@ -34,6 +37,7 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
                         placeholder="Введите название урока"
                         labelPlacement="outside"
                         onValueChange={handleChangeName}
+                        value={name}
                     />
                     <Textarea
                         minRows={2}
@@ -44,6 +48,7 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
                         labelPlacement="outside"
                         placeholder="Введите описание урока"
                         onValueChange={handleChangeDescription}
+                        value={description}
 
                     />
                     <Textarea
@@ -56,6 +61,7 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
                         labelPlacement="outside"
                         placeholder="Введите материал урока"
                         onValueChange={handleChangeMaterial}
+                        value={materials}
                     />
                     <div className="flex justify-end mt-5">
                     {

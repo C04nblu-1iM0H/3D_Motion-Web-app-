@@ -21,7 +21,7 @@ const DarkMode = () => {
             }
         }
         
-    }, []);
+    }, [dispatch, setTheme]);
 
     const toggleDarkMode = () => {
         const newDarkMode = theme === 'dark' ? 'light' : 'dark';

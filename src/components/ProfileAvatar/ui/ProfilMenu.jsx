@@ -63,7 +63,7 @@ export default function ProfilMenu() {
                         href="/Profile/subscribe"
                     >
                         <HiOutlineBookOpen className="w-5 h-5"/>
-                        Мои курсы
+                        Мои ресурсы
                     </Link>
                 </li>
                 <li>
@@ -73,7 +73,7 @@ export default function ProfilMenu() {
                             href='/setting_course' 
                         >
                             <VscSourceControl className="w-5 h-5"/>
-                            Управление курсами
+                            Управление ресурсами
                         </Link>
                     )}
  

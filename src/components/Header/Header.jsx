@@ -22,7 +22,6 @@ export default function Header(){
             <ul className="flex basis-1/5 justify-around">
                 <li className="list-none cursor-pointer"><Link href="/" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Главная</Link></li>
                 <li className="list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Информационные ресурсы</Link></li>
-                <li className="list-none cursor-pointer"><Link href="/testcomponent" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>О нас</Link></li>
             </ul>
             <ul className="flex justify-around items-center">
                 {

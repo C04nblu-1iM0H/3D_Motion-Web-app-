@@ -15,43 +15,43 @@ export default function BreadCrumbsComponent({id, lessonId}) {
              pathname === `/setting_course/update_courses/${id}`||
              pathname === `/setting_course/delete_courses/${id}` ? (
                 <BreadcrumbItem startContent={<VscSourceControl />}>
-                    <Link href="/setting_course">Управление курсами</Link>
+                    <Link href="/setting_course">Управление ресурсами</Link>
                 </BreadcrumbItem>
             ):(null)}
 
             { pathname === `/setting_course/view_courses/${id}` && (<BreadcrumbItem  startContent={<PiBooks />}>
-                <Link href="/setting_course/view_courses">Просмотр курсов</Link>
+                <Link href="/setting_course/view_courses">Просмотр ресуров</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/view_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                <Link href={`/setting_course/view_courses/${id}`}>Курс</Link>
+                <Link href={`/setting_course/view_courses/${id}`}>информационный ресур</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/update_courses/${id}` && (<BreadcrumbItem  startContent={<PiBooks />}>
-                <Link href="/setting_course/update_courses">Просмотр курсов для обновления</Link>
+                <Link href="/setting_course/update_courses">Просмотр ресуров для обновления</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/update_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                <Link href={`/setting_course/update_courses/${id}`}>Обновление курса</Link>
+                <Link href={`/setting_course/update_courses/${id}`}>Обновление ресурса</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/delete_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                <Link href={`/setting_course/delete_courses`}>Просмотр курсов для удаления</Link>
+                <Link href={`/setting_course/delete_courses`}>Просмотр ресуров для удаления</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/delete_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                <Link href={`/setting_course/delete_courses/${id}`}>Удаление курса</Link>
+                <Link href={`/setting_course/delete_courses/${id}`}>Удаление ресурса</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/courses/${id}` || pathname === `/courses/${id}/lesson/${lessonId}` ? (
                 <BreadcrumbItem startContent={<CiBoxList />}>
-                    <Link href={`/courses`}>Список курсов</Link>
+                    <Link href={`/courses`}>Список ресуров</Link>
                 </BreadcrumbItem>
             ):( null)}
             { pathname === `/courses/${id}` || 
               pathname === `/courses/${id}/lesson/${lessonId}` ? (
                 <BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                    <Link href={`/courses/${id}`}>Курс</Link>
+                    <Link href={`/courses/${id}`}>информационный ресурс</Link>
                 </BreadcrumbItem>
             ):(null)}
             { pathname === `/courses/${id}/lesson/${lessonId}` && (<BreadcrumbItem startContent={<MdOutlinePlayLesson />}>

@@ -22,12 +22,7 @@ export default function Favorite(){
     const {data, isSuccess, isPending, isError, error } = useQuery({
         queryKey: ['getCoursesFavorite'],
         queryFn: async ({signal})=>{
-          const response = await axios.get('/api/getAllCourseFavorite', 
-          {
-            headers:{id_user}, 
-            signal
-          }
-        );
+          const response = await axios.get(`/api/getAllCourseFavorite?id_user=${id_user}`,{signal});
           return response.data.getAllCourseFavorite;
         }
       });

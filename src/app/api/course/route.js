@@ -3,18 +3,11 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { NextResponse } from "next/server";
 
-export const config = {
-    api: {
-      bodyParser: false,
-    },
-};
-
-
 export async function GET(req) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('_id');
+    const userId = url.searchParams.get('userId');
     try {
-        const url = new URL(req.url);
-        const id = url.searchParams.get('_id');
-        const userId = url.searchParams.get('userId');
         const getCourse = await query({
             query:`SELECT course.*, subscribe.id AS id_subscribe
                    FROM subscribe
@@ -93,16 +86,11 @@ export async function PUT(request){
 }
 
 export async function DELETE(request) {
+    const body = await request.json();
+    const { id_course } = body;
     try {
-        const body = await request.json();
-        const { id_course } = body;
         await query({
-            query:`DELETE authore, lesson, course, user_progress
-                   FROM authore
-                   LEFT JOIN lesson ON authore.id_course = lesson.id_course
-                   LEFT JOIN course ON authore.id_course = course.id
-                   LEFT JOIN user_progress ON authore.id_user = user_progress.user_id
-                   WHERE authore.id_course = ? `,
+            query:`DELETE FROM course WHERE id = ?;`,
             values:[id_course]
         })
         

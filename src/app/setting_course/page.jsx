@@ -35,7 +35,7 @@ export default function Course(){
                             />
                         </figure>
                         <figcaption className='my-8'>
-                            <h2 className='text-xl text-center mx-auto'>Создание курса</h2>
+                            <h2 className='text-xl text-center mx-auto'>Создание ресурса</h2>
                         </figcaption>
                     </Link>
                 </li>
@@ -53,7 +53,7 @@ export default function Course(){
                             />
                         </figure>
                         <figcaption className='my-8'>
-                            <h2 className='text-xl text-center mx-auto'>Просмотр курса</h2>
+                            <h2 className='text-xl text-center mx-auto'>Просмотр ресурса</h2>
                         </figcaption>
                     </Link>
                 </li>
@@ -71,7 +71,7 @@ export default function Course(){
                             />
                         </figure>
                         <figcaption className='my-8'>
-                            <h2 className='text-xl text-center mx-auto'>Обновление курса</h2>
+                            <h2 className='text-xl text-center mx-auto'>Обновление ресурса</h2>
                         </figcaption>
                     </Link>
                 </li>
@@ -89,7 +89,7 @@ export default function Course(){
                             />
                         </figure>
                         <figcaption className='my-8'>
-                            <h2 className='text-xl text-center mx-auto'>Удаление курса</h2>
+                            <h2 className='text-xl text-center mx-auto'>Удаление ресурса</h2>
                         </figcaption>
                     </Link>
                 </li>

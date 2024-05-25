@@ -23,7 +23,7 @@ export default function UpdateCourse({id}){
             toast.success('Данные успешно загружены 👍');
             setTimeout(() => {
                 dispatch(setIsClose(false));
-            }, 3000);
+            }, 1000);
         },
         onError: (error) => {
             if(error) toast.error("К сожалению курс не обновлён, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")

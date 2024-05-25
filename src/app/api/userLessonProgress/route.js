@@ -1,13 +1,10 @@
 import { query } from "@/app/lib/db";
 
 export async function GET(req){
+    const url = new URL(req.url);
+    const currentIdLesson = url.searchParams.get('lessonId');
+    const currentUserId = url.searchParams.get('userid');
     try {
-        const url = new URL(req.url);
-        const currentIdLesson = url.searchParams.get('lessonId');
-        const currentUserId = url.searchParams.get('userid');
-        console.log(currentUserId);
-
-        
         const getPassedLesson = await query({
             query:`SELECT passed FROM user_progress 
             WHERE lesson_id = ? AND  user_id = ?`,

@@ -20,12 +20,7 @@ export default function Subscribe(){
     const {data, isSuccess, isPending, isError, error } = useQuery({
         queryKey: ['getCoursesSubscribe'],
         queryFn: async ({signal})=>{
-          const response = await axios.get('/api/getAllCourseSubscribe', 
-          {
-            headers:{id_user}, 
-            signal
-          }
-        );
+          const response = await axios.get(`/api/getAllCourseSubscribe?id_user=${id_user}`, {signal});
           return response.data.getAllCourseSubscribe;
         }
       });

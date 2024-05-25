@@ -19,7 +19,6 @@ export default function ViewCourseComponent({courses,
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const pathname = usePathname();
     const session = useSession();
-    console.log(session);
     return(
         <div className="container mx-auto">
             <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">
@@ -50,15 +49,17 @@ export default function ViewCourseComponent({courses,
                                     />
                                 )}
                             </AnimatePresence>
-                            <figure className='flex flex-col w-full h-full p-5 overflow-hidden relative z-20 mx-auto'>
+                            <figure className='flex flex-col w-full h-full px-4 py-8 overflow-hidden relative z-20 mx-auto'>
                                 <Link href={`${pathname}/${id}`}>
                                     <div className="relative w-full h-64">
                                             <Image
                                                 alt="img_course"
                                                 src={course_picture}
-                                                layout="fill"
-                                                objectFit="contain"
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                style={{ objectFit: 'contain' }}
                                                 className="rounded-lg"
+                                                priority={1}
                                             />
                                     </div>
                                 </Link>
