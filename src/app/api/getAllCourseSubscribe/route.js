@@ -1,10 +1,9 @@
 import { query } from "@/app/lib/db";
 
-export async function GET(request){
+export async function GET(req){
+        const { searchParams } = new URL(req.url);
+        const id_user = searchParams.get('id_user');
     try {
-
-        const id_user = request.headers.get('id_user');
-
         const getAllCourseSubscribe = await query({
             query:`SELECT course.*, 
             favorite.id AS id_favorite, favorite.id_user, favorite.id_course,  

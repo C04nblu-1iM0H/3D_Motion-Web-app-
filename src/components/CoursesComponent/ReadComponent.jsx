@@ -14,11 +14,11 @@ export default function ReadComponent({courses}) {
             <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">
                 <div className="flex items-center justify-center">
                     <PiBooks className="w-6 h-6"/>
-                    <h1 className="p-2 text-xl">Курсы</h1>
+                    <h1 className="p-2 text-xl">Информационные ресурсы</h1>
                 </div>
             </div>  
             <section className='grid grid-cols-4 md:grid-cols-2  lg:grid-cols-4'>
-                {courses.map( ({id, course_name, course_picture}) => (
+                {courses.map( ({id, course_name, course_picture}, index) => (
                     <div 
                         key={id}
                         className="w-96 h-96">
@@ -45,9 +45,11 @@ export default function ReadComponent({courses}) {
                                             <Image
                                                 alt="img_course"
                                                 src={course_picture}
-                                                layout="fill"
-                                                objectFit="contain"
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                style={{ objectFit: 'contain' }}
                                                 className="rounded-lg"
+                                                priority={1}
                                             />
                                     </div>
                                 </Link>

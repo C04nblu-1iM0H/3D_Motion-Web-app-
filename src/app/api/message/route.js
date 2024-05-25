@@ -1,8 +1,10 @@
 import { query } from "../../lib/db";
 
-export async function GET(request) {
+export async function GET(req) {
+    const { searchParams } = new URL(req.url);
+    const id_chat = searchParams.get('id');
+    console.log(id_chat);
     try {
-        const id_chat = request.headers.get('id');
         const getChatMessage = await query({
             query: `SELECT message.*, user_data.username, user_data.surname
                     FROM message

@@ -29,6 +29,11 @@ const lessonSlice  = createSlice({
         setIsClose(state, actions){
             state.isCloseLesson = actions.payload;
         },
+        resetFormLesson: (state) => {
+            state.lessonName = '';
+            state.lessonDescription = '';
+            state.lessonMaterials = '';
+        },
     }
 });
 
@@ -38,6 +43,7 @@ export const {
     setLessonMaterials, 
     setLoading, 
     setIsClose, 
-    setCurrentIdSelectedLesson} = lessonSlice.actions;
+    setCurrentIdSelectedLesson,
+    resetFormLesson} = lessonSlice.actions;
 
 export default lessonSlice.reducer;

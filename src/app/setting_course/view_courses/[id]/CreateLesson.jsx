@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import { validateCreateLessonForm } from "@/utils/validationForm";
 import FormCreateLessonComponent from "@/components/LessonComponent/FormCreateLessonComponent";
-import { setIsClose, setLessonDescription, setLessonMaterials, setLessonName, setLoading } from "@/store/lessonSlice";
+import { resetFormLesson, setIsClose, setLessonDescription, setLessonMaterials, setLessonName, setLoading } from "@/store/lessonSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
@@ -26,16 +26,14 @@ export default function CreateLesson({id}){
             queryClient.invalidateQueries({queryKey: ['getLessnonsIdUser', id]});
             setTimeout(() => {
                 dispatch(setIsClose(false));
-            }, 3000);
+            }, 1000);
         },
         onError: (error) => {
             if(error) toast.error("К сожалению урок не загружен, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
         },
         onSettled: () =>{
+            dispatch(resetFormLesson());
             dispatch(setLoading(false));
-            dispatch(setLessonName(''));
-            dispatch(setLessonDescription(''));
-            dispatch(setLessonMaterials(''));
         }
     })
 

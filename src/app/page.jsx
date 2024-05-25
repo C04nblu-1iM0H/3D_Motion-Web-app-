@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Home from '@/components/Home/Home';
 import SpinnerWithBackdrop from "@/components/Button/Spinner";
 import { setEmail, setId, setUserRole } from "@/store/userSlice";
@@ -17,22 +17,18 @@ export default function App() {
   const {isSuccess, data, isLoading} = useQuery({
     queryKey:['initialUser'],
     queryFn: async ({signal}) => {
-      const response = await axios.get('/api/getUserData', {
-        headers:{email: session?.user?.email}, 
-        signal
-      });
+      const response = await axios.get(`/api/getUserData?email=${encodeURIComponent(session?.user?.email)}`, {signal});
       return response.data;
     },
-    enabled: status === 'authenticated',
+    enabled: !!session?.user?.email 
   })
-  console.log(data);
   useEffect(() => {
-    if (status === 'authenticated' &&  isSuccess) {
+    if (status === 'authenticated' && isSuccess && data?.user?.length > 0 && data?.userData?.length > 0) {
       dispatch(setId(data.user[0].id));
       dispatch(setEmail(data.user[0].email));
       dispatch(setUserRole(data.user[0].id_role));
       dispatch(setUserData(data.userData[0]));
-    }else{
+    } else {
       return;
     }
   }, [status, isSuccess, data, dispatch]);

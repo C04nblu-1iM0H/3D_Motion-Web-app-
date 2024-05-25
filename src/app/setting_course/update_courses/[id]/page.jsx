@@ -56,7 +56,7 @@ export default function Course() {
       dispatch(setCourseName(dataCourse.course_name));
       dispatch(setCourseDescription(dataCourse.course_description));
     }
-  }, [isSuccess, dataCourse]);
+  }, [isSuccess, dataCourse, dispatch]);
 
   useEffect(() => {
     if (status === 'success' && getLessons !== undefined) {

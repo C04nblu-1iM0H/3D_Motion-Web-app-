@@ -61,12 +61,14 @@ export default function Course(){
       <CourseComponent course={course} />
       {session.status !== 'unauthenticated' &&(<Authore />)}  
         { session.status === 'unauthenticated' ?(
-          ''
+          <section className="w-1/2 bg-layout mx-auto p-5 mt-16 text-center rounded-lg">
+            <h1>Зарегистрируйтесь, чтобы получить доступ к информации 📝</h1>
+          </section>
         ): id_subscribe !== null ?(
           <OpenLessonsComponent lessons={getLessons} />
         ):(
           <section className="w-1/2 bg-layout mx-auto p-5 mt-16 text-center rounded-lg">
-            <h1>Вы не подписаны на курс, пожалуйста подпишитесь чтобы начать изучение</h1>
+            <h1>Вы не подписаны на ресурс, пожалуйста подпишитесь чтобы начать изучение</h1>
           </section>
         )}
       <Feedback />

@@ -17,7 +17,7 @@ export default function SideBarComponent(){
     }, 30000);
     const {name, email, image} = session.user;
     return(
-        <div className="w-[260px] h-[52.5rem] bg-layout border-gray-200 mt-[-1rem]">
+        <div className="w-[270px] h-dvh bg-layout border-gray-200">
             <SideBarImage  name={name} email={email} image={image}/>
             <Menu/>
         </div>

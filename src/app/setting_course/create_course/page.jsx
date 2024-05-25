@@ -7,10 +7,12 @@ import {  toast } from 'react-toastify';
 import { validateCreateCourseForm } from "@/utils/validationForm";
 import CreateCourseComponent from "@/components/CoursesComponent/CreateCourseComponent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function Create() {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
+    const router = useRouter()
     
     const id_user = useSelector(state => state.user.id);
     const courseName = useSelector(state => state.course.courseName);
@@ -27,6 +29,7 @@ export default function Create() {
         onSuccess: () => {
             toast.success('Данные успешно загружены 👍');
             queryClient.invalidateQueries({queryKey: ['getCourseIdUser', user_course_id]});
+            router.push('/setting_course')
         },
         onError: (error) => {
             if(error) toast.error("К сожалению курс не загружен, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
@@ -53,9 +56,6 @@ export default function Create() {
             formData.append('courseDescription', courseDescription);
             formData.append('id_user', id_user);
             formData.append('file', file);
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
             mutation.mutate(formData);
         } catch (error) {
             toast.error('Error add course')

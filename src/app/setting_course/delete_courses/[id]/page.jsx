@@ -44,21 +44,17 @@ export default function Course() {
     }
   })
 
-
   const mutation = useMutation({
     mutationFn: async ({lessonId}) => {
         await axios.delete('/api/lesson', { data: { lessonId } });
     },
     onSuccess: () => {
-        toast.success('Данные успешно загружены 👍');
         queryClient.invalidateQueries('getLessnonsIdUser');
+        dispatch(setLoading(false));
     },
     onError: (error) => {
         if(error) toast.error("К сожалению урок не  удалён, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
     },
-    onSettled: () =>{
-        dispatch(setLoading(false));
-    }
   })
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 'use client'
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'; 
@@ -17,11 +17,11 @@ import validationProfileForm from '@/utils/validationProfileForm';
 import 'react-toastify/dist/ReactToastify.css';
 import { resetForm, setIsLoading, setUserData } from '@/store/userProfileSlice';
 
-export default function settingProfile(){
-    const dispatch = useDispatch();
+export default function SettingProfile(){
     const { data: session, status } = useSession();
-
+    const router = useRouter();
     const queryClient = useQueryClient();
+    const dispatch = useDispatch();
     const id_user = useSelector(state => state.user.id);
     const isEdit = useSelector(state => state.userProfile.isEdit);
     const changeName = useSelector(state => state.userProfile.name);
@@ -30,20 +30,24 @@ export default function settingProfile(){
     const changeDate = useSelector(state => state.userProfile.date);
     const changePhone = useSelector(state => state.userProfile.phone);
 
+    useEffect(() => {
+        if (status === 'unauthenticated') {
+            router.push('/Signin');
+        }
+    }, [status, router]);
+
+    const email = session?.user?.email;
 
     const {data, isSuccess, isError, isPending} = useQuery({
         queryKey:['getUserData', id_user],
         queryFn: async ({signal}) =>{
-            const response = await axios.get('/api/getUserData',{
-                headers:{email},
-                signal,
-            });
+            const response = await axios.get(`/api/getUserData?email=${email}`,{signal});
             return response.data.userData[0];
         }
     })
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && data) {
             dispatch(setUserData(data))
         }
     }, [isSuccess, data, dispatch]);
@@ -53,13 +57,10 @@ export default function settingProfile(){
             await axios.put('/api/changeProfile', {email, changeName, changeSurname, changeGender, changeDate, changePhone})
         },
         onSuccess: ()=>{
-            // dispatch(setUserData(response.data.userData))
-            dispatch(resetForm());
             queryClient.invalidateQueries({queryKey:['getUserData', id_user]})
-        },
-        onSettled: ()=>{
+            dispatch(resetForm());
             dispatch(setIsLoading(false));
-        }
+        },
     })
 
     const handleSubmit = async (e) => {
@@ -83,7 +84,7 @@ export default function settingProfile(){
     
     if(status === 'loading' || isPending){return <SpinnerWithBackdrop isLoading={true}/>;}
     if(status === 'unauthenticated'){return redirect('/Signin');}
-    const {name, email, image} = session.user;
+    const {name, image} = session.user;
     if(isError) console.error('Ошибка в получение данных пользователя');
     return(
         <>

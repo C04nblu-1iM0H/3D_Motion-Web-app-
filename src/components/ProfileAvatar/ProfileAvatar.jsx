@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import ProfilImage from "./ui/ProfilImage";
 import ProfilMenu from "./ui/ProfilMenu";
 import SpinnerWithBackdrop from "../Button/Spinner";
+import { redirect } from "next/navigation";
 
 export default function ProfileAvatar() {
     const { data: session, status } = useSession();
@@ -10,7 +11,7 @@ export default function ProfileAvatar() {
     if(status === 'unauthenticated'){return redirect('/Signin');}
     const {name, email, image} = session.user;
     return(
-        <div className="w-[260px] bg-layout border-gray-200 h-[calc(100vh-4rem)]">
+        <div className="w-[270px] bg-layout border-gray-200 h-[calc(100vh-4rem)]">
             <ProfilImage image={image} sassionName={name} email={email}/>
             <ProfilMenu />
         </div>   

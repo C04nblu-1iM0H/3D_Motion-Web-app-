@@ -15,11 +15,8 @@ const [courses, setCourses] = useState([]);
     const {data, isSuccess, isError, isPending} = useQuery({
       queryKey:['getCourseUser', user_course_id],
       queryFn: async ({signal}) => {
-        const response = await axios.get('/api/getCourseUser',{
-          headers:{user_course_id}, 
-          signal
-        });
-        return response.data.getCoutsesUser;
+        const response = await axios.get(`/api/getCourseUser?user_course_id=${user_course_id}`,{signal});
+        return response.data.getCourseCurrentUser;
       },
     })
 

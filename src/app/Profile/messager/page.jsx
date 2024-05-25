@@ -19,17 +19,13 @@ export default function Messager(){
     const {data, isSuccess, isError, isPending} = useQuery({
         queryKey:['getMessages'],
         queryFn:async ({signal})=> {
-            const response = await axios.get('/api/chat',{
-                headers:{id_user}, 
-                signal
-            });
+            const response = await axios.get(`/api/chat?id_user=${id_user}`,{signal});
             return response.data.getAllChat;
         }
     });
 
     useEffect(()=>{
         if(isSuccess){
-            console.log(data);
             setChats(data)
         }
     },[isSuccess, data])

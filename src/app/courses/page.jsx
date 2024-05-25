@@ -15,18 +15,13 @@ export default function Сourses(){
   const {data, isSuccess, isPending, isError, error } = useQuery({
     queryKey: ['getCourses'],
     queryFn: async ({signal})=>{
-      const response = await axios.get('/api/getAllCourse', 
-      {
-        headers:{id_user}, 
-        signal
-      }
-    );
+      const response = await axios.get(`/api/getAllCourse?id_user=${id_user}`, {signal});
       return response.data.getAllCourse;
-    }
+    },
+    enabled: !!id_user
   });
-
   useEffect(() => {
-    if(isSuccess){
+    if(isSuccess && data !== undefined){
       setCourses(data);
     }
   }, [isSuccess, data]);

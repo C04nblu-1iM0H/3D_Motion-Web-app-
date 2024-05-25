@@ -88,7 +88,7 @@ export default function Menu() {
                         className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-zinc-150 ${routeCourse ? 'bg-neutral-700' : ''}`} 
                     >
                         <VscSourceControl />
-                        Управление курсами
+                        Управление ресурсами
                     </Link>
                 </li>
             </ul>

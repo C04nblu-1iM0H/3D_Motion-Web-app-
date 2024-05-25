@@ -20,12 +20,7 @@ export default function Feedback(){
     const {data, isSuccess, isError, isPending} = useQuery({
         queryKey:['getFeedbackMessage'],
         queryFn: async ({signal}) => {
-            const response = await axios.get('/api/feedbackCourse',
-                {
-                    headers:{id}, 
-                    signal
-                }
-            );
+            const response = await axios.get(`/api/feedbackCourse?id=${id}`,{signal});
             return response.data.getAllFeedback;
             
         }

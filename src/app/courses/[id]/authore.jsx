@@ -18,10 +18,7 @@ export default function  Authore() {
     const {data, isSuccess, isError, isPending, error} = useQuery({
         queryKey:['getAuthoreCourse'],
         queryFn: async ({signal})=>{
-            const response = await axios.get('/api/getAuthoreCourse', {
-                headers:{id},
-                signal
-            })
+            const response = await axios.get(`/api/getAuthoreCourse?id=${id}`, {signal});
             return response.data.getAuthoreCourse[0];
         }
     })
@@ -38,13 +35,13 @@ export default function  Authore() {
             return response.data;
         },
         onSuccess: async(data) => {
-            setIsLoading(true);
             router.push(`/Profile/messager/${data.chatId}`);
             setIsLoading(false);
         }
     });
 
     const startChat = (id_authore) =>{
+        setIsLoading(true);
         mutation.mutate({id_user, id_authore});
     }
 
