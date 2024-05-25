@@ -3,7 +3,9 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import {Providers} from "./providers";
 import { AppProvider } from '@/components/AppContext';
-
+import ReduxProvider from '@/app/ReduxProvider';
+import NextTopLoader from 'nextjs-toploader';
+import ReactQueryProvider from './ReactQueryProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -13,21 +15,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html>
       <body className={inter.className}>
-        <Providers>
-          <AppProvider>
-            <Header />
-            {children}
-            <div className="blurry-background">
-              <div className="shapes">
-                  <div className="shape"></div>
-                  <div className="shape"></div>
-                  <div className="shape"></div>
-              </div>
-            </div>
-          </AppProvider>
-        </Providers>
+        <ReactQueryProvider>
+          <ReduxProvider>
+            <Providers>
+              <AppProvider>
+                <NextTopLoader />
+                <Header />
+                {children}
+              </AppProvider>
+            </Providers>
+          </ReduxProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

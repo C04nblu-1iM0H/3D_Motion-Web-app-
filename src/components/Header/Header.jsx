@@ -1,42 +1,35 @@
 'use client'
-import { Provider } from "react-redux";
+import { usePathname } from 'next/navigation'
 import { useSession } from "next-auth/react";
-import store from '../../store';
-import Image from "next/image";
 import Link from 'next/link'
 
 import DarkMode from "../DarkMode/DarkMode";
-import MenuAccount from "./ui/MenuAccount";
+import MenuAccount from "../../app/MenuAccount";
 import EntryMenu from "./ui/EntryMenu";
-import './header.scss';
 
 
 export default function Header(){
-    const session = useSession();
-    console.log(session);
-    const isAuthenticated = session.status === 'authenticated'
+    const { data: session, status } = useSession();
+    const pathname = usePathname()
+    const isAuthenticated = status === 'authenticated'
+    const isHome = pathname === '/';
+
     return (
-        <header className="bg-white">
-            <Link href='/'>
-                <Image
-                    className='logo'
-                    src="/logo.png"
-                    alt="Logo"
-                    width={169}
-                    height={57}
-                    priority
-                /> 
+        <header className={`h-16 flex relative z-10 justify-around items-center bg-${isHome ? 'black ' : 'layout'}`}>
+            <Link href='/' className={`text-3xl font-mono text-${isHome ? 'layout-450' : ''}`}>
+                3D-Motion
             </Link>
-            <ul className="lenta">
-                <li><Link href="/" className="link">Главная</Link></li>
-                <li><Link href="#" className="link">Список курсов</Link></li>
-                <li><Link href="#" className="link">О нас</Link></li>
+            <ul className="flex basis-1/5 justify-around">
+                <li className="list-none cursor-pointer"><Link href="/" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Главная</Link></li>
+                <li className="list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Информационные ресурсы</Link></li>
             </ul>
-            <ul className="Auth">
-                {!isAuthenticated? <EntryMenu /> : <MenuAccount data={session}/>}
-                <Provider store={store}>
-                    <DarkMode/>
-                </Provider>
+            <ul className="flex justify-around items-center">
+                {
+                    !isAuthenticated
+                        ? <EntryMenu isHome={isHome}/> 
+                        : <MenuAccount username={session.user.name} email={session.user.email} />
+                }
+                <DarkMode/>
             </ul>
         </header>
     );

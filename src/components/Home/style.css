@@ -1,0 +1,26 @@
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.device{
+    animation: smoothness 4s infinite;
+}
+
+@keyframes smoothness {
+    from {
+      animation-timing-function: ease-in;
+      transform: translateY(0%);
+    }
+    50%{
+        animation-timing-function: ease-in;
+        transform: translateY(-5%)
+    }
+    to {
+      animation-timing-function: ease-in;
+      transform: translateY(0%);
+    }
+}

@@ -1,4 +1,5 @@
 'use client'
+import {useTheme} from "next-themes";
 import {useSelector, useDispatch} from 'react-redux';
 import React, {useEffect } from 'react';
 
@@ -7,32 +8,29 @@ import Image from "next/image";
 import "./DarkMode.css";
 
 const DarkMode = () => {
+    const { theme, setTheme } = useTheme();
     const mode = useSelector(state => state.theme.theme);
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedTheme = localStorage.getItem("selectedTheme");
-            dispatch(setToggleMode(storedTheme === "dark"))
+            dispatch(setToggleMode(storedTheme === "dark"));
+            if (storedTheme) {
+                setTheme(storedTheme);
+            }
         }
-    }, []);
+        
+    }, [dispatch, setTheme]);
 
     const toggleDarkMode = () => {
-        const newDarkMode = !mode;
-        dispatch(setToggleMode(newDarkMode))
+        const newDarkMode = theme === 'dark' ? 'light' : 'dark';
+        dispatch(setToggleMode(newDarkMode === 'dark'));
         if (typeof window !== 'undefined') {
-            localStorage.setItem("selectedTheme", newDarkMode ? "dark" : "light");
+            localStorage.setItem("selectedTheme", newDarkMode);
+            setTheme(newDarkMode);
         }
     };
-
-    useEffect(() => {
-        if (mode) {
-            document.body.setAttribute('data-theme', 'dark');
-        } else {
-            document.body.setAttribute('data-theme', 'light');
-        }
-    }, [mode]);
 
 
     return (
@@ -47,7 +45,7 @@ const DarkMode = () => {
             <label className='dark_mode_label' htmlFor='darkmode-toggle'>
             <Image
                 className=' svg svg_sun'
-                src="/Sun.svg"
+                src="/theme/Sun.svg"
                 alt="Sun Logo"
                 width={20}
                 height={20}
@@ -55,7 +53,7 @@ const DarkMode = () => {
             />
             <Image
                 className=' svg svg_moon'
-                src="/Moon.svg"
+                src="/theme/Moon.svg"
                 alt="Next.js Logo"
                 width={20}
                 height={20}
