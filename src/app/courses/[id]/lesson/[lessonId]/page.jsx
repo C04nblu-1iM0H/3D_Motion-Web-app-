@@ -1,11 +1,13 @@
 'use client'
+import React from 'react';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import {Button, Chip} from "@nextui-org/react";
+import 'react-quill/dist/quill.snow.css';
+
 
 import { toast, ToastContainer } from 'react-toastify';
-import LoadingSkeletonKurs from "@/components/LoadingSkeleton/LoadingSkeletonKurs";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLessonDescription, setLessonMaterials, setLessonName } from "@/store/lessonSlice";
@@ -83,14 +85,17 @@ export default function Lesson() {
         }
     } 
 
-    if(isPending){
+    if(isPending || status === 'pending'){
         return <LoadingSkeletonLesson />
     }
-    if(status === 'pending'){
-        return <LoadingSkeletonLesson />
-    }
-
+    
     isError ? <span>Error: ошибка в отображении курса</span>: null;
+
+    const CourseContentDisplay = ({ content }) => {
+        return (
+            <div className="quill-content" dangerouslySetInnerHTML={{ __html: content }} />
+        );
+    };
     return(
         <section className="w-full flex flex-col items-center">
             <ToastContainer />
@@ -102,12 +107,12 @@ export default function Lesson() {
                     <div>
                         <h1 className="font-bold text-2xl">{lessonName}</h1>
                     </div>
-                    <div className="px-20 py-10">
-                        <p>{lessonDescription}</p>
+                    <div className="px-20 py-10 ql-editor">
+                        {lessonDescription && <CourseContentDisplay content={lessonDescription} />}
                     </div>
 
-                    <div className="px-20 pb-20">
-                        <p>{lessonMaterials}</p>
+                    <div className="px-20 pb-20 ql-editor">
+                        {lessonMaterials && <CourseContentDisplay content={lessonMaterials} />}
                     </div>
                 </div>
             </div>

@@ -37,8 +37,8 @@ export default function EditComponent({userid, email, password, user_role}) {
   const {name} = roles && roles.find(role => role.id === user_role);
 
   const mutation  = useMutation({
-    mutationFn: async ({editEmail, editPassword, id, userid}) => {
-      await axios.put('/api/crud', { editEmail, editPassword, id, userid});
+    mutationFn: async (updateData) => {
+      await axios.put('/api/crud', updateData);
     },
     onSuccess: () => {
       toast.success('Данные успешно загружены 👍');
@@ -58,27 +58,36 @@ export default function EditComponent({userid, email, password, user_role}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    let updateData = { userid };
     const {id} = roles && roles.find(role => role.name === editRole) || roles.find(role => role.id === editRole);
 
     if(editEmail === email && editPassword === password && id === user_role) return;
-    if(editPassword === null){
+    if(editEmail === email && editPassword === null){
       const validationError = validateEmail(editEmail);
       if (validationError) {
         toast.error(validationError);
         return;
       };
-    }else{
+      updateData.editEmail = editEmail;
+    }
+    if(editEmail === email && editPassword === password){
       const validationError = validateForm(editEmail, editPassword);
       if (validationError) {
         toast.error(validationError);
         return;
       }
+      updateData.editEmail = editEmail;
+      updateData.editPassword = editPassword;
     }
 
+    if(id !== user_role){
+      updateData.id = id;
+    }
+    console.log(updateData);
     setIsLoading(true);
     try {
-      await mutation.mutateAsync({editEmail, editPassword, id, userid});
+
+      await mutation.mutateAsync(updateData);
     } catch (error) {
       toast.error('Failed to update user');
     } 

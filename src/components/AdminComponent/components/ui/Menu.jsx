@@ -37,8 +37,8 @@ export default function Menu() {
 
     return(
         <nav className="p-6 w-full flex flex-col flex-wrap border-b border-dashed border-zinc-600">
-            <ul className="space-y-1.5">
-                <li>
+            <ul className="space-y-1.5 list-none">
+                <li className="ml-0">
                     <Link 
                         href='/adminpanel' 
                         className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-zinc-150 ${ pathname === '/adminpanel' ? 'bg-neutral-700' : ''}`} 
@@ -49,7 +49,7 @@ export default function Menu() {
                     </Link>
                 </li>
 
-                <li>
+                <li className="ml-0">
                     <a className="flex justify-between items-center gap-x-3.5 py-2 px-2.5  text-sm  rounded-lg hover:bg-zinc-150" onClick={toggleAccordionUser}>
                         <span className="flex items-center">
                             <GrUserSettings className="mr-2" />
@@ -60,8 +60,8 @@ export default function Menu() {
                         </span>
 
                     </a>
-                    <ul className={`pl-5 duration-700 ease-in-out ${isOpen ? 'h-20 opacity-100' : 'h-0 opacity-0 overflow-hidden'}`}>
-                        <li>
+                    <ul className={`list-none pl-5 duration-700 ease-in-out ${isOpen ? 'h-20 opacity-100' : 'h-0 opacity-0 overflow-hidden'}`}>
+                        <li className="ml-0">
                             <Link 
                                 href='/adminpanel' 
                                 className={`flex items-center cursor-pointer gap-x-3.5 py-2 px-2.5 text-sm rounded-md hover:bg-zinc-150 ${pathname === '/adminpanel' && selectedPanel === 'usertable' ? 'bg-neutral-700' : ''}`} 
@@ -82,7 +82,7 @@ export default function Menu() {
                         </li> */}
                     </ul>
                 </li>
-                <li>
+                <li className="ml-0">
                     <Link 
                         href='/setting_course' 
                         className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-zinc-150 ${routeCourse ? 'bg-neutral-700' : ''}`} 

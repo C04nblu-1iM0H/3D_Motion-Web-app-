@@ -8,8 +8,11 @@ import { ToastContainer } from 'react-toastify';
 import { IoCreateOutline } from "react-icons/io5";
 import { GrDownload } from "react-icons/gr";
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
+import FormatTextComponent from "./FormatTextComponent";
 
 export default function CreateCourseComponent({handleCreateCourse}){
+    const role = useSelector(state => state.user.role);
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.course.loading);
     const [file, setFile] = useState(null);
@@ -24,10 +27,10 @@ export default function CreateCourseComponent({handleCreateCourse}){
 
     return(
         <section className="flex">
-            <SideBarComponent />
+            {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
             <section className="container">
                 <ToastContainer />
-                <div className="w-1/2 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+                <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
                     <div className="bg-layout w-1/3 mx-auto text-center my-5">
                         <div className="flex items-center justify-center">
                                 <IoCreateOutline className="w-6 h-6"/>
@@ -45,7 +48,7 @@ export default function CreateCourseComponent({handleCreateCourse}){
                             labelPlacement="outside"
                             onValueChange={handleChangeName}
                         />
-                        <Textarea
+                        {/* <Textarea
                             minRows={2}
                             maxRows={22}
                             className="mt-5"
@@ -54,7 +57,8 @@ export default function CreateCourseComponent({handleCreateCourse}){
                             labelPlacement="outside"
                             placeholder="Введите описание курса"
                             onValueChange={handleChangeDescription}
-                        />
+                        /> */}
+                        <FormatTextComponent handleChangeDescription={handleChangeDescription}/>
                         <div className="flex justify-end items-center mt-5">
                             <div className="mr-3">
                                 <label className=" flex items-center border-2 border-solid border-green-700 rounded-xl p-2 cursor-pointer hover:bg-success-200 transition duration-200 ease-in-out">

@@ -14,6 +14,7 @@ import { setIsClose } from "@/store/lessonSlice";
 import { useQuery } from "@tanstack/react-query";
 import LessonViewComponent from "@/components/LessonComponent/LessonViewComponent";
 import LoadingTableLessonsSkeleton from "@/components/LoadingSkeleton/LoadingTableLessonsSkeleton";
+import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 
 const CreateLesson = dynamic(() => import('./CreateLesson'), {
   loading: () => <LoadingSkeletonKurs />,
@@ -22,6 +23,7 @@ const CreateLesson = dynamic(() => import('./CreateLesson'), {
 export default function Course() {
   const {id} = useParams();
   const dispatch = useDispatch();
+  const role = useSelector(state => state.user.role);
   const [course, setCourse] = useState([]);
   const [lesson, setLesson] = useState([]);
   const showCreateLesson = useSelector(state => state.lesson.isCloseLesson);
@@ -64,7 +66,7 @@ export default function Course() {
 
   return (
     <section className="flex">
-      <SideBarComponent/>
+      {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
       <section className="flex flex-col container mx-auto mt-10">
         {!showCreateLesson && (
           <>

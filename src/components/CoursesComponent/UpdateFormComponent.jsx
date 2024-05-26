@@ -1,9 +1,10 @@
 import { setCourseDescription, setCourseName, setIsClose } from "@/store/courseSlice";
-import {Input, Textarea, Button} from "@nextui-org/react";
+import {Input, Button} from "@nextui-org/react";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UpdateFormatTextComponent from "./UpdateFormatTextComponent";
 
 export default function UpdateFormComponent({handleCreateCourse}) {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function UpdateFormComponent({handleCreateCourse}) {
     return(
         <section className="container">
             <ToastContainer />
-            <div className="w-1/2 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+            <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
                 <div className="bg-layout w-1/3 mx-auto text-center my-5">
                     <div className="flex items-center justify-center">
                             <GrDocumentUpdate className="w-6 h-6"/>
@@ -36,16 +37,9 @@ export default function UpdateFormComponent({handleCreateCourse}) {
                         onValueChange={handleChangeName}
 
                     />
-                    <Textarea
-                        minRows={2}
-                        maxRows={22}
-                        className="mt-5"
-                        variant="bordered"
-                        label="Описание курса"
-                        labelPlacement="outside"
-                        placeholder="Введите описание курса"
-                        value={currentCourseDescription}
-                        onValueChange={handleChangeDescription}
+                    <UpdateFormatTextComponent 
+                        handleChangeDescription={handleChangeDescription}
+                        currentCourseDescription={currentCourseDescription}
                     />
                     <div className="flex justify-end mt-5">
                     {isLoading ?(

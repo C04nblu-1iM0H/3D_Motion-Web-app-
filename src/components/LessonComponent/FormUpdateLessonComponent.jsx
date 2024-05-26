@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import {Input, Textarea, Button} from "@nextui-org/react";
+import {Input, Button} from "@nextui-org/react";
 import { ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { setIsClose, setLessonDescription, setLessonMaterials, setLessonName } from "@/store/lessonSlice";
 import { IoCreateOutline } from "react-icons/io5";
+import FormatTextForUpdateComponent from "./FormatTextForLessonComponent";
 
 export default function FormUpdateLessonComponent({handleCreateCourse}){
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default function FormUpdateLessonComponent({handleCreateCourse}){
     return(
         <section className="container">
             <ToastContainer />
-            <div className="w-1/2 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+            <div className="w-11/12 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-2 border-2 border-solid border-zinc-600 rounded-xl">
                 <div className="bg-layout w-1/3 mx-auto text-center my-5">
                     <div className="flex items-center justify-center">
                             <IoCreateOutline className="w-6 h-6"/>
@@ -39,41 +40,24 @@ export default function FormUpdateLessonComponent({handleCreateCourse}){
                         labelPlacement="outside"
                         onValueChange={handleChangeName}
                     />
-                    <Textarea
-                        minRows={2}
-                        maxRows={22}
-                        value={lessonDescriptions}
-                        className="mt-5"
-                        variant="bordered"
-                        label="Описание урока"
-                        labelPlacement="outside"
-                        placeholder="Введите описание урока"
-                        onValueChange={handleChangeDescription}
-
-                    />
-                    <Textarea
-                        id="materialTextarea"
-                        minRows={2}
-                        maxRows={22}
-                        variant="bordered"
-                        label="Материал урока"
-                        labelPlacement="outside"
-                        placeholder="Введите материал урока"
-                        onValueChange={handleChangeMaterial}
-                        value={lessonMaterials}
+                    <FormatTextForUpdateComponent 
+                        descriptions= { lessonDescriptions }
+                        handleDescription = { handleChangeDescription }
+                        materials = { lessonMaterials }
+                        handleMaterial = { handleChangeMaterial }
                     />
                     <div className="flex justify-end mt-5">
                     {
                         isLoading 
                         ?(
                             <div>
-                                <Button color="primary" isLoading={isLoading}>Создать</Button>
+                                <Button color="primary" isLoading={isLoading}>Обновить</Button>
                                 <Button color="danger"  isLoading={isLoading}>Закрыть</Button>
                             </div>
 
                         ):(
                             <div className="space-x-3">
-                                <Button color="primary" type="submit">Создать</Button>
+                                <Button color="primary" type="submit">Обновить</Button>
                                 <Button color="danger"  onClick={()=>dispatch(setIsClose(false))}>Закрыть</Button>
                             </div>
                         )

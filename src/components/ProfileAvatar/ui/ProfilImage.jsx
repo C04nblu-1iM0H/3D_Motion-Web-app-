@@ -15,7 +15,7 @@ export default function ProfilImage({image, sassionName, email}) {
                 <Card 
                     isFooterBlurred
                     radius="lg"
-                    className="mt-4 border-none w-52 items-center">
+                    className="mt-4 border-none items-center w-52">
                     {!image
                         ? <FaUserCircle 
                             alt="avatar"
@@ -23,7 +23,7 @@ export default function ProfilImage({image, sassionName, email}) {
                         />
                         : <Image
                             alt="avatar"
-                            className="object-cover"
+                            className="object-cover rounded-lg w-full h-auto"
                             src={image}
                             width={170}
                             height={170}
