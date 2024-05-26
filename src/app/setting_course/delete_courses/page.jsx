@@ -7,12 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import ReadComponent from "@/components/CoursesComponent/ReadComponent";
 import SideBarComponent from "@/components/AdminComponent/components/SideBarComponent";
 import LoadingSkeleton from "@/components/LoadingSkeleton/LoadingSkeleton";
+import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 
 
 
 export default function Delete(){
   const [courses, setCourses] = useState([]);
   const user_course_id = useSelector(state => state.user.id);
+  const role = useSelector(state => state.user.role);
 
   const {data, isSuccess, isError, isPending} = useQuery({
     queryKey:['getCourseUser', user_course_id],
@@ -33,7 +35,7 @@ export default function Delete(){
 
   return(
     <section className="flex">
-      <SideBarComponent/>
+      {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
       <ReadComponent courses={courses}/>
     </section>
   )

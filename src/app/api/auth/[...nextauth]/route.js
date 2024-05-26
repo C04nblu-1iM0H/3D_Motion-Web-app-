@@ -22,20 +22,28 @@ export const authOptions = {
       async authorize(credentials) {
         const {email, password} = credentials;
 
+        const userResult = await query({
+          query: "SELECT * FROM user WHERE email = ?",
+          values: [email],
+        });
+
+        if (!userResult || userResult.length === 0) {
+          throw new Error('Такого пользователя не существует');
+        }
+
+        const user = userResult[0];
+        const passwordOk = user && bcrypt.compareSync(password, user.password);
+
+        if (!passwordOk) {
+          throw new Error('Неверный пароль');
+        }
+
         await query({
           query: `UPDATE user SET id_online = 1 WHERE email = ?`,
           values: [email],
         });
 
-        const user = await query({
-          query: "SELECT * FROM user WHERE email = ?",
-          values: [email],
-        });
-        const passwordOk = user && bcrypt.compareSync(password, user[0].password);
-        if (passwordOk) {
-          return user[0];
-        }
-        return null;
+        return user;
       }
     })
   ],
@@ -78,6 +86,10 @@ export const authOptions = {
         return baseUrl;
       }
     },
+    pages: {
+      signIn: '/auth/signin',
+      error: null 
+    }
   },
 }
 

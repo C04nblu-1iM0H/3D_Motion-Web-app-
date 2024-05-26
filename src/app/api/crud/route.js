@@ -28,9 +28,20 @@ export async function GET() {
 
 export async function PUT(request) {
     try {
-        const {editEmail, editPassword, id, userid } = await request.json();
-
-        if(editPassword === null){
+        const updateData = await request.json();
+        const {editEmail, editPassword, id, userid}  = updateData
+        
+        if(editEmail === undefined && editPassword === undefined){
+            await query({
+                query: "UPDATE user SET id_role = ?  WHERE id = ?",
+                values: [id, userid],
+            });
+            return new Response(JSON.stringify({
+                message:'sucsess',
+                status: 200,
+            }));
+        }
+        if(editPassword === undefined){
             await query({
                 query: "UPDATE user SET email = ?, id_role = ?  WHERE id = ?",
                 values: [editEmail, id, userid],
@@ -54,8 +65,6 @@ export async function PUT(request) {
                 status: 200,
             }));
         }
-
-
     } catch (error) {
         console.error('Error fetching user data:', error);
         return new Response(JSON.stringify({

@@ -15,6 +15,7 @@ import { GrUpdate } from "react-icons/gr";
 import { setCourseDescription, setCourseName, setIsClose} from "@/store/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingTableSkeleton from "@/components/LoadingSkeleton/LoadingTableSkeleton";
+import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 
 
 const UpdateCourse = dynamic(() => import('./UpdateCourse'), {
@@ -28,6 +29,7 @@ const UpdateLesson = dynamic(() => import('./UpdateLesson'), {
 export default function Course() {
   const {id} = useParams();
   const dispatch = useDispatch()
+  const role = useSelector(state => state.user.role);
   const [course, setCourse] = useState([]);
   const [lessons, setLesson] = useState([]);
   const currentIdLesson = useSelector(state => state.lesson.currentIdSelectedLesson);
@@ -70,10 +72,9 @@ export default function Course() {
   if(status === 'pending') return <LoadingTableSkeleton />
   if(status === 'error') console.error('Данные о уроке не загружены', error);
 
-  console.log(course);
   return (
     <section className="flex">
-      <SideBarComponent/>
+      {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
         <section className="flex flex-col container mx-auto mt-10">
           {!showUpdateCourse && !showUpdateLesson && (
             <>

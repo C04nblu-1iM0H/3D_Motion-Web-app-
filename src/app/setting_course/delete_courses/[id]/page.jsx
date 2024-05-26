@@ -1,6 +1,6 @@
 'use client';
 import {useParams} from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
@@ -15,6 +15,7 @@ import LessonComponent from "@/components/LessonComponent/LessonComponent";
 import { setLoading } from "@/store/lessonSlice";
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingTableSkeleton from "@/components/LoadingSkeleton/LoadingTableSkeleton";
+import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 
 
 const DeleteCourse = dynamic(() => import('./DeleteCourse'), {
@@ -25,6 +26,7 @@ export default function Course() {
   const {id} = useParams();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const role = useSelector(state => state.user.role);
   const [course, setCourse] = useState([]);
   const [lesson, setLesson] = useState([]);
   
@@ -87,8 +89,8 @@ export default function Course() {
     
   return (
     <section className="flex">
-      <SideBarComponent/>
       <ToastContainer />
+      {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
       <section className="flex flex-col container mx-auto mt-10">
         <BreadCrumbsComponent id={id} />
         <CourseComponent course={course} />

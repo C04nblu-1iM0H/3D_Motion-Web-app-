@@ -8,7 +8,6 @@ export default function AuthoreComponent({dataAuthore, startChat}) {
     const id_user = useSelector(state => state.user.id);
     const {username, surname, id_Authore} = dataAuthore;
     const currentUserIsAuthore = id_Authore !== id_user? `${surname} ${username}`: 'Вы'
-
     const handleOpen = () => {
         if (id_Authore !== id_user) {
             onOpen();
