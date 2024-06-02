@@ -61,9 +61,7 @@ export default function Create() {
             toast.error('Error add course')
         }
     }   
-    let str = `\course_image\Motion4.png`;
-    const correctedPath = str.replace(/\\/g, "/").replace(/^/, '/').replace('M', '/M');
-    console.log(correctedPath); 
+
     return(
         <CreateCourseComponent handleCreateCourse={handleCreateCourse}/>
     )

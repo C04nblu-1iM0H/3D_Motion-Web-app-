@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { PiBooks } from "react-icons/pi";
 import FavoriteButtonComponent from "../Button/FavoriteButtonComponent";
 import SubscribeButtonComponent from "../Button/SubscribeButtonComponent";
+import { Tooltip } from "@nextui-org/react";
 
 
 export default function ViewCourseComponent({courses, 
@@ -65,7 +66,15 @@ export default function ViewCourseComponent({courses,
                                 </Link>
                                 <div className='w-full bg-layout h-auto flex flex-col justify-between rounded-b-lg border-t-2 border-solid border-zinc-600'>
                                     <div className='flex items-center my-2 justify-between'>
-                                        <h3 className='px-6'>{course_name}</h3>
+                                        <Tooltip 
+                                            placement="top"
+                                            color="foreground"
+                                            content={course_name}
+                                        >
+                                            <h3 className='px-6 overflow-hidden whitespace-nowrap text-ellipsis'>
+                                                {course_name}
+                                            </h3>
+                                        </Tooltip>
                                         <div className='flex items-center gap-x-3 pr-4'>
                                         {session.status !== 'unauthenticated'?
                                         (

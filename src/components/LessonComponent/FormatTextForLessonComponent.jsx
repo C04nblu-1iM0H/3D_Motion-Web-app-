@@ -15,7 +15,7 @@ export default function FormatTextForLessonComponent({descriptions, handleDescri
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'color': [] }],
             [{ 'align': [] }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }], // Добавить отступы
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
             ['image',],
         ],

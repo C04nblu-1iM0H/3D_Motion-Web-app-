@@ -9,6 +9,7 @@ import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 import MessangerComponent from "@/components/Profile/MessagerComponent";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import NoMassegeComponent from "@/components/Profile/noMessageComponent";
 
 
 export default function Messager(){
@@ -37,7 +38,11 @@ export default function Messager(){
         <section className="w-screen">
             <section className="flex gap-x-5 flex-wrap">
                 <ProfileAvatar image={image} sassionName={name} email={email}/>
-                <MessangerComponent chats={chats}/>
+                {chats.length > 0 ?(
+                    <MessangerComponent chats={chats}/>
+                ):(
+                    <NoMassegeComponent/>
+                )}
             </section>
         </section>
     )
