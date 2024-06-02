@@ -37,10 +37,10 @@ export async function POST(req) {
         const courseDescription = formData.get('courseDescription');
         const id_user = formData.get('id_user');
         const image = formData.get('file');
-
-        const pathSaveImage = path.join(process.cwd(), 'public', 'course_image', image.name);
+        const randomFileName = `${Date.now()}-${Math.floor(Math.random() * 10000)}${path.extname(image.name)}`;
+        const pathSaveImage = path.join(process.cwd(), 'public', 'course_image', randomFileName);
         await fs.writeFile(pathSaveImage, Buffer.from(await image.arrayBuffer()));
-        const pathSaveBDImage = path.join('course_image', image.name).replace(/\\/g, "/").replace(/^/, '/');
+        const pathSaveBDImage = path.join('course_image', randomFileName).replace(/\\/g, "/").replace(/^/, '/');
 
         const createCourse = await query({
             query: "INSERT INTO course (course_name, course_description, course_picture) VALUES (?, ?, ?)",

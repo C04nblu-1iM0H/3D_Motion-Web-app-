@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 export default function MessangerComponent({chats}){
     const path = usePathname();
     const currentIdUser = useSelector(state => state.user.id);
-    console.log(chats);
     return(
         <div className="w-1/2 mx-auto mt-6">
             <ul className="w-full h-[calc(100vh-7rem)] border-2 border-zinc-600 rounded-md">

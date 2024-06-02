@@ -80,7 +80,6 @@ export default function Сourses(){
   if (isPending) return <LoadingSkeleton />
   if (isError) return <span>Error: {error.message}</span>
 
-
   return <ViewCourseComponent 
           courses={courses} 
           handleEnableFavourites={handleEnableFavourites} 

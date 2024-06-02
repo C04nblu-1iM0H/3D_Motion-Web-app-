@@ -18,7 +18,7 @@ export default function ReadComponent({courses}) {
                 </div>
             </div>  
             <section className='grid grid-cols-4 md:grid-cols-2  lg:grid-cols-4'>
-                {courses.map( ({id, course_name, course_picture}, index) => (
+                {courses.map( ({id, course_name, course_picture}) => (
                     <div 
                         key={id}
                         className="w-96 h-96">

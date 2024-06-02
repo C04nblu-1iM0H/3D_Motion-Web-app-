@@ -1,5 +1,5 @@
 'use client'
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import axios from 'axios';
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
@@ -27,12 +27,18 @@ export default function Course(){
   const {id} = useParams();
   const session = useSession();
   const userId = useSelector(state => state.user.id);
+  const router = useRouter();
 
-  const { data: course, isLoading, isError, error } = useQuery({
+  const { data: course, isLoading, isError } = useQuery({
     queryKey: ['course', id], 
     queryFn: async ({signal}) => {
       const response = await axios.get(`/api/course?_id=${id}&userId=${userId}`, {signal});
       return response.data.getCourse[0];
+    },
+    onError: (data) => {
+      if(data === 'undefined'){
+        router.push('/not-found');
+      }
     }
   });
 
@@ -41,6 +47,11 @@ export default function Course(){
     queryFn: async ({signal}) => {
       const response = await axios.get(`/api/getAllLessonOfTheCourse?_id=${id}&userId=${userId}`, {signal})
       return response.data.getAllLessonOfTheCourse;
+    },
+    onError: (data) => {
+      if(data === 'undefined'){
+        router.push('/not-found');
+      }
     }
   })
 
@@ -51,8 +62,16 @@ export default function Course(){
       <LoadingTableLessonsSkeleton />
     </section>
   )
-  if (isError) return <span>Error: {error.message}</span>;
-  if(status === 'error') return <span>Error: произошла ошибка в отображении урока.</span>;
+
+  if (isError || !course) {
+    router.push('/not-found');
+    return null;
+  }
+
+  if(status === 'error') {
+    router.push('/not-found');
+    return null;
+  }
   const {id_subscribe} = course; 
 
   return (

@@ -9,8 +9,6 @@ import SideBarComponent from "@/components/AdminComponent/components/SideBarComp
 import LoadingSkeleton from "@/components/LoadingSkeleton/LoadingSkeleton";
 import ProfileAvatar from "@/components/ProfileAvatar/ProfileAvatar";
 
-
-
 export default function Delete(){
   const [courses, setCourses] = useState([]);
   const user_course_id = useSelector(state => state.user.id);

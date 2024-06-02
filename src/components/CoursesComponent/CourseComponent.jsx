@@ -10,9 +10,9 @@ export default function CourseComponent({course}) {
     };
     return(
         <div className="w-full bg-layout rounded-xl mt-10">
-            <div className="flex flex-col items-center mt-10">
-                <div>
-                    <h1 className="font-bold text-2xl">{course_name}</h1>
+            <div className="flex flex-col mt-10">
+                <div className='w-full'>
+                    <h1 className="font-bold text-2xl text-center">{course_name}</h1>
                 </div>
                 <div className="px-20 pt-10 pb-20 ql-editor">
                     {course_description && <CourseContentDisplay content={course_description} />}

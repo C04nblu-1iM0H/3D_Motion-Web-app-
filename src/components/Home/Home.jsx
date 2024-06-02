@@ -9,14 +9,14 @@ export default function Home(){
             <section className="mt-36">
                 <div className="container px-6 py-10 mx-auto">
                     <h1 className="text-2xl mb-20 font-semibold text-center capitalize lg:text-3xl">
-                        Кому подойдёт этот курс
+                        Кому подойдёт библиотека электронных ресурсов
                     </h1>
 
                     <section className="mt-8 space-y-8 lg:mt-12">
                         <section className="lg:flex lg:items-center">
                             <div className="lg:w-1/2 ">
                                 <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize lg:text-4xl">
-                                    Новичкам
+                                    Учащимся
                                 </h2>
                                 <p className="text-base tracking-wider lg:text-lg">
                                     Освоите трёхмерную графику, научитесь моделировать 3D-объекты, 
@@ -58,8 +58,8 @@ export default function Home(){
                                 />
                             </div>
                             <div className="lg:w-1/2 ">
-                                <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize lg:text-4xl">
-                                    Начинающим 3D-дизайнерам
+                                <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize text-right lg:text-4xl">
+                                    Исследователям или ученым
                                 </h2>
                                 <p className="text-lg tracking-wider text-right">
                                     Отточите навыки в 3D-моделировании, создании окружения и текстурировании. 
@@ -72,7 +72,7 @@ export default function Home(){
                         <section className="lg:flex lg:items-center">
                             <div className="lg:w-1/2 ">
                                 <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize lg:text-4xl">
-                                    Начинающим иллюстраторам, графическим и веб-дизайнерам
+                                    Преподователям и педагогам
                                 </h2>
                                 <p className="text-lg tracking-wider">
                                     Добавите к своим навыкам в рисунке и дизайне опыт создания 3D-моделей и анимации, 
@@ -112,8 +112,8 @@ export default function Home(){
                                 />
                             </div>
                             <div className="lg:w-1/2 ">
-                                <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize lg:text-4xl">
-                                    Профессионалам в 3D
+                                <h2 className="mt-2 mb-4 text-2xl font-semibold capitalize lg:text-4xl text-right">
+                                    Профессионалам и специалистам 
                                 </h2>
                                 <p className="text-lg tracking-wider text-right">
                                     Узнаете, как создавать анимированные 3D -сцены в Houdini, 

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import {Textarea, Button, Tooltip} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { FiSend } from "react-icons/fi";
@@ -9,11 +10,20 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function FeedbackComponent({handleMessage, handleChangeMessage, messages, sendMessage}) {
     const userId = useSelector(state => state.user.id);
     const session = useSession();
+    const messagesContainerRef  = useRef(null);
+    const scrollToBottom = () => {
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+    };
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);        
     return(
         <section className="flex flex-col items-center w-full h-96 mt-16">
             <ToastContainer />
             <section className="flex flex-col w-3/4">
-                <div className="h-96 max-h-96 overflow-y-auto rounded-lg border-2 border-solid border-zinc-600">
+                <div ref={messagesContainerRef} className="h-96 max-h-96 overflow-y-auto rounded-lg border-2 border-solid border-zinc-600">
                 {messages.map(message =>(
                         <div 
                             key={message.id}
@@ -29,6 +39,7 @@ export default function FeedbackComponent({handleMessage, handleChangeMessage, m
                                 <span  className="text-xs text-stone-300">{message.email}</span>
                                 <span className="text-sm">{message.feedback_text}</span>
                             </div>
+                            
                         </div>
                     )
                 )}

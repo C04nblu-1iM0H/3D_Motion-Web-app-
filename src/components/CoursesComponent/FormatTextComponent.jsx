@@ -12,6 +12,7 @@ const modules = {
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'color': [] }],
         [{ 'align': [] }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         ['image',],
     ],
@@ -22,6 +23,7 @@ const formats = [
     'color',
     'align',
     'list', 'bullet',
+    'indent',
     'image',
 ];
 export default function FormatTextComponent({handleChangeDescription}){

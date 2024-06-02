@@ -5,65 +5,53 @@ export async function GET(req){
         const { searchParams } = new URL(req.url);
         const id_user = searchParams.get('id_user');
     try {
-        const isAuthore = await query({
-            query: `SELECT chat.id_authore 
+        const getAllChatUser = await query({
+            query: `SELECT latest_message.*, course.course_name AS course_name,
+                    chat_user_data.username AS username,
+                    chat_user_data.surname AS surname
                     FROM chat
-                    INNER JOIN authore ON chat.id_authore = authore.id
-                    WHERE authore.id_user = ?;`,
+                    INNER JOIN 
+                        (
+                            SELECT 
+                                id_chat, 
+                                MAX(date_dispatch) AS latest_date
+                            FROM 
+                                message
+                            GROUP BY 
+                                id_chat
+                        ) AS latest_dates ON chat.id = latest_dates.id_chat
+                    INNER JOIN message AS latest_message ON latest_message.id_chat = latest_dates.id_chat AND latest_message.date_dispatch = latest_dates.latest_date
+                    LEFT JOIN authore ON chat.id_authore = authore.id
+                    LEFT JOIN course ON authore.id_course = course.id
+                    LEFT JOIN user_data AS chat_user_data ON chat.id_user = chat_user_data.id
+                    WHERE authore.id_user = ?
+                    ORDER BY latest_message.date_dispatch DESC;`,
+            values:[id_user]
+        });
+        const getAllChatAuthore = await query({
+            query: `SELECT 
+                        latest_message.*,
+                        course.course_name,
+                        user_data.username,
+                        user_data.surname
+                    FROM  chat
+                    INNER JOIN (
+                        SELECT id_chat, MAX(date_dispatch) AS latest_date
+                        FROM  message
+                        GROUP BY  id_chat ) AS latest_dates ON chat.id = latest_dates.id_chat
+                    INNER JOIN message AS latest_message ON latest_message.id_chat = latest_dates.id_chat 
+                        AND latest_message.date_dispatch = latest_dates.latest_date
+                    LEFT JOIN user_data AS chat_user_data ON chat.id_user = chat_user_data.id
+                    LEFT JOIN authore ON chat.id_authore = authore.id
+                    LEFT JOIN course ON authore.id_course = course.id
+                    LEFT JOIN  user ON authore.id_user = user.id
+                    LEFT JOIN  user_data ON user.id_user_data = user_data.id
+                    WHERE  chat.id_user = ?
+                    ORDER BY latest_message.date_dispatch DESC;`,
             values: [id_user],
         });
 
-        let getAllChat;
-        if (isAuthore.length > 0 && isAuthore[0].id_authore !== undefined) {
-            const id_authore = isAuthore[0].id_authore;
-
-            getAllChat = await query({
-                query: `SELECT latest_message.*, course.course_name AS course_name,
-                        chat_user_data.username AS username,
-                        chat_user_data.surname AS surname
-                        FROM chat
-                        INNER JOIN 
-                            (
-                                SELECT 
-                                    id_chat, 
-                                    MAX(date_dispatch) AS latest_date
-                                FROM 
-                                    message
-                                GROUP BY 
-                                    id_chat
-                            ) AS latest_dates ON chat.id = latest_dates.id_chat
-                        INNER JOIN message AS latest_message ON latest_message.id_chat = latest_dates.id_chat AND latest_message.date_dispatch = latest_dates.latest_date
-                        LEFT JOIN authore ON chat.id_authore = authore.id
-                        LEFT JOIN course ON authore.id_course = course.id
-                        LEFT JOIN user_data AS chat_user_data ON chat.id_user = chat_user_data.id
-                        WHERE authore.id_user = ?
-                        ORDER BY latest_message.date_dispatch DESC;`,
-                values:[id_authore]
-            });
-        } else {
-            getAllChat = await query({
-                query: `SELECT 
-                            latest_message.*,
-                            course.course_name,
-                            user_data.username,
-                            user_data.surname
-                        FROM  chat
-                        INNER JOIN (
-                            SELECT id_chat, MAX(date_dispatch) AS latest_date
-                            FROM  message
-                            GROUP BY  id_chat ) AS latest_dates ON chat.id = latest_dates.id_chat
-                        INNER JOIN message AS latest_message ON latest_message.id_chat = latest_dates.id_chat 
-                            AND latest_message.date_dispatch = latest_dates.latest_date
-                        LEFT JOIN user_data AS chat_user_data ON chat.id_user = chat_user_data.id
-                        LEFT JOIN authore ON chat.id_authore = authore.id
-                        LEFT JOIN course ON authore.id_course = course.id
-                        LEFT JOIN  user ON authore.id_user = user.id
-                        LEFT JOIN  user_data ON user.id_user_data = user_data.id
-                        WHERE  chat.id_user = ?
-                        ORDER BY latest_message.date_dispatch DESC;`,
-                values: [id_user],
-            });
-        }
+        const getAllChat = getAllChatUser.length > 0 ? getAllChatUser : getAllChatAuthore;
 
         return new Response(JSON.stringify({
             getAllChat,
