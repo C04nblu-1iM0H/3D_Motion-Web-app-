@@ -16,8 +16,8 @@ export default function EditComponent({userid, email, password, user_role}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const [roles, setRole] = useState("");
-  const [editEmail, setEditEmail] = useState(email);
-  const [editPassword, setEditeditPassword] = useState(password);
+  const [editEmail, setEditEmail] = useState("");
+  const [editPassword, setEditeditPassword] = useState("");
   const [editRole, setEditeditRole] = useState(user_role);
   const [isLoading, setIsLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -62,6 +62,7 @@ export default function EditComponent({userid, email, password, user_role}) {
     const {id} = roles && roles.find(role => role.name === editRole) || roles.find(role => role.id === editRole);
 
     if(editEmail === email && editPassword === password && id === user_role) return;
+
     if(editEmail === email && editPassword === null){
       const validationError = validateEmail(editEmail);
       if (validationError) {
@@ -70,6 +71,7 @@ export default function EditComponent({userid, email, password, user_role}) {
       };
       updateData.editEmail = editEmail;
     }
+
     if(editEmail === email && editPassword === password){
       const validationError = validateForm(editEmail, editPassword);
       if (validationError) {
@@ -83,7 +85,7 @@ export default function EditComponent({userid, email, password, user_role}) {
     if(id !== user_role){
       updateData.id = id;
     }
-    console.log(updateData);
+
     setIsLoading(true);
     try {
 

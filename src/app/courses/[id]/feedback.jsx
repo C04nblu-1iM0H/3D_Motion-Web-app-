@@ -53,7 +53,7 @@ export default function Feedback(){
     }
 
     if(isPending) return <LoadingFeedback />
-
+    
     return(
         <FeedbackComponent 
             messages={messages}

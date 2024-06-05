@@ -18,7 +18,6 @@ export default function OpenLessonsComponent({lessons}) {
     const handleRowClick = (lessonId, isLocked) => {
         if(!isLocked) route.push(`${pathname}/lesson/${lessonId}`);
     };
-
     return (
         <section>
             <div className="bg-layout w-3/5 mx-auto text-center mt-16 mb-5 rounded-xl shadow-xl">
@@ -60,7 +59,7 @@ export default function OpenLessonsComponent({lessons}) {
                                     onClick={ () => handleRowClick(lesson.id, isLocked)}
                                 >
                                     <TableCell>
-                                        {lesson.passed === 1 ?(
+                                        {lesson.passed === true ?(
                                             <Chip color="success"><IoMdCheckmarkCircleOutline  className="w-4 h-4" /></Chip>
                                         ):(
                                             <Chip color="danger"><RxCross2  className="w-4 h-4" /></Chip>

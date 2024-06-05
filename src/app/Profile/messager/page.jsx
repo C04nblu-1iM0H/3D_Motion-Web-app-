@@ -24,7 +24,6 @@ export default function Messager(){
             return response.data.getAllChat;
         }
     });
-
     useEffect(()=>{
         if(isSuccess){
             setChats(data)

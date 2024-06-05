@@ -1,9 +1,9 @@
 import splittingTheName from '@/utils/splittingTheName';
-import {query} from '../../../lib/db';
 import bcrypt from 'bcrypt';
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import prisma from '@/app/lib/db';
 
 export const authOptions = {
   secret: process.env.SECRET,
@@ -22,25 +22,30 @@ export const authOptions = {
       async authorize(credentials) {
         const {email, password} = credentials;
 
-        const userResult = await query({
-          query: "SELECT * FROM user WHERE email = ?",
-          values: [email],
-        });
-
-        if (!userResult || userResult.length === 0) {
-          throw new Error('Такого пользователя не существует');
+        if (!email || !password) {
+          throw new Error('Неверные учетные данные');
         }
 
-        const user = userResult[0];
+        const user = await prisma.user.findFirst({
+          where: { email: email },
+        });
+
+        if (!user) {
+          throw new Error('Такого пользователя не существует');
+        }
+      
         const passwordOk = user && bcrypt.compareSync(password, user.password);
 
         if (!passwordOk) {
           throw new Error('Неверный пароль');
         }
-
-        await query({
-          query: `UPDATE user SET id_online = 1 WHERE email = ?`,
-          values: [email],
+        await prisma.user.update({
+          where: { 
+            email: email 
+          },
+          data: { 
+            id_online: 1 
+          },
         });
 
         return user;
@@ -53,26 +58,26 @@ export const authOptions = {
         const {email, name} = profile;
         const {usname, surname} = splittingTheName(name);
 
-        const existingUser = await query({
-          query: "SELECT * FROM user WHERE email = ?",
-          values: [email],
+        if (!email || !name) {
+          throw new Error('Не удалось получить данные профиля');
+        }
+
+        const existingUser = await prisma.user.findFirst({
+          where: { email: email },
         });
 
-        await query({
-          query: `UPDATE user SET id_online = 1 WHERE email = ?`,
-          values: [email],
+        await prisma.user.updateMany({
+          where: { email: email },
+          data: { id_online: 1 },
         });
 
-        if (existingUser.length === 0) {
-          const createUserdata = await query({
-            query: "INSERT INTO user_data (username, surname) VALUES (?,?)",
-            values: [usname, surname],
+        if (!existingUser) {
+          const createUserdata = await prisma.user_data.create({
+            data: { username: usname, surname: surname },
           });
-          const idUserData = createUserdata.insertId;
 
-          await query({
-            query: "INSERT INTO user (email, id_user_data) VALUES (?, ?)",
-            values: [email, idUserData],
+          await prisma.user.create({
+            data: { email: email, id_user_data: createUserdata.id },
           });
         }
       }

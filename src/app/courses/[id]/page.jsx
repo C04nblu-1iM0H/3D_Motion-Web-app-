@@ -27,18 +27,12 @@ export default function Course(){
   const {id} = useParams();
   const session = useSession();
   const userId = useSelector(state => state.user.id);
-  const router = useRouter();
 
-  const { data: course, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['course', id], 
     queryFn: async ({signal}) => {
       const response = await axios.get(`/api/course?_id=${id}&userId=${userId}`, {signal});
-      return response.data.getCourse[0];
-    },
-    onError: (data) => {
-      if(data === 'undefined'){
-        router.push('/not-found');
-      }
+      return response.data.getCourse;
     }
   });
 
@@ -47,14 +41,8 @@ export default function Course(){
     queryFn: async ({signal}) => {
       const response = await axios.get(`/api/getAllLessonOfTheCourse?_id=${id}&userId=${userId}`, {signal})
       return response.data.getAllLessonOfTheCourse;
-    },
-    onError: (data) => {
-      if(data === 'undefined'){
-        router.push('/not-found');
-      }
     }
   })
-
 
   if(isLoading || status === 'pending') return (
     <section className="flex flex-col justify-evenly gap-y-7 container mx-auto mt-10">
@@ -63,21 +51,19 @@ export default function Course(){
     </section>
   )
 
-  if (isError || !course) {
-    router.push('/not-found');
-    return null;
+  if (isError || !data) {
+    return console.log(Error);
   }
 
   if(status === 'error') {
-    router.push('/not-found');
-    return null;
+    return console.log(Error);
   }
-  const {id_subscribe} = course; 
-
+  const {subscribe} = data; 
+  const id_subscribe = subscribe.length > 0 ? subscribe[0].id : null;
   return (
     <section className="flex flex-col container mx-auto mt-10">
       <BreadCrumbsComponent id={id} />
-      <CourseComponent course={course} />
+      <CourseComponent course={data} />
       {session.status !== 'unauthenticated' &&(<Authore />)}  
         { session.status === 'unauthenticated' ?(
           <section className="w-1/2 bg-layout mx-auto p-5 mt-16 text-center rounded-lg">

@@ -14,7 +14,7 @@ export default function App() {
   const dispatch = useDispatch()
   const { data: session, status } = useSession();
 
-  const {isSuccess, data, isLoading} = useQuery({
+  const {isSuccess, data, isLoading, isError, error} = useQuery({
     queryKey:['initialUser'],
     queryFn: async ({signal}) => {
       const response = await axios.get(`/api/getUserData?email=${encodeURIComponent(session?.user?.email)}`, {signal});
@@ -23,19 +23,21 @@ export default function App() {
     enabled: !!session?.user?.email 
   })
   useEffect(() => {
-    if (status === 'authenticated' && isSuccess && data?.user?.length > 0 && data?.userData?.length > 0) {
-      dispatch(setId(data.user[0].id));
-      dispatch(setEmail(data.user[0].email));
-      dispatch(setUserRole(data.user[0].id_role));
-      dispatch(setUserData(data.userData[0]));
+    if (status === 'authenticated' && isSuccess && data) {
+        dispatch(setId(data.user.id));
+        dispatch(setEmail(data.user.email));
+        dispatch(setUserRole(data.user.id_role));
+        dispatch(setUserData(data.userData));
+
     } else {
-      return;
+        return;
     }
   }, [status, isSuccess, data, dispatch]);
 
   if (status === 'loading' || isLoading) {
     return <SpinnerWithBackdrop isLoading={true} />;
   }
+  if (isError) console.error(`Error: ${error.message}`);
   return ( 
     <>
       <Home/>

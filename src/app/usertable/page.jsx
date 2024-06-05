@@ -28,7 +28,7 @@ export default function UserTable() {
   }, [isError]);
 
   const users = isSuccess ? data.data.allUsers : [];
-
+  
   return(
       <section className="container h-screen ml-8">
         <ToastContainer/>

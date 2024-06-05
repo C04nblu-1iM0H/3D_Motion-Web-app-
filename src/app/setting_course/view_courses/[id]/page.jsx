@@ -28,19 +28,19 @@ export default function Course() {
   const [lesson, setLesson] = useState([]);
   const showCreateLesson = useSelector(state => state.lesson.isCloseLesson);
 
-  const {data: getCourse, isSuccess, isError, isPending} = useQuery({
+  const {data, isSuccess, isError, isPending} = useQuery({
     queryKey:['getCourseIdUser', id],
     queryFn: async ({signal}) => {
-      const response = await axios.get('/api/course?_id='+id, {signal});
-      return response.data.getCourse[0];
+      const response = await axios.get(`/api/course?_id=${id}`, {signal});
+      return response.data.getCourse;
     },
   })
-
+  
   useEffect(() => {
-    if(isSuccess){
-      setCourse(getCourse);
+    if(isSuccess && data){
+      setCourse(data);
     }
-  }, [isSuccess, getCourse]);
+  }, [isSuccess, data]);
 
   const {data: getLessons, status } = useQuery({
     queryKey:['getLessnonsIdUser', id],
