@@ -29,7 +29,5 @@ export async function GET(req) {
             error: error.message,
             status: 500,
         }));
-    } finally {
-        await prisma.$disconnect();
     }
 }

@@ -25,7 +25,7 @@ export default function SinginPageForm() {
 
   const mutation = useMutation({
     mutationFn: async ({email, password})=>{
-      const result = await signIn('credentials', { email, password, redirect: false });
+      const result = await signIn('credentials', { email, password, redirect: false});
       if (result.error) {
         throw new Error(result.error);
       }
@@ -34,7 +34,7 @@ export default function SinginPageForm() {
     onSuccess: ()=>{
       dispatch(resetForm());
       setIsLoading(false);
-      router.push(process.env.NEXTAUTH_URL);
+      router.push('/');
     },
     onError: (error)=>{
       setIsLoading(false);

@@ -6,7 +6,7 @@ export async function POST(request) {
 
         await prisma.subscribe.create({
             data: {
-                id_user: Number(id_user), // Убедитесь, что id_user и id_course являются числами
+                id_user: Number(id_user),
                 id_course: Number(id_course)
             }
         });
@@ -22,7 +22,9 @@ export async function POST(request) {
             message: 'error',
             status: 500,
         }));
-    }   
+    } finally {
+        await prisma.$disconnect();
+    }  
 }
 
 export async function DELETE(request) {
@@ -47,5 +49,5 @@ export async function DELETE(request) {
             message: 'error',
             status: 500,
         }));
-    }   
+    }
 }

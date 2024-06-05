@@ -25,7 +25,7 @@ export default function EditComponent({userid, email, password, user_role}) {
 
   const {data, isSuccess} = useQuery({
     queryKey:['getAllRoles'],
-    queryFn: ({signal}) => axios.get('/api/getAllRole', {signal})
+    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal})
   })
 
   useEffect(() => {
