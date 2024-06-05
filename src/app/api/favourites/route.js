@@ -22,7 +22,9 @@ export async function POST(request) {
             message: 'error',
             status: 500,
         }));
-    }   
+    } finally {
+        await prisma.$disconnect();
+    }  
 }
 
 export async function DELETE(request) {
@@ -47,5 +49,5 @@ export async function DELETE(request) {
             message: 'error',
             status: 500,
         }));
-    }   
+    }
 }

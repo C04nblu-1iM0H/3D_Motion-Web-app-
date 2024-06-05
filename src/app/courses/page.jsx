@@ -17,9 +17,9 @@ export default function Сourses(){
     queryFn: async ({signal})=>{
       const response = await axios.get(`/api/getAllCourse?id_user=${id_user}`, {signal});
       return response.data.getAllCourse;
-    },
-    enabled: !!id_user
+    }
   });
+  
   useEffect(() => {
     if(isSuccess && data !== undefined){
       setCourses(data);
@@ -78,7 +78,7 @@ export default function Сourses(){
   
 
   if (isPending) return <LoadingSkeleton />
-  if (isError) return <span>Error: {error.message}</span>
+  if (isError) console.error(`Error: ${error.message}`);
 
   return <ViewCourseComponent 
           courses={courses} 

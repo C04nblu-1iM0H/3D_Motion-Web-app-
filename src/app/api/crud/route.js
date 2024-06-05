@@ -98,19 +98,17 @@ export async function DELETE(request) {
         const body = await request.json();
         const { userid } = body;
 
-        // Получение id_user_data перед удалением пользователя
         const user = await prisma.user.findUnique({
             where: { id: userid },
             select: { id_user_data: true }
         });
 
         if (user && user.id_user_data) {
-            // Удаление пользователя
+
             await prisma.user.delete({
                 where: { id: userid }
             });
 
-            // Удаление связанной записи из user_data
             await prisma.user_data.delete({
                 where: { id: user.id_user_data }
             });

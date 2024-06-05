@@ -47,8 +47,6 @@ export async function GET(req) {
             message: 'error',
             status: 500,
         }));
-    } finally {
-        await prisma.$disconnect();
     }
 }
 
@@ -107,8 +105,6 @@ export async function PUT(request) {
             message: 'error',
             status: 500,
         }));
-    } finally {
-        await prisma.$disconnect();
     }
 }
 

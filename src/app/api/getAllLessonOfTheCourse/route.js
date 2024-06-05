@@ -44,7 +44,5 @@ export async function GET(req) {
             message: "Error fetching user counts",
             status: 500,
         }));
-    } finally {
-        await prisma.$disconnect();
     }
 }
