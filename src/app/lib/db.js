@@ -1,20 +1,16 @@
-import mysql from "mysql2/promise";
+import { PrismaClient } from '@prisma/client'
 
-export async function query({ query, values = [] }) {
+// Avoid instantiating too many instances of Prisma in development
+// https://www.prisma.io/docs/support/help-articles/nextjs-prisma-client-dev-practices#problem
+let prisma
 
-  const connection  = await mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-  });
-
-  try {
-    const [results] = await connection.execute(query, values);
-    connection.end();
-    return results;
-  } catch (error) {
-    throw Error(error.message);
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient()
+} else {
+  if (!global.prisma) {
+    global.prisma = new PrismaClient()
   }
+  prisma = global.prisma
 }
+
+export default prisma

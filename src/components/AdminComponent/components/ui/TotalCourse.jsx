@@ -4,7 +4,8 @@ import {useSelector} from 'react-redux';
 
 export default function TotalCourse(){
     const totalCourse = useSelector(state => state.adminPanelInfo.totalCourse);
-
+    // const totalCourse = 1;
+    // console.log(totalCourse);
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Всего курсов</h3>

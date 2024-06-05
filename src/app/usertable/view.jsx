@@ -5,7 +5,6 @@ import ViewNoDataUser from "@/components/AdminComponent/components/ui/ViewNoData
 
 export default function ViewComponent({email, username, surname, gender, data_birthday, telephone}) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    
   return ( 
     <>
       <Button size="sm" variant="light" onPress={onOpen}><FaRegEye className="w-5 h-5 text-primary"/></Button>

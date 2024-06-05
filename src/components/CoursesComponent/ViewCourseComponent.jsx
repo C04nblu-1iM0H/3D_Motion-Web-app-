@@ -20,6 +20,7 @@ export default function ViewCourseComponent({courses,
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const pathname = usePathname();
     const session = useSession();
+    console.log(courses);
     return(
         <div className="container mx-auto">
             <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">
@@ -29,7 +30,7 @@ export default function ViewCourseComponent({courses,
                 </div>
             </div>  
             <section className='grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4'>
-                {courses.map( ({id, course_name, course_picture, id_favorite, id_subscribe}) => (
+                {courses.map( ({id, course_name, course_picture, favorite, subscribe}) => (
                     <div 
                         key={id}
                         className="w-96 h-96">
@@ -81,13 +82,13 @@ export default function ViewCourseComponent({courses,
                                             <>
                                                 <FavoriteButtonComponent 
                                                     id={id}
-                                                    id_favorite={id_favorite} 
+                                                    id_favorite={favorite.length > 0 ? favorite[0].id : null} 
                                                     handleDisabledFavourites={handleDisabledFavourites}
                                                     handleEnableFavourites={handleEnableFavourites}
                                                 />
                                                 <SubscribeButtonComponent 
                                                     id={id}
-                                                    id_subscribe={id_subscribe} 
+                                                    id_subscribe={subscribe.length > 0 ? subscribe[0].id : null} 
                                                     handleEnableSubscribe={handleEnableSubscribe}
                                                     handleDisabledSubscribe={handleDisabledSubscribe}
                                                 />

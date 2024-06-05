@@ -1,23 +1,25 @@
-import { query } from "@/app/lib/db";
+import prisma from '@/app/lib/db';
 
 export async function POST(request) {
     try {
-        const {id_course, id_user} = await request.json();
+        const { id_course, id_user } = await request.json();
 
-        await query({
-            query: "INSERT INTO favorite (id_user, id_course) VALUES (?, ?)",
-            values: [id_user, id_course],
+        await prisma.favorite.create({
+            data: {
+                id_user: Number(id_user),
+                id_course: Number(id_course)
+            }
         });
 
         return new Response(JSON.stringify({
-            message:'sucsess',
+            message: 'success',
             status: 200,
         }));
 
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error creating favorite:', error);
         return new Response(JSON.stringify({
-            message:'error',
+            message: 'error',
             status: 500,
         }));
     }   
@@ -25,23 +27,24 @@ export async function POST(request) {
 
 export async function DELETE(request) {
     try {
-        const {id_course, id_user} = await request.json();
+        const { id_course, id_user } = await request.json();
         
-        await query({
-            query: `DELETE FROM favorite 
-                    WHERE id_course = ? AND id_user = ? `,
-            values: [id_course, id_user],
+        await prisma.favorite.deleteMany({
+            where: {
+                id_user: Number(id_user),
+                id_course: Number(id_course)
+            }
         });
 
         return new Response(JSON.stringify({
-            message:'sucsess',
+            message: 'success',
             status: 200,
         }));
 
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error deleting favorite:', error);
         return new Response(JSON.stringify({
-            message:'error',
+            message: 'error',
             status: 500,
         }));
     }   

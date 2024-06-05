@@ -22,7 +22,6 @@ export default function  Authore() {
             return response.data.getAuthoreCourse[0];
         }
     })
-
     useEffect(()=>{
         if(isSuccess && data){
             setDataAuthore(data);
@@ -47,7 +46,6 @@ export default function  Authore() {
 
     if(isPending) return <LoadingSkeletonAuthore />
     if(isError) console.error(`Error: ${error}`);
-
     return(
         <>
             {isLoading &&(<SpinnerWithBackdrop />)}

@@ -33,15 +33,15 @@ export default function Course() {
   const {data: getCourse, isSuccess, isError, isPending} = useQuery({
     queryKey:['getCoutseIdUser', id],
     queryFn: async ({signal}) => {
-      const response = await axios.get('/api/course?_id='+id, {signal});
-      return response.data.getCourse[0];
+      const response = await axios.get(`/api/course?_id=${id}`, {signal});
+      return response.data.getCourse;
     },
   })
 
   const {data: getLessons, status, error } = useQuery({
     queryKey:['getLessnonsIdUser', id],
     queryFn: async ({signal}) => {
-      const response = await axios.get('/api/getAllLessonOfTheCourse?_id='+id, {signal})
+      const response = await axios.get(`/api/getAllLessonOfTheCourse?_id=${id}`, {signal})
       return response.data.getAllLessonOfTheCourse;
     }
   })

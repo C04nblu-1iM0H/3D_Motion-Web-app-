@@ -1,20 +1,17 @@
-import { query } from "../../lib/db";
+import prisma from '@/app/lib/db';
 
 export async function GET() {
     try {
-        const userCountResult = await query({
-            query: "SELECT COUNT(*) AS userCount FROM user WHERE id_online = 1",
+        const onlineUsersCount = await prisma.user.count({
+            where: {
+                id_online: 1,
+            },
         });
-        const onlineUsersCount = userCountResult ? userCountResult[0].userCount : 0;
 
-        const userTotalCountResult = await query({
-            query: "SELECT COUNT(*) AS userTotalCount FROM user",
-        });
-        const countUsers = userTotalCountResult ? userTotalCountResult[0].userTotalCount : 0;
+        const countUsers = await prisma.user.count();
 
-        const totalCourse = await query({
-            query:"SELECT COUNT(id) as id_course FROM course",
-        })
+        const totalCourse = await prisma.course.count();
+
         return new Response(JSON.stringify({
             onlineUsersCount,
             countUsers,
@@ -27,5 +24,7 @@ export async function GET() {
             message: "Error fetching user counts",
             status: 500,
         }));
+    } finally {
+        await prisma.$disconnect();
     }
 };

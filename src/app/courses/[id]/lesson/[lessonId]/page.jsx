@@ -6,7 +6,6 @@ import axios from "axios";
 import {Button, Chip} from "@nextui-org/react";
 import 'react-quill/dist/quill.snow.css';
 
-
 import { toast, ToastContainer } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +20,6 @@ export default function Lesson() {
     const queryClient = useQueryClient();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const [passed, setPassed] = useState(0);
 
     const id_user = useSelector(state => state.user.id);
     const lessonName = useSelector(state => state.lesson.lessonName);
@@ -32,15 +30,15 @@ export default function Lesson() {
         queryKey:['getLesson', lessonId],
         queryFn: async ({signal}) => {
             const response = await axios.get(`/api/lesson?_id=${lessonId}`, {signal})
-            return response.data.getCurrentLesson[0];
+            return response.data.getCurrentLesson;
         },
     });
 
-    const {data:getPassedLesson, status} = useQuery({
+    const {data:passed, status} = useQuery({
         queryKey:['getPassedLesson', lessonId],
         queryFn: async ({signal}) =>{
             const response = await axios.get(`/api/userLessonProgress?lessonId=${lessonId}&userid=${id_user}`, {signal});
-            return response.data.getPassedLesson[0];
+            return response.data.getPassedLesson;
         },
     });
 
@@ -59,13 +57,6 @@ export default function Lesson() {
             setLoading(false);
         }
     })
-
-    useEffect(()=>{
-        if(status === 'success' && getPassedLesson.passed !== undefined){
-            const {passed} = getPassedLesson;
-            setPassed(passed)
-        }
-    }, [status, getPassedLesson ])
 
     useEffect(()=>{
         if(isSuccess){
@@ -88,7 +79,7 @@ export default function Lesson() {
     if(isPending || status === 'pending'){
         return <LoadingSkeletonLesson />
     }
-    
+
     isError ? <span>Error: ошибка в отображении курса</span>: null;
 
     const CourseContentDisplay = ({ content }) => {
@@ -117,7 +108,7 @@ export default function Lesson() {
                 </div>
             </div>
             <div  className="mt-5 container flex justify-end">
-                {passed === 1 
+                {passed === true 
                 ?(
                     <Chip
                     startContent={<IoMdCheckmarkCircle size={18} />}

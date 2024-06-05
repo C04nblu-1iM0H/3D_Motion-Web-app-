@@ -1,15 +1,24 @@
-import { query } from "@/app/lib/db";
+import prisma from '@/app/lib/db';
 
-export async function GET(req){
-        const { searchParams } = new URL(req.url);
-        const id_course = searchParams.get('id');
+export async function GET(req) {
+    const { searchParams } = new URL(req.url);
+    const id_course = searchParams.get('id');
+
     try {
-        const getAllFeedback = await query({
-            query:`SELECT f.id, f.feedback_text, u.email, u.id AS id_user
-                   FROM feedback AS f
-                   LEFT JOIN user AS u ON f.id_user = u.id
-                   WHERE f.id_course = ?`,
-            values:[id_course]
+        const getAllFeedback = await prisma.feedback.findMany({
+            where: {
+                id_course: Number(id_course),
+            },
+            select: {
+                id: true,
+                feedback_text: true,
+                user: {
+                    select: {
+                        email: true,
+                        id: true,
+                    },
+                },
+            },
         });
 
         return new Response(JSON.stringify({
@@ -18,29 +27,32 @@ export async function GET(req){
         }));
     } catch (error) {
         return new Response(JSON.stringify({
-            error,
+            error: error.message,
             status: 500,
         }));
     }
 }
 
-export async function POST(request){
+export async function POST(request) {
     try {
-        const {sendMessage, userId, id} = await request.json();
-        await query({
-            query:`INSERT INTO feedback (feedback_text, id_user, id_course) VALUES (?, ?, ?)`,
-            values:[sendMessage, userId, id],
-        })
+        const { sendMessage, userId, id } = await request.json();
+
+        await prisma.feedback.create({
+            data: {
+                feedback_text: sendMessage,
+                id_user: Number(userId),
+                id_course: Number(id),
+            },
+        });
 
         return new Response(JSON.stringify({
-            message:'sucsess',
+            message: 'success',
             status: 200,
         }));
-        
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error creating feedback:', error);
         return new Response(JSON.stringify({
-            message:'error',
+            message: 'error',
             status: 500,
         }));
     }

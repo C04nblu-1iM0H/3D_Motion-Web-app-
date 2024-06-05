@@ -38,13 +38,16 @@ export default function SettingProfile(){
 
     const email = session?.user?.email;
 
-    const {data, isSuccess, isError, isPending} = useQuery({
+    const {data, isSuccess, isError, isPending, error} = useQuery({
         queryKey:['getUserData', id_user],
         queryFn: async ({signal}) =>{
             const response = await axios.get(`/api/getUserData?email=${email}`,{signal});
-            return response.data.userData[0];
+            return response.data.userData;
         }
-    })
+    });
+    useEffect(() => {
+        queryClient.refetchQueries(['getUserData', id_user]);
+    }, [id_user, queryClient]);
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -81,11 +84,12 @@ export default function SettingProfile(){
         }
     }
 
-    
-    if(status === 'loading' || isPending){return <SpinnerWithBackdrop isLoading={true}/>;}
+    if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
     if(status === 'unauthenticated'){return redirect('/Signin');}
+    if(isPending || data === undefined) {return <SpinnerWithBackdrop isLoading={true}/>;}
+    if(isError){console.error(`Error: ${error.message}`);}
     const {name, image} = session.user;
-    if(isError) console.error('Ошибка в получение данных пользователя');
+
     return(
         <>
             <ToastContainer/>

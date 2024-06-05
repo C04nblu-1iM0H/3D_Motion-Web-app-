@@ -26,7 +26,7 @@ export default function Favorite(){
           return response.data.getAllCourseFavorite;
         }
       });
-    
+    console.log(data);
     useEffect(() => {
         if(isSuccess){
             setCourses(data);

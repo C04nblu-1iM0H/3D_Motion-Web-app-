@@ -1,16 +1,29 @@
-import { query } from "../../lib/db";
 import bcrypt from 'bcrypt';
+import prisma from '@/app/lib/db';
 
 export async function GET() {
     try {
-
-        const allUsers = await query({
-            query: `SELECT user.*, user_data.id AS user_data_id, user_data.username, user_data.surname, 
-                           user_data.id_gender, user_data.data_birthday, user_data.telephone , gender.gender_name
-                    FROM user
-                    INNER JOIN user_data ON user.id_user_data = user_data.id
-                    INNER JOIN gender ON user_data.id_gender = gender.id
-                    ORDER BY user.id ASC`,
+        const allUsers = await prisma.user.findMany({
+            include: {
+                user_data: {
+                    select: {
+                        id: true,
+                        username: true,
+                        surname: true,
+                        id_gender: true,
+                        data_birthday: true,
+                        telephone: true,
+                        gender: {
+                            select: {
+                                gender_name: true,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: {
+                id: 'asc',
+            },
         });
 
         return new Response(JSON.stringify({
@@ -23,55 +36,61 @@ export async function GET() {
             message: "error",
             status: 500,
         }));
+    } finally {
+        await prisma.$disconnect();
     }
 }
 
 export async function PUT(request) {
     try {
         const updateData = await request.json();
-        const {editEmail, editPassword, id, userid}  = updateData
-        
-        if(editEmail === undefined && editPassword === undefined){
-            await query({
-                query: "UPDATE user SET id_role = ?  WHERE id = ?",
-                values: [id, userid],
-            });
-            return new Response(JSON.stringify({
-                message:'sucsess',
-                status: 200,
-            }));
-        }
-        if(editPassword === undefined){
-            await query({
-                query: "UPDATE user SET email = ?, id_role = ?  WHERE id = ?",
-                values: [editEmail, id, userid],
+        const { editEmail, editPassword, id, userid } = updateData;
+
+        if (editEmail === undefined && editPassword === undefined) {
+            await prisma.user.update({
+                where: { id: userid },
+                data: { id_role: id }
             });
 
             return new Response(JSON.stringify({
-                message:'sucsess',
+                message: 'success',
                 status: 200,
             }));
-        }else{
-            const salt = bcrypt.genSaltSync(10);
-            const hashedPassword =  bcrypt.hashSync(editPassword, salt);
-            
-            await query({
-                query: "UPDATE user SET email = ?, password = ?, id_role = ?  WHERE id = ?",
-                values: [editEmail, hashedPassword, id, userid],
+        }
+
+        if (editPassword === undefined) {
+            await prisma.user.update({
+                where: { id: userid },
+                data: { email: editEmail, id_role: id }
             });
-    
+
             return new Response(JSON.stringify({
-                message:'sucsess',
+                message: 'success',
+                status: 200,
+            }));
+        } else {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(editPassword, salt);
+
+            await prisma.user.update({
+                where: { id: userid },
+                data: { email: editEmail, password: hashedPassword, id_role: id }
+            });
+
+            return new Response(JSON.stringify({
+                message: 'success',
                 status: 200,
             }));
         }
     } catch (error) {
         console.error('Error fetching user data:', error);
         return new Response(JSON.stringify({
-            message:'error',
+            message: 'error',
             status: 500,
         }));
-    }   
+    } finally {
+        await prisma.$disconnect();
+    }
 }
 
 export async function DELETE(request) {
@@ -79,24 +98,40 @@ export async function DELETE(request) {
         const body = await request.json();
         const { userid } = body;
 
-        await query({
-            query:`DELETE user, user_data 
-                   FROM user
-                   INNER JOIN user_data ON user.id_user_data = user_data.id
-                   WHERE user.id = ?`,
-            values:[userid]
-        })
-        
-        return new Response(JSON.stringify({
-            message:'sucsess',
-            status: 200,
-        }));
+        // Получение id_user_data перед удалением пользователя
+        const user = await prisma.user.findUnique({
+            where: { id: userid },
+            select: { id_user_data: true }
+        });
 
+        if (user && user.id_user_data) {
+            // Удаление пользователя
+            await prisma.user.delete({
+                where: { id: userid }
+            });
+
+            // Удаление связанной записи из user_data
+            await prisma.user_data.delete({
+                where: { id: user.id_user_data }
+            });
+
+            return new Response(JSON.stringify({
+                message: 'success',
+                status: 200,
+            }));
+        } else {
+            return new Response(JSON.stringify({
+                message: 'User not found',
+                status: 404,
+            }));
+        }
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error deleting user data:', error);
         return new Response(JSON.stringify({
-            message:'error',
+            message: 'error',
             status: 500,
         }));
-    }   
+    } finally {
+        await prisma.$disconnect();
+    }
 }

@@ -19,7 +19,12 @@ export default function MessangerComponent({chats}){
                             <FaUserCircle alt="avatar" className="object-cover w-12 h-12"/>
                             <figcaption className="flex flex-col ml-5">
                                 <div className="flex">
-                                    <h3 className="text-base text-blue-400 mr-2">{chat.surname} {chat.username}</h3>
+                                    <h3 className="text-base text-blue-400 mr-2">
+                                        {
+                                            chat.surname === null && chat.username === null
+                                            ? chat.email : `${chat.surname} ${chat.username}`
+                                        } 
+                                    </h3>
                                     <p>[{chat.course_name}]</p>
                                 </div>
                                 

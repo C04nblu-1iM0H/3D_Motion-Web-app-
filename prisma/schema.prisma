@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model authore {
+  id        Int    @id @default(autoincrement())
+  id_course Int
+  id_user   Int?
+  course    course @relation(fields: [id_course], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_authore_course")
+  user      user?  @relation(fields: [id_user], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_user_teacher")
+  chat      chat[]
+
+  @@index([id_course], map: "fk_course")
+  @@index([id_user], map: "fk_user_teacher")
+}
+
+model chat {
+  id         Int       @id @default(autoincrement())
+  id_user    Int
+  id_authore Int
+  user       user      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "create_chat_userId")
+  authore    authore   @relation(fields: [id_authore], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_chat_authore_id")
+  message    message[]
+
+  @@index([id_authore], map: "create_chat_teacherId")
+  @@index([id_user], map: "create_chat_userId")
+}
+
+model course {
+  id                 Int             @id @default(autoincrement())
+  course_name        String          @db.VarChar(255)
+  course_description String          @db.LongText
+  course_picture     String?         @db.VarChar(255)
+  authore            authore[]
+  favorite           favorite[]
+  feedback           feedback[]
+  lesson             lesson[]
+  subscribe          subscribe[]
+  user_progress      user_progress[]
+}
+
+model favorite {
+  id        Int    @id @default(autoincrement())
+  id_user   Int?
+  id_course Int
+  course    course @relation(fields: [id_course], references: [id], onDelete: Cascade, map: "fk_favorite_on_course")
+  user      user?  @relation(fields: [id_user], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_user_favorite_course")
+
+  @@index([id_course], map: "fk_favorite_on_course")
+  @@index([id_user], map: "fk_user_favorite_course")
+}
+
+model feedback {
+  id            Int    @id @default(autoincrement())
+  feedback_text String @db.MediumText
+  id_user       Int
+  id_course     Int
+  course        course @relation(fields: [id_course], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_feedback_course")
+  user          user   @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_feedback_user")
+
+  @@index([id_course], map: "fk_feedback_course")
+  @@index([id_user], map: "fk_feedback_user")
+}
+
+model gender {
+  id          Boolean     @id
+  gender_name String      @db.VarChar(15)
+  user_data   user_data[]
+}
+
+model lesson {
+  id                 Int             @id @default(autoincrement())
+  id_course          Int
+  lesson_name        String          @db.VarChar(255)
+  lesson_description String          @db.LongText
+  lesson_materials   String          @db.LongText
+  course             course          @relation(fields: [id_course], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_lesson_course")
+  user_progress      user_progress[]
+
+  @@index([id_course], map: "fk_lesson_course")
+}
+
+model message {
+  id            Int      @id @default(autoincrement())
+  text_message  String   @db.TinyText
+  date_dispatch DateTime @db.DateTime(0)
+  id_user       Int?
+  id_chat       Int
+  chat          chat     @relation(fields: [id_chat], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_message_chat_id")
+  user          user?    @relation(fields: [id_user], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_message_id_user")
+
+  @@index([id_chat], map: "fk_chatId")
+  @@index([id_user], map: "fk_message_id_user")
+}
+
+model online {
+  id     Int    @id @default(autoincrement())
+  online String @db.VarChar(8)
+  user   user[]
+}
+
+model role {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(15)
+  user user[]
+}
+
+model subscribe {
+  id        Int    @id @default(autoincrement())
+  id_user   Int
+  id_course Int
+  course    course @relation(fields: [id_course], references: [id], onDelete: Cascade, map: "fk_subscribe_on_course")
+  user      user   @relation(fields: [id_user], references: [id], onUpdate: Restrict, map: "fk_user_subscribe_course")
+
+  @@index([id_course], map: "fk_subscribe_on_course")
+  @@index([id_user], map: "fk_user_subscribe_course")
+}
+
+model user {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique(map: "email") @db.VarChar(50)
+  password      String?         @db.VarChar(255)
+  id_user_data  Int
+  id_role       Int             @default(3)
+  id_online     Int             @default(0)
+  authore       authore[]
+  chat          chat[]
+  favorite      favorite[]
+  feedback      feedback[]
+  message       message[]
+  subscribe     subscribe[]
+  user_data     user_data       @relation(fields: [id_user_data], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_user_data")
+  role          role            @relation(fields: [id_role], references: [id], onUpdate: Restrict, map: "fk_user_id_role")
+  online        online          @relation(fields: [id_online], references: [id], onUpdate: Restrict, map: "fk_user_is_online")
+  user_progress user_progress[]
+
+  @@index([id_user_data], map: "fk_user_data")
+  @@index([id_role], map: "fk_user_id_role")
+  @@index([id_online], map: "fk_user_is_online")
+}
+
+model user_data {
+  id            Int       @id @default(autoincrement())
+  username      String?   @db.VarChar(25)
+  surname       String?   @db.VarChar(50)
+  id_gender     Boolean   @default(false)
+  data_birthday DateTime? @db.Date
+  telephone     String?   @db.VarChar(11)
+  user          user[]
+  gender        gender    @relation(fields: [id_gender], references: [id], onUpdate: Restrict, map: "fk_user_gender")
+
+  @@index([id_gender], map: "fk_user_gender")
+}
+
+model user_progress {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  course_id    Int?
+  lesson_id    Int?
+  completed_at DateTime? @default(now()) @db.Timestamp(0)
+  passed       Boolean   @default(false)
+  user         user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_progress_ibfk_1")
+  course       course?   @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "user_progress_ibfk_2")
+  lesson       lesson?   @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "user_progress_ibfk_3")
+
+  @@index([course_id], map: "course_id")
+  @@index([lesson_id], map: "lesson_id")
+  @@index([user_id], map: "user_id")
+}

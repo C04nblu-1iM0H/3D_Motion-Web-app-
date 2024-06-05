@@ -1,17 +1,15 @@
-import { query } from "../../lib/db";
+import prisma from '@/app/lib/db';
 import bcrypt from 'bcrypt';
 
 export async function POST(request) {
     try {
         const { email, password } = await request.json();
-
-        // Проверка существования email в базе данных
-        const isExistsEmail = await query({
-            query: "SELECT * FROM user WHERE email = ?",
-            values: [email],
+        
+        const existingUser = await prisma.user.findFirst({
+            where: { email: email },
         });
 
-        if (isExistsEmail.length > 0) {
+        if (existingUser) {
             return new Response(JSON.stringify({
                 message: "Возможно вы желаете войти",
                 status: 400,
@@ -19,30 +17,30 @@ export async function POST(request) {
                 status: 400,
             });
         }
+
         const salt = bcrypt.genSaltSync(10);
-        const hashedPassword =  bcrypt.hashSync(password, salt);
+        const hashedPassword = bcrypt.hashSync(password, salt);
 
-        const createUserdata = await query({
-            query: "INSERT INTO user_data () VALUES ()",
+        const createUserdata = await prisma.user_data.create({
+            data: {},
         });
 
-        const idUserData = createUserdata.insertId;
-
-        const createUser = await query({
-            query: "INSERT INTO user (email, password, id_user_data) VALUES (?, ?, ?)",
-            values: [email, hashedPassword, idUserData],
+        const createUser = await prisma.user.create({
+            data: {
+                email: email,
+                password: hashedPassword,
+                id_user_data: createUserdata.id,
+            },
         });
 
-        const result = createUser.affectedRows;
-        let message = "";
-        result ? message = "success" :  message = "error";
+        const result = createUser ? "success" : "error";
 
         return new Response(JSON.stringify({
-            message: message,
+            message: result,
             status: 200,
         }), {
-            status: 200
-          });
+            status: 200,
+        });
     } catch (error) {
         console.error('Error inserting user:', error);
         return new Response(JSON.stringify({

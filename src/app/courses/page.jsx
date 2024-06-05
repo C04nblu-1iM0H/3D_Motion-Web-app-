@@ -25,7 +25,7 @@ export default function Сourses(){
       setCourses(data);
     }
   }, [isSuccess, data]);
-
+  
   const mutationEnableFavourites = useMutation({
     mutationFn: async ({id_course, id_user}) => await axios.post('/api/favourites', {id_course, id_user}),
     onSuccess: () => {

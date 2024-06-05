@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 
 export default function TotalUsers(){
     const totalUser = useSelector(state => state.adminPanelInfo.totalUser);
+    // const totalUser = 1;
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Всего пользователей</h3>

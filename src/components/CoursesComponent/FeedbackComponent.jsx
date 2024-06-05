@@ -18,26 +18,27 @@ export default function FeedbackComponent({handleMessage, handleChangeMessage, m
     };
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);        
+    }, [messages]);       
+     
     return(
         <section className="flex flex-col items-center w-full h-96 mt-16">
             <ToastContainer />
             <section className="flex flex-col w-3/4">
                 <div ref={messagesContainerRef} className="h-96 max-h-96 overflow-y-auto rounded-lg border-2 border-solid border-zinc-600">
-                {messages.map(message =>(
+                {messages.map(({id, feedback_text, user}) =>(
                         <div 
-                            key={message.id}
-                            className={` w-full my-3 ${message.id_user === userId ? 'flex justify-end' : 'flex justify-start'}`}>
+                            key={id}
+                            className={` w-full my-3 ${user.id === userId ? 'flex justify-end' : 'flex justify-start'}`}>
                             <div 
                                 className={`flex flex-col py-2 px-4 rounded-lg w-auto max-w-96
-                                    ${message.id_user === userId 
+                                    ${user.id === userId 
                                         ?'bg-primary text-white text-right mr-4' 
                                         :'bg-default text-white text-left ml-4'
                                     }`
                                 }
                             >
-                                <span  className="text-xs text-stone-300">{message.email}</span>
-                                <span className="text-sm">{message.feedback_text}</span>
+                                <span  className="text-xs text-stone-300">{user.email}</span>
+                                <span className="text-sm">{feedback_text}</span>
                             </div>
                             
                         </div>

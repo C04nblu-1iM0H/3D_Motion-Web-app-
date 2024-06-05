@@ -8,7 +8,8 @@ export default function OnlineUsers(){
     
     const onlineUsersCount =  useSelector(state => state.adminPanelInfo.isOnlineCount);
     const totalUser = useSelector(state => state.adminPanelInfo.totalUser);
-
+    // const onlineUsersCount = 1;
+    // const totalUser =1;
     useEffect(() => {
         if (totalUser > 0) {
             const percentage = (onlineUsersCount / totalUser) * 100;

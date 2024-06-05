@@ -21,8 +21,8 @@ export default function UpdateLesson() {
     const {data: getCurrentLesson, isSuccess, isPending, isError } = useQuery({
         queryKey:['getCurrentLesson', currentIdLesson],
         queryFn: async ({signal}) => {
-            const response = await axios.get('/api/lesson?_id=' + currentIdLesson, {signal})
-            return response.data.getCurrentLesson[0];
+            const response = await axios.get(`/api/lesson?_id=${currentIdLesson}`, {signal})
+            return response.data.getCurrentLesson;
         },
     })
 
