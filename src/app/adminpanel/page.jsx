@@ -3,12 +3,13 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import { useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import SpinnerWithBackdrop from '@/components/Button/Spinner';
 import AdminDataComponent from '@/components/AdminComponent/components/AdminDataComponent';
 import SideBarComponent from '@/components/AdminComponent/components/SideBarComponent';
 import { setTotalCourse, setTotalUsers, setTotalUsersOnline } from '@/store/adminPanelSlice';
-import { useRouter } from 'next/navigation';
+
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function Admin() {
   const { data, isSuccess , isLoading, isError } =  useQuery({
       queryKey: ['adminData'],
       queryFn: async ({ signal }) => {
-        const response = await axios.get('/api/getDataInfo', {signal});
+        const response = await axios.get('/api/getInfo', {signal});
         return response.data;
       },
       enabled: role === 1
