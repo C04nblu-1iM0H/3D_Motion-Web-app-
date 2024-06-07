@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import dynamic from 'next/dynamic'
 import {
     Table, 
     TableHeader,
@@ -12,12 +13,22 @@ import {
     Input,
 } from "@nextui-org/react";
 
+import { FaRegEye } from "react-icons/fa6";
+import { LiaEdit } from "react-icons/lia";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineNumbers } from "react-icons/md";
 import SpinnerWithBackdrop from "@/components/Button/Spinner";
-import ViewComponent from "@/app/usertable/view";
-import EditComponent from "@/app/usertable/edit";
-import DeleteComponent from "@/app/usertable/delete";
+
+const ViewComponent = dynamic(() => import('../../app/adminpanel/usertable/view'), {
+    loading: () => <FaRegEye  className="w-5 h-5 mr-6" />,
+});
+const EditComponent = dynamic(() => import('../../app/adminpanel/usertable/edit'), {
+    loading: () => <LiaEdit  className="w-5 h-5 mr-6" />,
+});
+const DeleteComponent = dynamic(() => import('../../app/adminpanel/usertable/delete'), {
+    loading: () => <RiDeleteBin6Line className="w-5 h-5 " />,
+});
 
 export default function UserTableComponent({users}) {
     const [page, setPage] = useState(1);
@@ -66,7 +77,6 @@ export default function UserTableComponent({users}) {
                         />
                     </div>
                 }
-            
             >
                 <TableHeader>
                     <TableColumn><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
@@ -74,7 +84,7 @@ export default function UserTableComponent({users}) {
                     <TableColumn>PASSWORD</TableColumn>
                     <TableColumn>ROLE</TableColumn>
                     <TableColumn>STATUS</TableColumn>
-                    <TableColumn>ACTIONS</TableColumn>
+                    <TableColumn><span className="flex justify-center">ACTIONS</span></TableColumn>
                 </TableHeader>
                 <TableBody loadingContent={<SpinnerWithBackdrop label="Loading..." />}>
                     {items.map(({id, email, password, id_role, id_online, user_data}, index) => (
