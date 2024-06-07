@@ -25,7 +25,7 @@ export default function EditComponent({userid, email, password, user_role}) {
 
   const {data, isSuccess, isError} = useQuery({
     queryKey:['getAllRoles'],
-    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal}),
+    queryFn: async ({signal}) => await axios.get('/api/changeProfile', {signal}),
   });
   useEffect(() => {
     if(isSuccess){

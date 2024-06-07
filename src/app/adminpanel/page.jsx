@@ -25,7 +25,7 @@ export default function Admin() {
   const { data, isSuccess , isLoading, isError } =  useQuery({
       queryKey: ['adminData'],
       queryFn: async ({ signal }) => {
-        const response = await axios.get('/api/getInfo', {signal});
+        const response = await axios.get('/api/favourites', {signal});
         return response.data;
       },
       enabled: role === 1
