@@ -25,12 +25,11 @@ export default function EditComponent({userid, email, password, user_role}) {
 
   const {data, isSuccess, isError} = useQuery({
     queryKey:['getAllRoles'],
-    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal})
-  })
-
+    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal}),
+  });
   useEffect(() => {
     if(isSuccess){
-      setRole(data.data.role);
+      setRole(data.data.roles);
     } else if (isError) {
       toast.error('Failed to load roles');
     }
@@ -138,20 +137,21 @@ export default function EditComponent({userid, email, password, user_role}) {
                     autoComplete="current-password"
                   />
                 )}
-                
-                <Select
-                  label="role"
-                  defaultSelectedKeys={[name]}
-                  className="w-full"
-                  variant="bordered"
-                  onChange={handleRole}
-                >
-                  {roles && roles.map((role) => (
-                    <SelectItem key={role.name} value={role.name}>
-                      {role.name}
-                    </SelectItem>
-                  ))}
-                </Select>
+                {Array.isArray(roles) && roles.length > 0 && (
+                  <Select
+                    label="role"
+                    defaultSelectedKeys={[name]}
+                    className="w-full"
+                    variant="bordered"
+                    onChange={handleRole}
+                  >
+                    {roles.map((role) => (
+                      <SelectItem key={role.name} value={role.name}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
                 </ModalBody>
                 <GroupButtonModel isLoading={isLoading} onClose={onClose}/>
             </form>
