@@ -1,6 +1,5 @@
 import Image from "next/image";
 import './style.css';
-import ComponentAccordion from "./ui/ComponentAccordion";
 import HeaderComponent from "./ui/HeaderComponent";
 export default function Home(){
     return(
@@ -246,7 +245,6 @@ export default function Home(){
                     </div>
                 </div>
             </section>
-            <ComponentAccordion />
         </>
     );
 }
