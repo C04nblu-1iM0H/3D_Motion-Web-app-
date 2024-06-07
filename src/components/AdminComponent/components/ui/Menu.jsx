@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
 
@@ -6,33 +6,31 @@ import { AiOutlineHome } from "react-icons/ai";
 import { GrUserSettings } from "react-icons/gr";
 import { BsDashLg } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedPanel } from '@/store/panelSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { VscSourceControl } from "react-icons/vsc";
-
-
+import { setIsOpen } from '@/store/panelSlice';
 
 export default function Menu() {
-    const dispatch = useDispatch();
     const pathname = usePathname();
-    const selectedPanel = useSelector(state => state.panel.panel);
-    const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const isOpen = useSelector(state => state.panel.panel);
 
-    const isActiveInList = selectedPanel === 'usertable' || selectedPanel === 'googletable';
     const routeCourse = pathname === '/setting_course' || 
                         pathname === '/setting_course/create_course' ||
                         pathname === '/setting_course/view_courses' ||
                         pathname === '/setting_course/update_courses' ||
                         pathname === '/setting_course/delete_courses';
 
-    useState(() => {
-        if (isActiveInList) {
-            setIsOpen(true);
+    useEffect(() => {
+        if (pathname === '/adminpanel/usertable') {
+            dispatch(setIsOpen(true));
+        } else {
+            dispatch(setIsOpen(false));
         }
-    }, [isActiveInList]);
+    }, [pathname, dispatch]);
 
     const toggleAccordionUser = () => {
-        setIsOpen(!isOpen);
+        dispatch(setIsOpen(!isOpen));
     };
 
     return(
@@ -42,7 +40,6 @@ export default function Menu() {
                     <Link 
                         href='/adminpanel' 
                         className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg hover:bg-zinc-150 ${ pathname === '/adminpanel' ? 'bg-neutral-700' : ''}`} 
-                        onClick={() => dispatch(setSelectedPanel('dashboard'))}
                     >
                         <AiOutlineHome />
                         Dashboard
@@ -63,23 +60,13 @@ export default function Menu() {
                     <ul className={`list-none pl-5 duration-700 ease-in-out ${isOpen ? 'h-20 opacity-100' : 'h-0 opacity-0 overflow-hidden'}`}>
                         <li className="ml-0">
                             <Link 
-                                href='/adminpanel' 
-                                className={`flex items-center cursor-pointer gap-x-3.5 py-2 px-2.5 text-sm rounded-md hover:bg-zinc-150 ${pathname === '/adminpanel' && selectedPanel === 'usertable' ? 'bg-neutral-700' : ''}`} 
-                                onClick={() => dispatch(setSelectedPanel('usertable'))}
+                                href='/adminpanel/usertable' 
+                                className={`flex items-center cursor-pointer gap-x-3.5 py-2 px-2.5 text-sm rounded-md hover:bg-zinc-150 ${pathname === '/adminpanel/usertable' ? 'bg-neutral-700' : ''}`} 
                             >
                                 <BsDashLg />
                                 <span className="ml-2">user table</span>
                             </Link>
                         </li>
-                        {/* <li>
-                            <Link 
-                                href='/adminpanel' 
-                                className={`flex items-center cursor-pointer gap-x-3.5 py-2 px-2.5 text-sm rounded-md hover:bg-zinc-150 ${pathname === '/adminpanel' && selectedPanel === 'googletable' ? 'bg-neutral-700' : ''}`} 
-                            >
-                                <BsDashLg />
-                                <span className="ml-2">user google table</span>
-                            </Link>
-                        </li> */}
                     </ul>
                 </li>
                 <li className="ml-0">

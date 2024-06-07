@@ -2,15 +2,11 @@ import prisma from '@/app/lib/db';
 
 export async function GET() {
     try {
-        const onlineUsersCount = await prisma.user.count({
-            where: {
-                id_online: 1,
-            },
-        });
-
-        const countUsers = await prisma.user.count();
-
-        const totalCourse = await prisma.course.count();
+        const [onlineUsersCount, countUsers, totalCourse] = await Promise.all([
+            prisma.user.count({ where: { id_online: 1 } }),
+            prisma.user.count(),
+            prisma.course.count()
+        ]);
 
         return new Response(JSON.stringify({
             onlineUsersCount,
@@ -24,7 +20,5 @@ export async function GET() {
             message: "Error fetching user counts",
             status: 500,
         }));
-    } finally {
-        await prisma.$disconnect();
     }
 };
