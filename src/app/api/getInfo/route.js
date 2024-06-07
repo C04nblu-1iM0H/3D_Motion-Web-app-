@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/db';
 
 export async function GET() {
@@ -8,17 +9,15 @@ export async function GET() {
             prisma.course.count()
         ]);
 
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             onlineUsersCount,
             countUsers,
             totalCourse,
-            status: 200,
-        }));
+        }, { status: 200 });
     } catch (error) {
         console.error("Error fetching user counts:", error);
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             message: "Error fetching user counts",
-            status: 500,
-        }));
+        }, { status: 500 });
     }
-};
+}

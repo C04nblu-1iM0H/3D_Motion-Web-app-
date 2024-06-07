@@ -15,7 +15,7 @@ export default function EditComponent({userid, email, password, user_role}) {
   const queryClient = useQueryClient();
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
-  const [roles, setRole] = useState("");
+  const [roles, setRole] = useState([]);
   const [editEmail, setEditEmail] = useState("");
   const [editPassword, setEditeditPassword] = useState("");
   const [editRole, setEditeditRole] = useState(user_role);
@@ -23,18 +23,20 @@ export default function EditComponent({userid, email, password, user_role}) {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
 
-  const {data, isSuccess} = useQuery({
+  const {data, isSuccess, isError} = useQuery({
     queryKey:['getAllRoles'],
-    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal})
-  })
-
+    queryFn: async ({signal}) => await axios.get('/api/getAllRole', {signal}),
+  });
   useEffect(() => {
     if(isSuccess){
-      setRole(data.data.role);
+      setRole(data.data.roles);
+    } else if (isError) {
+      toast.error('Failed to load roles');
     }
-  },[isSuccess, data]);
+  }, [isSuccess, isError, data]);
 
-  const {name} = roles && roles.find(role => role.id === user_role);
+  const role = roles.find(role => role.id === user_role);
+  const name = role ? role.name : '';
 
   const mutation  = useMutation({
     mutationFn: async (updateData) => {
@@ -59,7 +61,8 @@ export default function EditComponent({userid, email, password, user_role}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let updateData = { userid };
-    const {id} = roles && roles.find(role => role.name === editRole) || roles.find(role => role.id === editRole);
+    const selectedRole = roles.find(role => role.name === editRole) || roles.find(role => role.id === editRole);
+    const id = selectedRole ? selectedRole.id : user_role;
 
     if(editEmail === email && editPassword === password && id === user_role) return;
 
@@ -134,20 +137,21 @@ export default function EditComponent({userid, email, password, user_role}) {
                     autoComplete="current-password"
                   />
                 )}
-                
-                <Select
-                  label="role"
-                  defaultSelectedKeys={[name]}
-                  className="w-full"
-                  variant="bordered"
-                  onChange={handleRole}
-                >
-                  {roles && roles.map((role) => (
-                    <SelectItem key={role.name} value={role.name}>
-                      {role.name}
-                    </SelectItem>
-                  ))}
-                </Select>
+                {Array.isArray(roles) && roles.length > 0 && (
+                  <Select
+                    label="role"
+                    defaultSelectedKeys={[name]}
+                    className="w-full"
+                    variant="bordered"
+                    onChange={handleRole}
+                  >
+                    {roles.map((role) => (
+                      <SelectItem key={role.name} value={role.name}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                )}
                 </ModalBody>
                 <GroupButtonModel isLoading={isLoading} onClose={onClose}/>
             </form>
