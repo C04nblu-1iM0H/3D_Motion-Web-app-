@@ -10,8 +10,8 @@ export default function HeaderComponent() {
                     <section className="w-full">
                         <HeadingText />
                     </section>
-                    <section className="relative z-50 w-full flex justify-around">
-                        <div className="mt-[-6rem] lg:w-1/2">
+                    <section className="relative z-50 w-full flex justify-around sm:mt-20 2xl:mt-0">
+                        <div className="mt-[-6rem] lg:w-1/2 sm:hidden lg:block">
                             <Image
                                 alt="device"
                                 src={'/home/device2.png'}
@@ -22,7 +22,7 @@ export default function HeaderComponent() {
                                 loading="lazy"
                             />
                         </div>
-                        <div className="lg:w-1/2">
+                        <div className="sm:w-2/3 lg:w-1/2">
                             <Image
                                 alt="device"
                                 className="mr-44 device z-20"

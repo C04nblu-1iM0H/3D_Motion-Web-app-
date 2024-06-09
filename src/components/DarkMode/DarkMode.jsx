@@ -34,7 +34,7 @@ const DarkMode = () => {
 
 
     return (
-        <div className='dark_mode'>
+        <div className='dark_mode lg:ml-6 lg:mt-[-20px]'>
             <input
                 className='dark_mode_input'
                 type='checkbox'

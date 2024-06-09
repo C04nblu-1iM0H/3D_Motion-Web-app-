@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html {
   scrollbar-width: none;
 }
@@ -23,4 +27,33 @@ html::-webkit-scrollbar {
       animation-timing-function: ease-in;
       transform: translateY(0%);
     }
+}
+
+.burger-hidden{
+  display: none;
+}
+
+.burger-visible{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 9999;
+  backdrop-filter: blur(20px);
+  background-color: rgba(0, 0, 0, 0.5);
+  @apply gap-y-10;
+}
+
+.burger-visible .burger-ul{
+  @apply gap-y-5;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.burger-visible .burger-image_logo{
+  @apply w-[21rem] h-[5rem] mt-44;
 }

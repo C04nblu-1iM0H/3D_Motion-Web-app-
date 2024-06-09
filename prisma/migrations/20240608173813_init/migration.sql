@@ -137,6 +137,7 @@ CREATE TABLE `user_data` (
     `id_gender` BOOLEAN NOT NULL DEFAULT false,
     `data_birthday` DATE NULL,
     `telephone` VARCHAR(11) NULL,
+    `picture` VARCHAR(255) NULL,
 
     INDEX `fk_user_gender`(`id_gender`),
     PRIMARY KEY (`id`)

@@ -9,6 +9,7 @@ import Home from '@/components/Home/Home';
 import SpinnerWithBackdrop from "@/components/Button/Spinner";
 import { setEmail, setId, setUserRole } from "@/store/userSlice";
 import { setUserData } from "@/store/userProfileSlice";
+import FooterComponent from "@/components/Footer/FooterComponent";
 
 export default function App() {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ export default function App() {
   return ( 
     <>
       <Home/>
+      <FooterComponent />
     </>
 
   );

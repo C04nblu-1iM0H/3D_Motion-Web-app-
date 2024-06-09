@@ -6,7 +6,8 @@ export async function GET(req){
 
     try {
         const getAllChatUser = await prisma.$queryRaw`
-        SELECT latest_message.*, course.course_name AS course_name, user_data.username AS username, user_data.surname AS surname, user.email
+        SELECT latest_message.*, course.course_name AS course_name, user_data.username AS username, 
+                user_data.surname AS surname, user_data.picture AS picture, user.email
             FROM chat
             INNER JOIN 
                 (
@@ -30,7 +31,8 @@ export async function GET(req){
         SELECT latest_message.*,
             course.course_name,
             user_data.username,
-            user_data.surname
+            user_data.surname,
+            user_data.picture AS picture
         FROM  chat
         INNER JOIN (
             SELECT id_chat, MAX(date_dispatch) AS latest_date

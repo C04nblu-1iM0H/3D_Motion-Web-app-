@@ -45,7 +45,10 @@ export async function PUT(request) {
     try {
         const updateData = await request.json();
         const { editEmail, editPassword, id, userid } = updateData;
-
+        console.log(editEmail);
+        console.log(editPassword);
+        console.log(id);
+        console.log(userid);
         if (editEmail === undefined && editPassword === undefined) {
             await prisma.user.update({
                 where: { id: userid },
