@@ -16,8 +16,8 @@ export default function EditComponent({userid, email, password, user_role}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [isVisible, setIsVisible] = useState(false);
   const [roles, setRole] = useState([]);
-  const [editEmail, setEditEmail] = useState("");
-  const [editPassword, setEditeditPassword] = useState("");
+  const [editEmail, setEditEmail] = useState(email);
+  const [editPassword, setEditeditPassword] = useState(password);
   const [editRole, setEditeditRole] = useState(user_role);
   const [isLoading, setIsLoading] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -66,7 +66,7 @@ export default function EditComponent({userid, email, password, user_role}) {
 
     if(editEmail === email && editPassword === password && id === user_role) return;
 
-    if(editEmail === email && editPassword === null){
+    if(editEmail && editPassword === null){
       const validationError = validateEmail(editEmail);
       if (validationError) {
         toast.error(validationError);
@@ -75,7 +75,7 @@ export default function EditComponent({userid, email, password, user_role}) {
       updateData.editEmail = editEmail;
     }
 
-    if(editEmail === email && editPassword === password){
+    if(editEmail && editPassword ){
       const validationError = validateForm(editEmail, editPassword);
       if (validationError) {
         toast.error(validationError);
@@ -91,7 +91,6 @@ export default function EditComponent({userid, email, password, user_role}) {
 
     setIsLoading(true);
     try {
-
       await mutation.mutateAsync(updateData);
     } catch (error) {
       toast.error('Failed to update user');

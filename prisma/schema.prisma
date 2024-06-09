@@ -151,6 +151,7 @@ model user_data {
   id_gender     Boolean   @default(false)
   data_birthday DateTime? @db.Date
   telephone     String?   @db.VarChar(11)
+  picture       String?   @db.VarChar(255)
   user          user[]
   gender        gender    @relation(fields: [id_gender], references: [id], onUpdate: Restrict, map: "fk_user_gender")
 

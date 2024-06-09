@@ -10,6 +10,7 @@ import MessangerComponent from "@/components/Profile/MessagerComponent";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import NoMassegeComponent from "@/components/Profile/noMessageComponent";
+import LoadingSkeletonMessageComponent from "@/components/LoadingSkeleton/LoadingSkeletonMessageComponent";
 
 
 export default function Messager(){
@@ -17,7 +18,7 @@ export default function Messager(){
     const [chats, setChats]= useState([]);
     const { data: session, status } = useSession();
     
-    const {data, isSuccess, isError, isPending} = useQuery({
+    const {data, isSuccess, isError, isPending, error} = useQuery({
         queryKey:['getMessages'],
         queryFn:async ({signal})=> {
             const response = await axios.get(`/api/chat?id_user=${id_user}`,{signal});
@@ -32,6 +33,7 @@ export default function Messager(){
 
     if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
     if(status === 'unauthenticated'){return redirect('/Signin');}
+    if(isPending) return <LoadingSkeletonMessageComponent />
     const {name, email, image} = session.user;
     return(
         <section className="w-screen">

@@ -32,7 +32,11 @@ export default function Create() {
             router.push('/setting_course')
         },
         onError: (error) => {
-            if(error) toast.error("К сожалению курс не загружен, попробуйте позже или перазагрузите страницу 😞😓🙏🏻")
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("К сожалению курс не загружен, попробуйте позже или перезагрузите страницу 😞😓🙏🏻");
+            }
         },
         onSettled: () =>{
             dispatch(setLoading(false));
@@ -48,8 +52,13 @@ export default function Create() {
             toast.error(validationError);
             return;
         }
+
+        if (file.size > 2 * 1024 * 1024) {
+            toast.error('Размер фото не должено привышать 2MB');
+            return;
+        }
+
         try {
-            console.log(file);
             dispatch(setLoading(true));
             const formData = new FormData();
             formData.append('courseName', courseName);

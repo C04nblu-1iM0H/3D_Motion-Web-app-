@@ -6,20 +6,32 @@ import { useState } from "react";
 import SideBarComponent from "../AdminComponent/components/SideBarComponent";
 import { ToastContainer } from 'react-toastify';
 import { IoCreateOutline } from "react-icons/io5";
-import { GrDownload } from "react-icons/gr";
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileAvatar from "../ProfileAvatar/ProfileAvatar";
 import FormatTextComponent from "./FormatTextComponent";
+import ImageUploadComponent from "./ImageUploadComponent";
 
 export default function CreateCourseComponent({handleCreateCourse}){
     const role = useSelector(state => state.user.role);
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.course.loading);
     const [file, setFile] = useState(null);
+    const [fileInfo, setFileInfo] = useState({ name: '', size: 0 });
+    
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setFileInfo({
+                name: selectedFile.name,
+                size: (selectedFile.size / 1024 / 1024).toFixed(2), // Преобразовать размер в MB
+            });
+        }
+    };
+
 
     const handleChangeName = (value) => dispatch(setCourseName(value));
     const handleChangeDescription = (value) => dispatch(setCourseDescription(value));
-    const handleFileChange = (event) => setFile(event.target.files[0]);
     
     const onSubmit = (e) => {
         handleCreateCourse(e, file);
@@ -48,25 +60,15 @@ export default function CreateCourseComponent({handleCreateCourse}){
                             labelPlacement="outside"
                             onValueChange={handleChangeName}
                         />
-                        {/* <Textarea
-                            minRows={2}
-                            maxRows={22}
-                            className="mt-5"
-                            variant="bordered"
-                            label="Описание курса"
-                            labelPlacement="outside"
-                            placeholder="Введите описание курса"
-                            onValueChange={handleChangeDescription}
-                        /> */}
                         <FormatTextComponent handleChangeDescription={handleChangeDescription}/>
-                        <div className="flex justify-end items-center mt-5">
-                            <div className="mr-3">
-                                <label className=" flex items-center border-2 border-solid border-green-700 rounded-xl p-2 cursor-pointer hover:bg-success-200 transition duration-200 ease-in-out">
-                                    <GrDownload  className="mr-2"/>
-                                    <input type="file" className="hidden" onChange={handleFileChange}/>
-                                    <span>Загрузить фото курса</span>
-                                </label>
-                            </div>
+                        <div className="flex justify-between items-center mt-5">
+                            <ImageUploadComponent 
+                                fileInfo={fileInfo} 
+                                file={file} 
+                                setFile={setFile} 
+                                setFileInfo={setFileInfo} 
+                                handleFileChange={handleFileChange}
+                            />
                             <div>
                             {
                                 isLoading 

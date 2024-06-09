@@ -20,7 +20,7 @@ export default function ViewCourseComponent({courses,
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const pathname = usePathname();
     const session = useSession();
-    console.log(courses);
+    
     return(
         <div className="container mx-auto">
             <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">

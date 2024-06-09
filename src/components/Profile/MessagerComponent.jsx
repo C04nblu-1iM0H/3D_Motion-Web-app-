@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
@@ -16,7 +17,19 @@ export default function MessangerComponent({chats}){
                         href={`${path}/${chat.id_chat}`}
                     >
                         <figure className="flex items-center">
-                            <FaUserCircle alt="avatar" className="object-cover w-12 h-12"/>
+                            {!chat.picture ? (
+                                <FaUserCircle className="object-cover w-16 h-16" />
+                            ) : (
+                                <Image
+                                    alt="avatar"
+                                    className="object-cover rounded-full w-16 h-16"
+                                    src={chat.picture}
+                                    width={100}
+                                    height={100}
+                                    quality={100}
+                                    priority={true}
+                                />
+                            )}
                             <figcaption className="flex flex-col ml-5">
                                 <div className="flex">
                                     <h3 className="text-base text-blue-400 mr-2">

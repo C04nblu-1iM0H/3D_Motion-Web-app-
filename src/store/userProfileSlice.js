@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const userProfileSlice  = createSlice({
     name: 'userProfile',
     initialState:{
-        isEdit:true,
+        isEdit:false,
         name: '',
         surname: '',
         gender: 0,
