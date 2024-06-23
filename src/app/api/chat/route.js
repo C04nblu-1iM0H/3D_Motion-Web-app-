@@ -76,7 +76,6 @@ export async function POST(request) {
             select: { id: true },
         });
 
-        console.log(existingChat);
         if (existingChat) {
             return new Response(JSON.stringify({
                 chatId: existingChat.id,
@@ -91,7 +90,6 @@ export async function POST(request) {
             },
         });
 
-        console.log(result);
         return new Response(JSON.stringify({
             chatId: result.id,
             status: 200, 

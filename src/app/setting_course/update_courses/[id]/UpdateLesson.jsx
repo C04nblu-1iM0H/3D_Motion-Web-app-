@@ -25,7 +25,6 @@ export default function UpdateLesson() {
             return response.data.getCurrentLesson;
         },
     })
-
     const mutation = useMutation({
         mutationFn: async ({lessonName, lessonDescription, lessonMaterial, currentIdLesson}) => {
             await axios.put('/api/lesson', {lessonName, lessonDescription, lessonMaterial, currentIdLesson});

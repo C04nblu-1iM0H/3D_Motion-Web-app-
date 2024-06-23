@@ -12,18 +12,23 @@ export async function GET(req) {
         if (userId) {
             getCourse = await prisma.course.findFirst({
                 where: {
-                    id: Number(id),
-                    subscribe: {
-                        some: { id_user: Number(userId) }
-                    }
+                    id: Number(id)
                 },
                 select: {
                     id: true,
                     course_name: true,
                     course_description: true,
-                    subscribe: { select: { id: true } }
+                    subscribe: {
+                        where: { id_user: Number(userId) },
+                        select: { id: true }
+                    }
                 }
             });
+            if (getCourse) {
+                if (getCourse.subscribe.length === 0) {
+                    getCourse.subscribe = [];
+                }
+            }
         } else {
             getCourse = await prisma.course.findFirst({
                 where: {

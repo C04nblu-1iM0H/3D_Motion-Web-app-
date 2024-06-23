@@ -51,15 +51,17 @@ export default function Course(){
     </section>
   )
 
-  if (isError || !data) {
+  if (isError) {
     return console.log(Error);
   }
 
   if(status === 'error') {
     return console.log(Error);
   }
+  
   const {subscribe} = data; 
   const id_subscribe = subscribe.length > 0 ? subscribe[0].id : null;
+
   return (
     <section className="flex flex-col container mx-auto mt-10">
       <BreadCrumbsComponent id={id} />

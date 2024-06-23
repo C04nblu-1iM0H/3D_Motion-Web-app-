@@ -1,0 +1,12 @@
+.ql-editor.ql-blank::before {
+    content: attr(data-placeholder);
+    font-style: normal;
+    left: 15px;
+    pointer-events: none;
+    position: absolute;
+    right: 15px;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before {
+    color: rgba(80, 80, 80, 0.6);
+}

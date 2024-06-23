@@ -2,9 +2,9 @@ import {ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
-export default function AuthorsDataComponent({username, surname, authore, onClose, startChat}) {
+export default function AuthorsDataComponent({username, surname, onClose, startChat, id_authore, idChat}) {
     const handleStartChat = () => {
-        startChat(authore);
+        startChat(id_authore);
     };
     return(
         <>
@@ -25,15 +25,30 @@ export default function AuthorsDataComponent({username, surname, authore, onClos
                 </section>
             </ModalBody>
             <ModalFooter>
-                <Button
-                    endContent={<IoChatbubbleEllipsesSharp className="w-6 h-6"/>}
-                    onClick={handleStartChat}
-                    color="primary"
-                    variant="ghost"
-                >
-                    Начать чат
-                </Button>
-                <Button color="danger" variant="ghost" onPress={onClose}>Close</Button>
+                {idChat !== null ?(
+                    <>
+                        <Button
+                            endContent={<IoChatbubbleEllipsesSharp className="w-6 h-6" />}
+                            onClick={handleStartChat}
+                            color="primary"
+                            variant="ghost"
+                        >
+                            Продолжить чат
+                        </Button><Button color="danger" variant="ghost" onPress={onClose}>Close</Button>
+                    </>
+                ):(
+                    <>
+                        <Button
+                            endContent={<IoChatbubbleEllipsesSharp className="w-6 h-6" />}
+                            onClick={handleStartChat}
+                            color="primary"
+                            variant="ghost"
+                        >
+                            Начать чат
+                        </Button><Button color="danger" variant="ghost" onPress={onClose}>Close</Button>
+                    </>
+                )}
+
             </ModalFooter>
         </>
     );

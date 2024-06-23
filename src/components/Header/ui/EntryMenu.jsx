@@ -6,11 +6,11 @@ export default function EntryMenu({isHome}) {
     return(
         <>
             <li className="flex items-center cursor-pointer">
-                <RiUserAddLine className={`mr-2 bg-${isHome ? 'black' : 'layout'}`} />
+                <RiUserAddLine className={`mr-2 bg-${isHome ? 'black' : 'layout-450'}`} />
                 <Link href='/Signup' className={`text-${isHome ? 'layout-450' : ''}  hover:underline`}>Регистрация</Link>
             </li>
             <li className="flex items-center cursor-pointer">
-                <PiSignInLight className={`mr-2 ml-4 bg-${isHome ? 'black' : 'layout'}`} />
+                <PiSignInLight className={`mr-2 ml-4 bg-${isHome ? 'black' : 'layout-450'}`} />
                 <Link href="/Signin" className={`link text-${isHome ? 'layout-450' : ''}  hover:underline`}>Вход</Link>
             </li>
         </>
