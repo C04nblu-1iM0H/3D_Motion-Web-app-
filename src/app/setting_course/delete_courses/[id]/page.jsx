@@ -94,7 +94,7 @@ export default function Course() {
       <section className="flex flex-col container mx-auto mt-10">
         <BreadCrumbsComponent id={id} />
         <CourseComponent course={course} />
-          <div className="w-full flex justify-end mt-5">
+          <div className="w-4/5 flex justify-end mt-5 mx-auto">
             <DeleteCourse id_course={id}/>  
           </div>
         <LessonComponent handleDelete={handleDelete} id={id} lessons={lesson}/>

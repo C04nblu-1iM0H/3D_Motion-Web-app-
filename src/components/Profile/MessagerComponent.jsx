@@ -9,11 +9,11 @@ export default function MessangerComponent({chats}){
     const currentIdUser = useSelector(state => state.user.id);
     return(
         <div className="w-1/2 mx-auto mt-6">
-            <ul className="w-full h-[calc(100vh-7rem)] border-2 border-zinc-600 rounded-md">
+            <ul className="w-full h-[calc(100vh-7rem)] border-2 border-zinc-20 rounded-md">
                 {chats?.map( chat => (
                     <Link 
                         key={chat.id} 
-                        className="flex flex-row justify-between items-center p-4 border-b-2 border-zinc-600 hover:bg-neutral-700" 
+                        className="flex flex-row justify-between items-center p-4 border-b-2 border-zinc-20 hover:bg-neutral-700" 
                         href={`${path}/${chat.id_chat}`}
                     >
                         <figure className="flex items-center">

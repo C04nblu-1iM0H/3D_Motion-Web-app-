@@ -72,7 +72,7 @@ export default function Course() {
           <>
             <BreadCrumbsComponent id={id} />
             <CourseComponent course={course} />
-            <div className="w-full flex justify-end mt-5">
+            <div className="w-4/5 flex justify-end mt-5 mx-auto">
               <Button onClick={() => dispatch(setIsClose(true))}>Создать урок</Button>
             </div>
           </>

@@ -20,8 +20,8 @@ export default function Course(){
             ):(
                 <ProfileAvatar />
             )}
-            <ul className='container mt-10 mx-auto flex flex-wrap gap-6'>
-                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-600 rounded-xl'>
+            <ul className='w-full mt-10 flex justify-center flex-wrap gap-x-11'>
+                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-10 rounded-xl'>
                     <Link href="/setting_course/create_course" >
                         <figure>
                             <Image
@@ -39,7 +39,7 @@ export default function Course(){
                         </figcaption>
                     </Link>
                 </li>
-                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-600 rounded-xl'>
+                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-10 rounded-xl'>
                     <Link href="/setting_course/view_courses">
                         <figure>
                             <Image
@@ -57,7 +57,7 @@ export default function Course(){
                         </figcaption>
                     </Link>
                 </li>
-                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-600 rounded-xl'>
+                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-10 rounded-xl'>
                     <Link href="/setting_course/update_courses" >
                         <figure>
                             <Image
@@ -75,7 +75,7 @@ export default function Course(){
                         </figcaption>
                     </Link>
                 </li>
-                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-600 rounded-xl'>
+                <li className='w-72 h-max bg-layout border-2 border-solid border-zinc-10 rounded-xl'>
                     <Link href="/setting_course/delete_courses" >
                         <figure>
                             <Image

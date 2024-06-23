@@ -28,7 +28,6 @@ export default function Message(){
 
     useEffect(()=>{
         if(isSuccess){
-            console.log(data);
             setMessages(data);
         }
     },[isSuccess, data])
@@ -40,7 +39,22 @@ export default function Message(){
             queryClient.invalidateQueries({queryKey:['getMessages']});
             setSendMessage('');
         }
-    })
+    });
+
+    const mutationDelMessage = useMutation({
+        mutationFn: async({message_id}) => await axios.delete(`/api/message?message_id=${message_id}`),
+        onSuccess: ()=>{
+            queryClient.invalidateQueries({queryKey:['getChatMessage', id]});
+            queryClient.invalidateQueries({queryKey:['getMessages']});
+        }
+    });
+    const mutationEditMessage = useMutation({
+        mutationFn: async({message_id, message}) => await axios.put('/api/message', {message_id, message}),
+        onSuccess: ()=>{
+            queryClient.invalidateQueries({queryKey:['getChatMessage', id]});
+            queryClient.invalidateQueries({queryKey:['getMessages']});
+        }
+    });
 
     const handleChangeMessage = (value) => setSendMessage(value);
 
@@ -53,19 +67,38 @@ export default function Message(){
         }
         mutation.mutateAsync({sendMessage, id_user, id});
     }
+
+    const handleDeletMessage = async (message_id) => {
+        if(!message_id) return;
+        mutationDelMessage.mutateAsync({message_id});
+    }
+
+    const handleEdithMessage = async (message_id, message) => {
+        const validationError = validateSendMessage(message);
+        if (validationError) {
+            toast.error(validationError);
+            return;
+        }
+        mutationEditMessage.mutateAsync({message_id, message})
+    }
+    
+    
     if(isError) console.error('Не могу вывести сообщение');
     if(status === 'loading'){return <SpinnerWithBackdrop isLoading={true}/>;}
     if(status === 'unauthenticated'){return redirect('/Signin');}
+    
     const {name, email, image} = session.user;
     return(
         <section className="w-screen">
-            <section className="flex gap-x-5 flex-wrap">
+            <section className="flex">
                 <ProfileAvatar image={image} sassionName={name} email={email}/>
                 <MessageComponent 
                     messages={messages} 
                     sendMessage={sendMessage}
                     handleChangeMessage={handleChangeMessage}
                     hendleMessage={hendleMessage}
+                    handleDeletMessage={handleDeletMessage}
+                    handleEdithMessage={handleEdithMessage}
                 />
             </section>
         </section>

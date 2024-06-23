@@ -24,7 +24,7 @@ export default function BreadCrumbsComponent({id, lessonId}) {
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/view_courses/${id}` && (<BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                <Link href={`/setting_course/view_courses/${id}`}>информационный ресур</Link>
+                <Link href={`/setting_course/view_courses/${id}`}>электронный ресур</Link>
             </BreadcrumbItem>
             )}
             { pathname === `/setting_course/update_courses/${id}` && (<BreadcrumbItem  startContent={<PiBooks />}>
@@ -51,7 +51,7 @@ export default function BreadCrumbsComponent({id, lessonId}) {
             { pathname === `/courses/${id}` || 
               pathname === `/courses/${id}/lesson/${lessonId}` ? (
                 <BreadcrumbItem startContent={<MdOutlineLibraryBooks />}>
-                    <Link href={`/courses/${id}`}>информационный ресурс</Link>
+                    <Link href={`/courses/${id}`}>электронный ресурс</Link>
                 </BreadcrumbItem>
             ):(null)}
             { pathname === `/courses/${id}/lesson/${lessonId}` && (<BreadcrumbItem startContent={<MdOutlinePlayLesson />}>

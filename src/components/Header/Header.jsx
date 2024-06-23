@@ -17,7 +17,6 @@ export default function Header(){
     const pathname = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { theme } = useTheme()
-    console.log(theme);
 
     const isAuthenticated = status === 'authenticated'
     const isHome = pathname === '/';
@@ -75,7 +74,7 @@ export default function Header(){
                 </Link>
                 <ul className="burger-ul flex w-96 justify-around">
                     <li className="burger-li list-none cursor-pointer"><Link href="/" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Главная</Link></li>
-                    <li className="burger-li list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Информационные ресурсы</Link></li>
+                    <li className="burger-li list-none cursor-pointer"><Link href="/courses" className={`text-${isHome ? 'layout-450' : ''} hover:underline`}>Электронные ресурсы</Link></li>
                 </ul>
                 <ul className="burger-ul flex justify-around items-center">
                     {

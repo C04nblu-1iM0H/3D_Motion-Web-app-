@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './page.scss';
 import { resetForm } from "@/store/userSlice";
 import MatteFon from '@/components/MatteFon/MatteFon';
+import { useMutation } from '@tanstack/react-query';
 
 export default function SingupPageForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +24,34 @@ export default function SingupPageForm() {
   const password = useSelector(state => state.user.password);
   const signInH1 = 'Регистрация', signUpButtonText = 'Зарегистрироваться';
 
-  const handleSubmit = async (e) => {
+  const mutation = useMutation({
+      mutationFn: async ({ email, password }) => await axios.post('/api/signup', { email, password }),
+      onMutate: () => setIsLoading(true),
+      onSuccess: () => {
+        dispatch(resetForm());
+        setTimeout(() => router.push('/Signin'), 5000);
+        toast.success("Вы успешно зарегистрировались 👍");
+        toast.info("Вы будете перенаправлены на страницу входа");
+      },
+      onError: (error) => {
+        if (error.response && error.response.status === 400) {
+          toast.warning(
+            <div>
+              <span>{error.response.data.message}</span>
+              <button className='btn-warning' onClick={() => router.push('/Signin')}>
+                Перейти к входу
+              </button>
+            </div>,{ icon: "🤔" }
+          );
+        } else {
+          toast.error("Произошла ошибка, перезапустите страницу и попробуйте заново");
+        }
+      },
+      onSettled: () =>setIsLoading(false),
+    }
+  );
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const validationError = validateForm(email, password);
@@ -32,42 +60,7 @@ export default function SingupPageForm() {
       return;
     }
 
-    setIsLoading(true);
-    try {
-        const insertUserPromise = toast.promise(
-          axios.post('/api/signup', {email, password}),
-          {
-              pending: "Подождите пожалуйста...",
-              success: "Вы успешно зарегистрировались 👍",
-              error: "Произошла ошибка, перезапустите страницу и начните заново"
-          }
-      );
-      const response = await insertUserPromise;
-      if (response.status === 200) {
-        dispatch(resetForm());
-        setTimeout(() => router.push('/Signin'),5000);
-        toast.info("Вы будете перенаправлены на страницу входа");
-      }else{
-        toast.error("Failed to sign up");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        toast.warning(
-          <div>
-            <span>{error.response.data.message}</span>
-            <button 
-              className='btn-warning' 
-              onClick={() => router.push('/Login')}
-            >Перейти к входу</button>
-          </div>,
-          {icon: "🤔",}
-        );
-      } else {
-        return;
-      }
-    } finally {
-      setIsLoading(false); 
-    }
+    mutation.mutate({ email, password });
   };
 
 
@@ -75,7 +68,6 @@ export default function SingupPageForm() {
     <>
       <ToastContainer/>
       <section className='content relative z-10 w-screen'>
-
         {theme === 'dark'
           ?[220, 260, 150, 180].map((size, index) => (
             <Image

@@ -8,7 +8,8 @@ export async function GET(req) {
         const getAuthoreCourse = await prisma.authore.findMany({
             where: { id_course: Number(id_course) },
             select: {
-                id: true,
+                id:true,
+                id_user: true,
                 user: {
                     select: {
                         user_data: {
@@ -25,7 +26,8 @@ export async function GET(req) {
         const formattedAuthoreCourse = getAuthoreCourse.map(authore => ({
             username: authore.user.user_data.username,
             surname: authore.user.user_data.surname,
-            id_Authore: authore.id,
+            authore: authore.id_user,
+            id_authore: authore.id,
         }));
 
         return new Response(JSON.stringify({

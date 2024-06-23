@@ -122,22 +122,23 @@ model subscribe {
 }
 
 model user {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique(map: "email") @db.VarChar(50)
-  password      String?         @db.VarChar(255)
-  id_user_data  Int
-  id_role       Int             @default(3)
-  id_online     Int             @default(0)
-  authore       authore[]
-  chat          chat[]
-  favorite      favorite[]
-  feedback      feedback[]
-  message       message[]
-  subscribe     subscribe[]
-  user_data     user_data       @relation(fields: [id_user_data], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_user_data")
-  role          role            @relation(fields: [id_role], references: [id], onUpdate: Restrict, map: "fk_user_id_role")
-  online        online          @relation(fields: [id_online], references: [id], onUpdate: Restrict, map: "fk_user_is_online")
-  user_progress user_progress[]
+  id                 Int                  @id @default(autoincrement())
+  email              String               @unique(map: "email") @db.VarChar(50)
+  password           String?              @db.VarChar(255)
+  id_user_data       Int
+  id_role            Int                  @default(3)
+  id_online          Int                  @default(0)
+  authore            authore[]
+  chat               chat[]
+  favorite           favorite[]
+  feedback           feedback[]
+  message            message[]
+  subscribe          subscribe[]
+  user_data          user_data            @relation(fields: [id_user_data], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_user_data")
+  role               role                 @relation(fields: [id_role], references: [id], onUpdate: Restrict, map: "fk_user_id_role")
+  online             online               @relation(fields: [id_online], references: [id], onUpdate: Restrict, map: "fk_user_is_online")
+  user_online_status user_online_status[]
+  user_progress      user_progress[]
 
   @@index([id_user_data], map: "fk_user_data")
   @@index([id_role], map: "fk_user_id_role")
@@ -156,6 +157,15 @@ model user_data {
   gender        gender    @relation(fields: [id_gender], references: [id], onUpdate: Restrict, map: "fk_user_gender")
 
   @@index([id_gender], map: "fk_user_gender")
+}
+
+model user_online_status {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  last_login DateTime? @db.Date
+  user       user?     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+
+  @@index([user_id], map: "fk_user")
 }
 
 model user_progress {

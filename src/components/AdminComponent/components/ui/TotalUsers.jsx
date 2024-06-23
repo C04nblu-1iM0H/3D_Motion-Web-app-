@@ -4,7 +4,9 @@ import {useSelector} from 'react-redux';
 
 export default function TotalUsers(){
     const totalUser = useSelector(state => state.adminPanelInfo.totalUser);
-    // const totalUser = 1;
+    const futureMark = totalUser * 3;
+    const half = Math.ceil(futureMark/2);
+    const quarter = Math.ceil(futureMark/4);
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Всего пользователей</h3>
@@ -14,8 +16,8 @@ export default function TotalUsers(){
                     <Progress
                         aria-label="Loading..."
                         size="md"
-                        value={totalUser}
-                        color={totalUser <= 100 ? 'danger' : totalUser <= 1000 ? 'warning' : 'success'}
+                        value={ (totalUser/futureMark)*100 }
+                        color={totalUser <= quarter ? 'danger' : totalUser <= half ? 'warning' : 'success'}
                         label={totalUser}
                         showValueLabel={true}
                     />

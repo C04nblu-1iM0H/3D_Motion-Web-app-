@@ -1,13 +1,16 @@
-import React from "react";
-import {useTheme} from "next-themes";
+import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import 'react-quill/dist/quill.snow.css';
+import './style.css'
+
 
 const ReactQuill = dynamic(() => import("react-quill"), {
     ssr: false
 });
 
-export default function FormatTextForLessonComponent({descriptions, handleDescription, materials, handleMaterial}){
+export default function FormatTextForUpdateLessonComponent({handleDescription, handleMaterial}){
+    const descriptions = useSelector(state => state.lesson.lessonDescription);
+    const materials = useSelector(state => state.lesson.lessonMaterials);
     const modules = {
         toolbar: [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],

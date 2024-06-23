@@ -3,19 +3,20 @@ import ViewNoDataUser from "@/components/AdminComponent/components/ui/ViewNoData
 import AuthorsDataComponent from "./AuthorsDataComponent";
 import { useSelector } from "react-redux";
 
-export default function AuthoreComponent({dataAuthore, startChat}) {
+export default function AuthoreComponent({dataAuthore, startChat, idChat}) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const id_user = useSelector(state => state.user.id);
-    const {username, surname, id_Authore} = dataAuthore;
-    const currentUserIsAuthore = id_Authore !== id_user? `${surname} ${username}`: 'Вы'
+    const current_user = useSelector(state => state.user.id);
+    const {username, surname, authore, id_authore} = dataAuthore;
+
+    const currentUserIsAuthore = authore !== current_user ? `${surname} ${username}`: 'Вы'
     const handleOpen = () => {
-        if (id_Authore !== id_user) {
+        if (authore !== current_user) {
             onOpen();
         }
     };
     return ( 
         <>  
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-4 w-4/5 mx-auto">
                 <Button className="underline" size="sm" variant="light" onPress={handleOpen}>автор {currentUserIsAuthore}</Button>
             </div>
             <Modal 
@@ -29,13 +30,14 @@ export default function AuthoreComponent({dataAuthore, startChat}) {
                     <>
                         {
                             username === null && surname === null
-                            ?<ViewNoDataUser authore={id_Authore} onClose={onClose}/>
+                            ?<ViewNoDataUser authore={authore} onClose={onClose}/>
                             :<AuthorsDataComponent  
                                 username={username} 
                                 surname={surname} 
-                                authore={id_Authore}
+                                id_authore={id_authore}
                                 startChat={startChat}
                                 onClose={onClose}
+                                idChat={idChat}
                             /> 
                         }
                     </>

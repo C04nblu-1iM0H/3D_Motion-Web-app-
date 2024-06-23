@@ -25,7 +25,7 @@ export default function DropDownMenuComponent({username, email, role, handleClic
                         description={ username || email}
                         startContent={<VscAccount className="w-4 h-4" />}
                     > 
-                    My Account 
+                    Мой аккаунт
                     </DropdownItem>
                 </DropdownSection>
                 {role === 1 ?
@@ -35,7 +35,7 @@ export default function DropDownMenuComponent({username, email, role, handleClic
                         href="/adminpanel"
                         startContent={<TfiPanel  className="w-4 h-4" />}
                         > 
-                        Admin panel
+                        Панель администратора
                     </DropdownItem>
                     </DropdownSection> 
                     :''
@@ -46,7 +46,7 @@ export default function DropDownMenuComponent({username, email, role, handleClic
                         className="text-danger-400"
                         startContent={<ImExit className="w-4 h-4 text-danger-400" />}
                     >
-                        Exit
+                        Выход
                     </DropdownItem>
                 </DropdownSection>
             </DropdownMenu>
