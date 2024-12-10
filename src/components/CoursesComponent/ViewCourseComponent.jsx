@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { PiBooks } from "react-icons/pi";
 import FavoriteButtonComponent from "../Button/FavoriteButtonComponent";
 import SubscribeButtonComponent from "../Button/SubscribeButtonComponent";
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip, Pagination } from "@nextui-org/react";
 
 
 export default function ViewCourseComponent({courses, 
@@ -20,17 +20,27 @@ export default function ViewCourseComponent({courses,
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const pathname = usePathname();
     const session = useSession();
-    
+    const itemsPerPage = 8;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastCourse = currentPage * itemsPerPage;
+    const indexOfFirstCourse = indexOfLastCourse - itemsPerPage;
+    const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
     return(
         <div className="container mx-auto">
             <div className="bg-layout w-1/4 mx-auto text-center my-5 rounded-xl shadow-xl">
                 <div className="flex items-center justify-center">
                     <PiBooks className="w-6 h-6"/>
-                    <h1 className="p-2 text-xl">Информационные ресурсы</h1>
+                    <h1 className="p-2 text-xl">Электронные ресурсы</h1>
                 </div>
             </div>  
             <section className='grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4'>
-                {courses.map( ({id, course_name, course_picture, favorite, subscribe}) => (
+                {currentCourses.map( ({id, course_name, course_picture, favorite, subscribe}) => (
                     <div 
                         key={id}
                         className="w-96 h-96">
@@ -112,6 +122,18 @@ export default function ViewCourseComponent({courses,
                     </div>
                 ))}
             </section>
+                <div className="flex justify-center mt-5">
+                {courses.length > 9 &&(
+                    <Pagination 
+                        isCompact 
+                        showControls 
+                        total={Math.ceil(courses.length / itemsPerPage)}
+                        initialPage={1}
+                        page={currentPage}
+                        onChange={(page) => handlePageChange(page)}
+                    />
+                )}
+                </div>
         </div>
     )
 }

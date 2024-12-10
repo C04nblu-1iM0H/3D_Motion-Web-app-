@@ -29,7 +29,10 @@ export default function Form({handleSubmit, text, head, isLoading}){
     return(
         <form  
             onSubmit={handleSubmit} 
-            className='bg-layout w-96 h-96 mt-52 mx-auto border-solid border-1 border-layout rounded-xl p-8 flex flex-col justify-evenly shadow-xl'>
+            className='bg-layout w-96 h-96 mt-52 mx-auto 
+            border-solid border-1 border-layout rounded-xl 
+            p-8 flex flex-col justify-evenly shadow-xl'
+        >
             <h1>{head}</h1>
             <Divider/>
             <div>
@@ -62,7 +65,11 @@ export default function Form({handleSubmit, text, head, isLoading}){
                 )}
                 />
             </div>
-            <FormButton text={text} isLoading={isLoading} isLoadingGoogle={isLoadingGoogle} handle={handleGoogleSignIn}/>
+            <FormButton 
+                text={text} 
+                isLoading={isLoading} 
+                isLoadingGoogle={isLoadingGoogle} 
+                handle={handleGoogleSignIn}/>
         </form>
     )
 }

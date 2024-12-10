@@ -12,21 +12,37 @@ export default function  Authore() {
     const {id} = useParams();
     const router = useRouter();
     const [dataAuthore, setDataAuthore] = useState([]);
+    const [idChat, setIdChat] = useState(null);
+    const {id_authore} = dataAuthore
     const [isLoading, setIsLoading] = useState(false);
     const id_user = useSelector(state => state.user.id);
 
     const {data, isSuccess, isError, isPending, error} = useQuery({
-        queryKey:['getAuthoreCourse'],
+        queryKey:['getAuthoreCourse', id],
         queryFn: async ({signal})=>{
             const response = await axios.get(`/api/getAuthoreCourse?id=${id}`, {signal});
             return response.data.getAuthoreCourse[0];
         }
+    })
+    const { status, fetchStatus, data: issetChat,} = useQuery({
+        queryKey: ['issetChat', id_authore],
+        queryFn: async ({signal})=>{
+            const response = await axios.get(`/api/getIssetChat?id_user=${id_user}&id_authore=${id_authore}`, {signal});
+            return response.data;
+        },
+        enabled: !!id_authore && !!id_user,
     })
     useEffect(()=>{
         if(isSuccess && data){
             setDataAuthore(data);
         }
     },[isSuccess, data]);
+    
+    useEffect(() => {
+        if (status === 'success' && fetchStatus === 'idle' && issetChat && issetChat.getChat) {
+            setIdChat(issetChat.getChat.id);
+        }
+    }, [status, fetchStatus, issetChat]);
 
     const mutation = useMutation({
         mutationFn: async ({id_user, id_authore})=>{
@@ -46,10 +62,11 @@ export default function  Authore() {
 
     if(isPending) return <LoadingSkeletonAuthore />
     if(isError) console.error(`Error: ${error}`);
+    
     return(
         <>
             {isLoading &&(<SpinnerWithBackdrop />)}
-            <AuthoreComponent dataAuthore={dataAuthore} startChat={startChat}/>
+            <AuthoreComponent dataAuthore={dataAuthore} idChat={idChat} startChat={startChat}/>
         </>
 
     );

@@ -80,11 +80,11 @@ export default function UserTableComponent({users}) {
             >
                 <TableHeader>
                     <TableColumn><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
-                    <TableColumn>EMAIL</TableColumn>
-                    <TableColumn>PASSWORD</TableColumn>
-                    <TableColumn>ROLE</TableColumn>
-                    <TableColumn>STATUS</TableColumn>
-                    <TableColumn><span className="flex justify-center">ACTIONS</span></TableColumn>
+                    <TableColumn>ПОЧТА</TableColumn>
+                    <TableColumn>ПАРОЛЬ</TableColumn>
+                    <TableColumn>РОЛЬ</TableColumn>
+                    <TableColumn>СТАТУС</TableColumn>
+                    <TableColumn><span className="flex justify-center">ДЕЙСТВИЯ</span></TableColumn>
                 </TableHeader>
                 <TableBody loadingContent={<SpinnerWithBackdrop label="Loading..." />}>
                     {items.map(({id, email, password, id_role, id_online, user_data}, index) => (

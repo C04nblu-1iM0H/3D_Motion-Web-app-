@@ -21,7 +21,7 @@ export default function ProfileFormDisabled() {
             <Input
                 isReadOnly
                 type="text"
-                label="Name"
+                label="Имя"
                 placeholder={username || 'Ваше Имя'}
                 labelPlacement="outside"
                 startContent={
@@ -31,7 +31,7 @@ export default function ProfileFormDisabled() {
             <Input
                 isReadOnly
                 type="text"
-                label="Surname"
+                label="Фамилия"
                 placeholder={surname || 'Ваша Фамилия'}
                 labelPlacement="outside"
                 startContent={
@@ -61,7 +61,7 @@ export default function ProfileFormDisabled() {
             <Input
                 isReadOnly
                 type="text"
-                label="Phone number"
+                label="Номер телефона"
                 placeholder={telephone || '+7(000)000-00-00'}
                 labelPlacement="outside"
                 startContent={

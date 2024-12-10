@@ -20,7 +20,7 @@ export default function OpenLessonsComponent({lessons}) {
     };
     return (
         <section>
-            <div className="bg-layout w-3/5 mx-auto text-center mt-16 mb-5 rounded-xl shadow-xl">
+            <div className="bg-layout w-3/5 mx-auto text-center my-14 rounded-xl shadow-xl">
                 <div className="flex flex-col justify-center">
                     <div className="flex items-center justify-center">
                         <GiBookshelf className="w-6 h-6" />

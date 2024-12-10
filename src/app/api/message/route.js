@@ -63,8 +63,19 @@ export async function POST(request) {
 
 export async function PUT(request) {
     try {
-        const {editEmail, editPassword, id, userid } = await request.json();
-
+        const {message_id, message} = await request.json();
+        await prisma.message.update({
+            where: {
+                id: Number(message_id)
+            },
+            data: {
+                text_message: message,
+            },
+        })
+        return new Response(JSON.stringify({
+            message:'success',
+            status: 200,
+        }));
     } catch (error) {
         console.error('Error fetching user data:', error);
         return new Response(JSON.stringify({
@@ -75,20 +86,19 @@ export async function PUT(request) {
 }
 
 export async function DELETE(request) {
+    const url = new URL(request.url);
+    const message_id = url.searchParams.get('message_id');
     try {
-        const body = await request.json();
-        const { userid } = body;
+        await prisma.message.deleteMany({
+            where: {
+              id: Number(message_id)
+            }
+        });
 
-        await query({
-            query:``,
-            values:[]
-        })
-        
         return new Response(JSON.stringify({
-            message:'sucsess',
+            message: 'success',
             status: 200,
         }));
-
     } catch (error) {
         console.error('Error fetching user data:', error);
         return new Response(JSON.stringify({

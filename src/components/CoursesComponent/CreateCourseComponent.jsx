@@ -24,7 +24,7 @@ export default function CreateCourseComponent({handleCreateCourse}){
             setFile(selectedFile);
             setFileInfo({
                 name: selectedFile.name,
-                size: (selectedFile.size / 1024 / 1024).toFixed(2), // Преобразовать размер в MB
+                size: (selectedFile.size / 1024 / 1024).toFixed(2),
             });
         }
     };
@@ -42,11 +42,11 @@ export default function CreateCourseComponent({handleCreateCourse}){
             {role !== 1 ? <ProfileAvatar/> : <SideBarComponent /> }
             <section className="container">
                 <ToastContainer />
-                <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+                <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-20 rounded-xl">
                     <div className="bg-layout w-1/3 mx-auto text-center my-5">
                         <div className="flex items-center justify-center">
                                 <IoCreateOutline className="w-6 h-6"/>
-                                <h1 className="p-2 text-xl">Создание курса</h1>
+                                <h1 className="p-2 text-xl">Создание электронного ресурса</h1>
                         </div>
                     </div>  
                     <form className="px-10 pb-5 h-max flex flex-col justify-between" onSubmit={onSubmit}>
@@ -55,8 +55,8 @@ export default function CreateCourseComponent({handleCreateCourse}){
                             className="mt-5" 
                             type="text" 
                             variant="bordered"
-                            label="Название курса" 
-                            placeholder="Введите в это поле название курса"
+                            label="Название ресурса" 
+                            placeholder="Введите в это поле название ресурса"
                             labelPlacement="outside"
                             onValueChange={handleChangeName}
                         />

@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +13,8 @@ import { setTotalCourse, setTotalUsers, setTotalUsersOnline } from '@/store/admi
 
 export default function Admin() {
   const dispatch = useDispatch();
-  const role = useSelector(state => state.user.role)
+  const role = useSelector(state => state.user.role);
+  const [countUserOnline, setCountUserOnlineInDay] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,12 +31,12 @@ export default function Admin() {
       },
       enabled: role === 1
   });
-
   useEffect(() => {
     if (isSuccess && data) {
       dispatch(setTotalUsersOnline(data.onlineUsersCount));
       dispatch(setTotalUsers(data.countUsers));
       dispatch(setTotalCourse(data.totalCourse));
+      setCountUserOnlineInDay(data.formattedCountOnlineInDay);
     }
   }, [isSuccess, data, dispatch]);
 
@@ -48,7 +49,7 @@ export default function Admin() {
   return (
       <section className="w-full flex">
           <SideBarComponent />
-          <AdminDataComponent />
+          <AdminDataComponent countUserOnline={countUserOnline}/>
       </section>
   );
 }

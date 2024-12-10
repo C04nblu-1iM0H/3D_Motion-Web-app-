@@ -26,7 +26,7 @@ export default function Favorite(){
           return response.data.getAllCourseFavorite;
         }
       });
-    console.log(data);
+
     useEffect(() => {
         if(isSuccess){
             setCourses(data);
@@ -81,7 +81,7 @@ export default function Favorite(){
         <>
             <ToastContainer/>
             <section className="w-screen">
-                <section className="flex gap-x-5 flex-wrap">
+                <section className="flex">
                     <ProfileAvatar image={image} sassionName={name} email={email}/>
                     <ViewCourseComponent 
                         courses={courses}

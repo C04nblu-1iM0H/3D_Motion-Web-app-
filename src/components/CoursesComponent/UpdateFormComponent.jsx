@@ -17,11 +17,11 @@ export default function UpdateFormComponent({handleCreateCourse}) {
     return(
         <section className="container">
             <ToastContainer />
-            <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+            <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-20 rounded-xl">
                 <div className="bg-layout w-1/3 mx-auto text-center my-5">
                     <div className="flex items-center justify-center">
                             <GrDocumentUpdate className="w-6 h-6"/>
-                            <h1 className="p-2 text-xl">Обновление курса</h1>
+                            <h1 className="p-2 text-xl">Обновление электронного ресурса</h1>
                     </div>
                 </div>       
                 <form className="px-10 pb-5 h-max flex flex-col justify-between" onSubmit={handleCreateCourse}>

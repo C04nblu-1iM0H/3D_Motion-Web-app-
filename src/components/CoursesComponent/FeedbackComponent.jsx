@@ -24,32 +24,38 @@ export default function FeedbackComponent({handleMessage, handleChangeMessage, m
         <section className="flex flex-col items-center w-full h-96 mt-16">
             <ToastContainer />
             <section className="flex flex-col w-3/4">
-                <div ref={messagesContainerRef} className="h-96 max-h-96 overflow-y-auto rounded-lg border-2 border-solid border-zinc-600">
-                {messages.map(({id, feedback_text, user}) =>(
+                <div ref={messagesContainerRef} className="h-96 max-h-96 overflow-y-auto rounded-lg border-2 border-solid border-zinc-20">
+                {messages.length > 0 ? (
+                    messages.map(({id, feedback_text, user}) =>(
                         <div 
                             key={id}
                             className={` w-full my-3 ${user.id === userId ? 'flex justify-end' : 'flex justify-start'}`}>
                             <div 
                                 className={`flex flex-col py-2 px-4 rounded-lg w-auto max-w-96
                                     ${user.id === userId 
-                                        ?'bg-primary text-white text-right mr-4' 
-                                        :'bg-default text-white text-left ml-4'
+                                        ?'bg-primary text-white text-right' 
+                                        :'bg-zinc-30 text-white text-left ml-4'
                                     }`
                                 }
                             >
-                                <span  className="text-xs text-stone-300">{user.email}</span>
+                                <span  className="text-xs text-zinc-35 text-left">{user.email}</span>
                                 <span className="text-sm">{feedback_text}</span>
                             </div>
                             
                         </div>
+                        )
                     )
+                ):(
+                    <div className='h-full flex items-center justify-center'>
+                        <p className='text-zinc-10'>Тут ещё нет отзывов, станьте первым.</p>
+                    </div>
                 )}
                 </div>
                 <form onSubmit={handleMessage} className="mb-32">
                     
                             {session.status !== 'unauthenticated' ?(
                                 <>
-                                    <div className="bg-layout mt-2 py-2 border-t-2 border-x-2 border-zinc-600 rounded-t-lg">
+                                    <div className="bg-layout mt-2 py-2 border-t-2 border-x-2 border-zinc-20 rounded-t-lg">
                                         <Textarea
                                             maxRows={3}
                                             variant="underlined"
@@ -60,7 +66,7 @@ export default function FeedbackComponent({handleMessage, handleChangeMessage, m
                                             onValueChange={handleChangeMessage}
                                         />
                                     </div>
-                                    <div className="flex pb-2 justify-end px-3 bg-layout border-b-2 border-x-2 border-zinc-600 rounded-b-lg">
+                                    <div className="flex pb-2 justify-end px-3 bg-layout border-b-2 border-x-2 border-zinc-20 rounded-b-lg">
                                         <Tooltip
                                             color="primary"
                                             content="Отправить"

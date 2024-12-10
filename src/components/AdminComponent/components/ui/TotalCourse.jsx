@@ -4,8 +4,9 @@ import {useSelector} from 'react-redux';
 
 export default function TotalCourse(){
     const totalCourse = useSelector(state => state.adminPanelInfo.totalCourse);
-    // const totalCourse = 1;
-    // console.log(totalCourse);
+    const futureMark = totalCourse * 2;
+    const half = Math.ceil(futureMark/2);
+    const quarter = Math.ceil(futureMark/4);
     return(
         <div className="flex flex-col w-80 p-5 h-32 ml-16 mt-10 bg-layout rounded-md">
             <h3>Всего курсов</h3>
@@ -15,8 +16,8 @@ export default function TotalCourse(){
                     <Progress
                         aria-label="Loading..."
                         size="md"
-                        value={totalCourse}
-                        color={totalCourse <= 20 ? 'danger' : value <= 40 ? 'warning' : 'success'}
+                        value={(totalCourse/futureMark)*100}
+                        color={totalCourse <= quarter ? 'danger' : totalCourse <= half ? 'warning' : 'success'}
                         label={totalCourse}
                         showValueLabel={true}
                     />

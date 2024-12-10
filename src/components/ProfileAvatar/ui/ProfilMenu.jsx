@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
+import { useSelector } from "react-redux";
 
 import { HiOutlineBookOpen } from "react-icons/hi2";
-import { RiHomeWifiLine } from "react-icons/ri";
 import { IoMdHeartHalf } from "react-icons/io";
 import { VscSourceControl } from "react-icons/vsc";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BiMessageRounded } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { GiProgression } from "react-icons/gi";
+
 
 export default function ProfilMenu() {
     const role = useSelector(state => state.user.role);
@@ -26,8 +27,8 @@ export default function ProfilMenu() {
                         className={`flex items-center gap-x-3.5 py-2 px-2.5  text-sm  rounded-lg hover:bg-zinc-150 ${pathname === '/Profile' ? 'bg-neutral-700' : ''}`} 
                         href='/Profile'
                     >
-                        <RiHomeWifiLine className="w-5 h-5"/>
-                        Dashboard
+                        <GiProgression className="w-5 h-5"/>
+                        Прогресс
                     </Link>
                 </li>
                 <li>

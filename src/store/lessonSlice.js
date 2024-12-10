@@ -30,9 +30,9 @@ const lessonSlice  = createSlice({
             state.isCloseLesson = actions.payload;
         },
         resetFormLesson: (state) => {
-            state.lessonName = '';
-            state.lessonDescription = '';
-            state.lessonMaterials = '';
+            state.lessonName = ' ';
+            state.lessonDescription = ' ';
+            state.lessonMaterials = ' ';
         },
     }
 });

@@ -37,5 +37,5 @@ export const validateCreateLessonForm = (lessonName, lessonDescription, lessonMa
 
 export const validateSendMessage = (message) =>{
   if(message.length <= 10) return 'Отзыв слишком короткий, постарайтесь написать больше.'
-  if(message.length >= 100) return 'Отзыв слишком длинный, постарайтесь уложится в 100 символов.'
+  if(message.length >= 255) return 'Отзыв слишком длинный, постарайтесь уложится в 100 символов.'
 }

@@ -28,7 +28,7 @@ export default function ProfileFormEnabled({handleSubmit}) {
         <form onSubmit={handleSubmit}  className="w-3/4 h-[37rem] mt-4 flex flex-col justify-evenly">
             <Input
                 type="text"
-                label="Name"
+                label="Имя"
                 placeholder="Введите ваше Имя"
                 labelPlacement="outside"
                 value={nameUser}
@@ -39,7 +39,7 @@ export default function ProfileFormEnabled({handleSubmit}) {
             />
             <Input
                 type="text"
-                label="Surname"
+                label="Фамилия"
                 placeholder="Введите вашу Фамилию"
                 labelPlacement="outside"
                 value={surname}
@@ -71,7 +71,7 @@ export default function ProfileFormEnabled({handleSubmit}) {
             </div>
             <Input
                 type="text"
-                label="Phone number"
+                label="Номер телефона"
                 placeholder={'+7(000)000-00-00'}
                 labelPlacement="outside"
                 value={phone}

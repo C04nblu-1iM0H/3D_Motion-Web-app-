@@ -8,7 +8,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Subscribe(){
@@ -79,7 +79,7 @@ export default function Subscribe(){
         <>
             <ToastContainer/>
             <section className="w-screen">
-                <section className="flex gap-x-5 flex-wrap">
+                <section className="flex">
                     <ProfileAvatar image={image} sassionName={name} email={email}/>
                     <ViewCourseComponent 
                         courses={courses}

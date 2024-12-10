@@ -93,7 +93,7 @@ export default function Lesson() {
             <div className="mt-16 container flex justify-start">
                 <BreadCrumbsComponent id={id} lessonId={lessonId}/>
             </div>
-            <div className="container bg-layout rounded-xl mt-10">
+            <div className="container bg-layout rounded-xl mt-10 shadow-2xl">
                 <div className="flex flex-col items-center mt-10">
                     <div>
                         <h1 className="font-bold text-2xl">{lessonName}</h1>
@@ -107,7 +107,7 @@ export default function Lesson() {
                     </div>
                 </div>
             </div>
-            <div  className="mt-5 container flex justify-end">
+            <div  className="my-5 container flex justify-end">
                 {passed === true 
                 ?(
                     <Chip

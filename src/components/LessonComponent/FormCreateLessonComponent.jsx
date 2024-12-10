@@ -5,14 +5,11 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { setIsClose, setLessonDescription, setLessonMaterials, setLessonName } from "@/store/lessonSlice";
 import { IoCreateOutline } from "react-icons/io5";
-import FormatTextForLessonComponent from "./FormatTextForLessonComponent";
+import FormatTextForCreateLessonComponent from "./FormatTextForCreateLessonComponent";
 
 export default function FormCreateLessonComponent({handleCreateCourse}){
     const dispatch = useDispatch();
     const isLoading = useSelector(state => state.lesson.loading);
-    const name = useSelector(state => state.lesson.lessonName);
-    const description = useSelector(state => state.lesson.lessonDescription);
-    const materials = useSelector(state => state.lesson.lessonMaterials);
 
     const handleChangeName = (value) => dispatch(setLessonName(value));
     const handleChangeDescription = (value) => dispatch(setLessonDescription(value));
@@ -21,7 +18,7 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
     return(
         <section className="container">
             <ToastContainer />
-            <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-600 rounded-xl">
+            <div className="w-4/5 bg-layout mx-auto min-h-fit flex flex-col flex-1 mt-11 border-2 border-solid border-zinc-20 rounded-xl">
                 <div className="bg-layout w-1/3 mx-auto text-center my-5">
                     <div className="flex items-center justify-center">
                             <IoCreateOutline className="w-6 h-6"/>
@@ -38,12 +35,9 @@ export default function FormCreateLessonComponent({handleCreateCourse}){
                         placeholder="Введите название урока"
                         labelPlacement="outside"
                         onValueChange={handleChangeName}
-                        value={name}
                     />
-                    <FormatTextForLessonComponent 
-                        descriptions= { description }
+                    <FormatTextForCreateLessonComponent
                         handleDescription = { handleChangeDescription }
-                        materials = { materials }
                         handleMaterial = { handleChangeMaterial }
                     />
                     <div className="flex justify-end mt-5">

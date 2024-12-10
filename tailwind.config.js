@@ -76,7 +76,7 @@ const config = {
               300:"hsla(0, 0%, 84%, 0.83)", //background-color SignUp and SignIn
               350:"#333230", //background whitout home header  
               400:"hsla(233, 12%, 13%, 1)", // background fon color header for home page
-              450:"hsla(31, 0%, 100%, 1)",
+              450:"hsla(60, 2%, 87%, 1)",
             }, 
             Default:{
               DEFAULT: "#f4f4f5"
@@ -86,6 +86,10 @@ const config = {
             },
             zinc:{
               150:"#e4e4e7", //bg button admin panel hover
+              10:"#B5B5B5",
+              20:"#A9A9A9",
+              30:"#BBBBBB", //message
+              35:"#EBF2F3" //text message
             },
             success:{
               DEFAULT: "#17c964"
@@ -125,6 +129,10 @@ const config = {
             },
             zinc:{
               150:"#52525b", //bg button admin panel hover
+              10:"#B5B5B5",
+              20:"#52525B",
+              30:"#52525B", //message 
+              35:"#EBF2F3" // text message
             },
             success:{
               DEFAULT: "#17c964"

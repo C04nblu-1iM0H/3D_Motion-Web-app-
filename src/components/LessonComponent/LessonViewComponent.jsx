@@ -1,14 +1,26 @@
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Button, Spinner} from "@nextui-org/react";
-import Image from "next/image";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Spinner} from "@nextui-org/react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 import LessonTitleComponent from "./LessonTitleComponent";
 import { GiBookshelf } from "react-icons/gi";
 import { MdOutlineNumbers } from "react-icons/md";
 import LoadingTableSkeleton from "../LoadingSkeleton/LoadingTableSkeleton";
 
+
 export default function LessonViewComponent({id, lessons}) {
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
     const isLoading = useSelector(state => state.lesson.loading);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const indexOfLastLesson = currentPage * itemsPerPage;
+    const indexOfFirstLesson = indexOfLastLesson - itemsPerPage;
+    const currentLessons = lessons.slice(indexOfFirstLesson, indexOfLastLesson);
     return (
         <section>
             <div className="bg-layout w-3/5 mx-auto text-center my-5 rounded-xl shadow-xl">
@@ -35,20 +47,34 @@ export default function LessonViewComponent({id, lessons}) {
                     />
                 </div>
             ) : (
-                <Table aria-label="Example table with custom cells" className="w-4/6 mx-auto">
-                    <TableHeader>
-                        <TableColumn className="w-3"><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
-                        <TableColumn>Название урока</TableColumn>
-                    </TableHeader>
-                    <TableBody isLoading={isLoading}  loadingContent={<Spinner label="Loading..." />}>
-                        {lessons.map((lesson, index) => (
-                            <TableRow key={lesson.id}>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{lesson.lesson_name}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <>
+                    <Table aria-label="Example table with custom cells" className="w-4/6 mx-auto">
+                        <TableHeader>
+                            <TableColumn className="w-3"><MdOutlineNumbers className="w-5 h-5 " /></TableColumn>
+                            <TableColumn>Название урока</TableColumn>
+                        </TableHeader>
+                        <TableBody isLoading={isLoading} loadingContent={<Spinner label="Loading..." />}>
+                            {currentLessons.map((lesson, index) => (
+                                <TableRow key={lesson.id}>
+                                    <TableCell>{indexOfFirstLesson + index + 1}</TableCell>
+                                    <TableCell>{lesson.lesson_name}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <div className="flex justify-center mt-5">
+                    {lessons.length > itemsPerPage ?(
+                        <Pagination 
+                            total={Math.ceil(lessons.length / itemsPerPage)}
+                            initialPage={1}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                        />
+                    ):(
+                        null
+                    )}
+                    </div>
+                </>
             )}
         </section>
     );

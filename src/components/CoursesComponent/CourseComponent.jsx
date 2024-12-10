@@ -9,7 +9,7 @@ export default function CourseComponent({course}) {
         );
     };
     return(
-        <div className="w-full bg-layout rounded-xl mt-10">
+        <div className="w-4/5 bg-layout rounded-xl mt-10 mx-auto">
             <div className="flex flex-col mt-10">
                 <div className='w-full'>
                     <h1 className="font-bold text-2xl text-center">{course_name}</h1>

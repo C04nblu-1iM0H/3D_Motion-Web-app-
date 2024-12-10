@@ -12,3 +12,9 @@ export const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ru-RU', options);
 }
+
+export const formatDateСhart = (dateString) =>{
+    const date = new Date(dateString);
+    const formattedDate = `${date.getUTCDate()}.${date.getUTCMonth() + 1}`;
+    return formattedDate;
+}
